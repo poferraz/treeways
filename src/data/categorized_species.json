@@ -1,0 +1,5766 @@
+[
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "KWANZAN FLOWERING CHERRY",
+    "count": 9874,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASIFERA",
+    "common": "PISSARD PLUM",
+    "count": 7252,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "purple-leaves"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Showy early-spring pink blossoms and deep purple foliage."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASIFERA",
+    "common": "NIGHT PURPLE LEAF PLUM",
+    "count": 3133,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "purple-leaves"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Showy early-spring pink blossoms and deep purple foliage."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "KOBUS",
+    "common": "KOBUS MAGNOLIA",
+    "count": 2821,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "HIPPOCASTANUM",
+    "common": "COMMON HORSECHESTNUT",
+    "count": 2499,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "X YEDOENSIS",
+    "common": "AKEBONO FLOWERING CHERRY",
+    "count": 2466,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "MALUS",
+    "species": "FLORIBUNDA",
+    "common": "JAPANESE FLOWERING CRABAPPLE",
+    "count": 1595,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "JAPANESE FLOWERING CHERRY",
+    "count": 1575,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "STYRAX",
+    "species": "JAPONICUS",
+    "common": "JAPANESE SNOWBELL",
+    "count": 1518,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Delicate, hanging white bell flowers in early summer."
+  },
+  {
+    "genus": "MALUS",
+    "species": "ZUMI",
+    "common": "REDBUD CRABAPPLE",
+    "count": 1494,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "SYRINGA",
+    "species": "RETICULATA",
+    "common": "TREE LILAC",
+    "count": 1269,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "fragrant"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Highly fragrant lilac flower clusters."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "CALLERYANA",
+    "common": "CHANTICLEER PEAR",
+    "count": 1032,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Dense clusters of white flowers in spring, brilliant red autumn foliage."
+  },
+  {
+    "genus": "LIRIODENDRON",
+    "species": "TULIPIFERA",
+    "common": "TULIPTREE",
+    "count": 847,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Unique yellow-green tulip-shaped flowers, large native shade canopy."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "UKON JAPANESE CHERRY",
+    "count": 709,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "KOUSA",
+    "common": "JAPANESE DOGWOOD",
+    "count": 694,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "NUTTALLII",
+    "common": "PACIFIC DOGWOOD",
+    "count": 613,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "AVIUM",
+    "common": "MAZZARD CHERRY",
+    "count": 595,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      6,
+      7
+    ],
+    "usefulness": "Edible cherries and beautiful spring blossoms."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘GALAXY’",
+    "count": 533,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "CALLERYANA",
+    "common": "ARISTOCRAT PEAR",
+    "count": 526,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Dense clusters of white flowers in spring, brilliant red autumn foliage."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "XX",
+    "common": "EDDIES WHITE WONDER DOGWOOD",
+    "count": 482,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "PINK PERFECTION CHERRY",
+    "count": 481,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SARGENTII",
+    "common": "RANCHO SARGENT CHERRY",
+    "count": 443,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "SHIROFUGEN CHERRY",
+    "count": 408,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SPECIES",
+    "common": "CHERRY, PLUM OR PEACH SPECIES",
+    "count": 404,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SPECIES",
+    "common": "MAGNOLIA SPECIES",
+    "count": 321,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "PUMILA",
+    "common": "COMMON APPLE",
+    "count": 296,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASIFERA",
+    "common": "PURPLE HAZE PLUM",
+    "count": 289,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "purple-leaves"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Showy early-spring pink blossoms and deep purple foliage."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "FLORIDA",
+    "common": "FLOWERING DOGWOOD",
+    "count": 250,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "CARNEA   X",
+    "common": "RUBY RED HORSECHESTNUT",
+    "count": 249,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "SHIROTAE(MT FUJI) CHERRY",
+    "count": 239,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "CALLERYANA",
+    "common": "CALLERY PEAR",
+    "count": 228,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Dense clusters of white flowers in spring, brilliant red autumn foliage."
+  },
+  {
+    "genus": "MALUS",
+    "species": "SPECIES",
+    "common": "APPLE SPECIES",
+    "count": 224,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASIFERA",
+    "common": "CHERRY PLUM",
+    "count": 205,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "KOUSA",
+    "common": "PINK KOUSA DOGWOOD",
+    "count": 202,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "KOUSA",
+    "common": "CHINESE KOUSA DOGWOOD",
+    "count": 184,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "LIRIODENDRON",
+    "species": "TULIPIFERA",
+    "common": "ARNOLD TULIPTREE",
+    "count": 184,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Unique yellow-green tulip-shaped flowers, large native shade canopy."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "X YEDOENSIS",
+    "common": "YOSHINO CHERRY",
+    "count": 184,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SARGENTII",
+    "common": "SARGENT FLOWERING CHERRY",
+    "count": 160,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "LIRIODENDRON",
+    "species": "CHINENSE",
+    "common": "CHINESE TULIPTREE",
+    "count": 156,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Unique yellow-green tulip-shaped flowers, large native shade canopy."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "SEIBOLDI CHERRY",
+    "count": 155,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "STYRAX",
+    "species": "JAPONICUS",
+    "common": "SNOWCONE JAPANESE SNOWBELL",
+    "count": 145,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Delicate, hanging white bell flowers in early summer."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "SPECIES",
+    "common": "DOGWOOD SPECIES",
+    "count": 144,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "STYRAX",
+    "species": "OBASSIA",
+    "common": "FRAGRANT SNOWBELL",
+    "count": 136,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Delicate, hanging white bell flowers in early summer."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "PRAIRIE FIRE CRABAPPLE",
+    "count": 132,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "APPLE TREE",
+    "count": 125,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "GRANDIFLORA",
+    "common": "SOUTHERN MAGNOLIA",
+    "count": 122,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "EMARGINATA",
+    "common": "BITTER CHERRY",
+    "count": 114,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "NIGRA",
+    "common": "BLACK WALNUT",
+    "count": 113,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "MALUS",
+    "species": "FUSCA",
+    "common": "PACIFIC CRABAPPLE",
+    "count": 111,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "DENUDATA",
+    "common": "YULAN MAGNOLIA",
+    "count": 97,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SUBHIRTELLA",
+    "common": "HIGAN CHERRY",
+    "count": 97,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘VULCAN’",
+    "count": 93,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "KEWENSIS X",
+    "common": "MAGNOLIA WADA’S MEMORY",
+    "count": 88,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "RED JEWEL CRABAPPLE",
+    "count": 85,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASIFERA",
+    "common": "THUNDERCLOUD PURPLE PLUM",
+    "count": 84,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "purple-leaves"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Showy early-spring pink blossoms and deep purple foliage."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "CALLERYANA",
+    "common": "CAPITAL PEAR",
+    "count": 80,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9,
+      10
+    ],
+    "usefulness": "Edible pears and abundant white spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "PADUS",
+    "common": "EUROPEAN BIRDCHERRY",
+    "count": 79,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "KOUSA",
+    "common": "STELLAR PINK DOGWOOD",
+    "count": 78,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "REGIA",
+    "common": "ENGLISH WALNUT",
+    "count": 75,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SOULANGEANA  X",
+    "common": "SAUCER MAGNOLIA",
+    "count": 74,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "CASTANEA",
+    "species": "SATIVA",
+    "common": "SPANISH CHESTNUT",
+    "count": 73,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      6,
+      7
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible sweet chestnuts (roasted in autumn). Note: Do not confuse with toxic Horse Chestnut."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "SPECIES",
+    "common": "PEAR SPECIES",
+    "count": 72,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9,
+      10
+    ],
+    "usefulness": "Edible pears and abundant white spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "CONTROVERSA",
+    "common": "GIANT DOGWOOD",
+    "count": 70,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "AVIUM",
+    "common": "WILD CHERRY",
+    "count": 70,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      6,
+      7
+    ],
+    "usefulness": "Edible cherries and beautiful spring blossoms."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘YELLOW BIRD’",
+    "count": 68,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SUBHIRTELLA",
+    "common": "AUTUMN HIGAN CHERRY",
+    "count": 67,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "SYRINGA",
+    "species": "RETICULATA",
+    "common": "JAPANESE TREE LILAC",
+    "count": 67,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "fragrant"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Highly fragrant lilac flower clusters."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "HIPPOCASTANUM",
+    "common": "BAUMANN'S SEEDLESS HORSECHESTN",
+    "count": 66,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SEROTINA",
+    "common": "BLACK CHERRY",
+    "count": 61,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "CORNUTA",
+    "common": "BEAKED HAZEL",
+    "count": 59,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "COLURNA",
+    "common": "TURKISH HAZELNUT",
+    "count": 57,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "WEEPING JAPANESE CHERRY",
+    "count": 55,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘CAERHAYS BELLE’",
+    "count": 53,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "MAS",
+    "common": "CORNELIAN CHERRY",
+    "count": 52,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Bright yellow winter flowers and edible tart red berries in late summer."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SUBHIRTELLA",
+    "common": "WHITCOMB CHERRY",
+    "count": 51,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "AVELLANA",
+    "common": "HAZELNUT",
+    "count": 49,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "BLIREANA",
+    "common": "PURPLE PLUM",
+    "count": 49,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "purple-leaves"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Showy early-spring pink blossoms and deep purple foliage."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "SNOWCLOUD CRABAPPLE",
+    "count": 48,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "ROYAL SPLENDOR CRABAPPLE",
+    "count": 47,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "LILIIFLORA",
+    "common": "MULAN MAGNOLIA",
+    "count": 45,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "BACCATA",
+    "common": "ROSTHERN CRABAPPLE",
+    "count": 44,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "ACCOLADE CHERRY",
+    "count": 44,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "AMANOGAWA JAPANESE CHERRY",
+    "count": 44,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "CINEREA",
+    "common": "BUTTERNUT",
+    "count": 43,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "PENNSYLVANICA",
+    "common": "PIN CHERRY",
+    "count": 43,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "ROYALTY CRABAPPLE",
+    "count": 41,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "DOMESTICA",
+    "common": "COMMON PLUM",
+    "count": 41,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible plums (great for jam) and early spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "KOUSA",
+    "common": "CHINA GIRL DOGWOOD",
+    "count": 39,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "GRANDIFLORA",
+    "common": "VICTORIA MAGNOLIA",
+    "count": 39,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "X HILLIERI",
+    "common": "HILLIER SPIRE CHERRY",
+    "count": 38,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "STELLATA",
+    "common": "STAR MAGNOLIA",
+    "count": 37,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULA",
+    "common": "PAPERBARK CHERRY",
+    "count": 34,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "CALLERYANA",
+    "common": "REDSPIRE PEAR",
+    "count": 34,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9,
+      10
+    ],
+    "usefulness": "Edible pears and abundant white spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASUS",
+    "common": "SOUR CHERRY",
+    "count": 32,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      6,
+      7
+    ],
+    "usefulness": "Edible cherries and beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "SNOW GOOSE CHERRY",
+    "count": 32,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "KOUSA",
+    "common": "VENUS DOGWOOD",
+    "count": 31,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SIEBOLDII",
+    "common": "SIEBOLD’S MAGNOLIA",
+    "count": 29,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "ACUMINATA",
+    "common": "CUCUMBER MAGNOLIA",
+    "count": 28,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "ARNOLDIANA  X",
+    "common": "AUTUMN SPLENDOR CHESTNUT",
+    "count": 27,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "OFFICINALIS",
+    "common": "CORNEL DOGWOOD",
+    "count": 25,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "FICUS",
+    "species": "CARICA",
+    "common": "COMMON FIG",
+    "count": 25,
+    "type": "fruit",
+    "tags": [
+      "fruit",
+      "edible"
+    ],
+    "bloomMonths": [],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible sweet figs, lush tropical foliage."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "SPECIES",
+    "common": "WALNUT SPECIES",
+    "count": 23,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "TCHONOSKI CRABAPPLE",
+    "count": 22,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SUBHIRTELLA",
+    "common": "WEEPING JAPANESE CHERRY",
+    "count": 22,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "CONTROVERSA",
+    "common": "JUNE SNOW GIANT DOGWOOD",
+    "count": 20,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SIMONII",
+    "common": "APPRICOT PLUM",
+    "count": 20,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Early spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "XX",
+    "common": "AURORA DOGWOOD",
+    "count": 18,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "LOEBNERI  X",
+    "common": "MAGNOLIA ‘MERRILL’",
+    "count": 18,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘APOLLO’",
+    "count": 18,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "INSIGNIS",
+    "common": "RED LOTUS TREE",
+    "count": 17,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "SYRINGA",
+    "species": "VULGARIS",
+    "common": "COMMON LILAC",
+    "count": 17,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "fragrant"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Highly fragrant lilac flower clusters."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "PAVIA",
+    "common": "RED BUCKEYE",
+    "count": 16,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "FLAVA",
+    "common": "YELLOW BUCKEYE",
+    "count": 14,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "AMERICANA",
+    "common": "AMERICAN FILBERT",
+    "count": 14,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "VIRGINIANA",
+    "common": "SWEETBAY MAGNOLIA MOONGLOW",
+    "count": 14,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MORUS",
+    "species": "ALBA",
+    "common": "WHITE MULBERRY",
+    "count": 14,
+    "type": "fruit",
+    "tags": [
+      "fruit",
+      "edible"
+    ],
+    "bloomMonths": [],
+    "harvestMonths": [
+      7,
+      8
+    ],
+    "usefulness": "Sweet edible mulberries that resemble blackberries, highly attractive to birds."
+  },
+  {
+    "genus": "MORUS",
+    "species": "NIGRA",
+    "common": "BLACK MULBERRY",
+    "count": 14,
+    "type": "fruit",
+    "tags": [
+      "fruit",
+      "edible"
+    ],
+    "bloomMonths": [],
+    "harvestMonths": [
+      7,
+      8
+    ],
+    "usefulness": "Sweet edible mulberries that resemble blackberries, highly attractive to birds."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SARGENTII",
+    "common": "COLUMNAR SARGENT CHERRY",
+    "count": 14,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "LILIIFLORA",
+    "common": "SUSAN MAGNOLIA",
+    "count": 13,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "YUNNANENSIS",
+    "common": "YUNNANENSIS CRABAPPLE",
+    "count": 13,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "GREAT WHITE CHERRY",
+    "count": 13,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "NUTTALLII",
+    "common": "GOLDSPOT DOGWOOD",
+    "count": 12,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "MAXIMA",
+    "common": "GIANT FILBERT",
+    "count": 12,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "SPECIES",
+    "common": "FILBERT SPECIES",
+    "count": 12,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "REGIA",
+    "common": "MANREGION ENGLISH WALNUT",
+    "count": 12,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "CASTANEA",
+    "species": "DENTATA",
+    "common": "AMERICAN CHESTNUT",
+    "count": 11,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      6,
+      7
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible sweet chestnuts (roasted in autumn). Note: Do not confuse with toxic Horse Chestnut."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "DAWSONIANA",
+    "common": "BARBARA COOK MAGNOLIA",
+    "count": 11,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "OFFICINALIS",
+    "common": "CHINESE MAGNOLIA",
+    "count": 11,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "GOLD STAR MAGNOLIA",
+    "count": 10,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "TRANSITORIA",
+    "common": "GOLDEN RAINDROPS CRABAPPLE",
+    "count": 10,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "RUDOLPH CRABAPPLE",
+    "count": 10,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "STYRAX",
+    "species": "JAPONICUS",
+    "common": "PINK FLOWERING JAPANESE SNOWBE",
+    "count": 10,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Delicate, hanging white bell flowers in early summer."
+  },
+  {
+    "genus": "SYRINGA",
+    "species": "SPECIES",
+    "common": "LILAC SPECIES",
+    "count": 10,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "fragrant"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Highly fragrant lilac flower clusters."
+  },
+  {
+    "genus": "CASTANEA",
+    "species": "SPECIES",
+    "common": "CHESTNUT SPECIES",
+    "count": 9,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      6,
+      7
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible sweet chestnuts (roasted in autumn). Note: Do not confuse with toxic Horse Chestnut."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "LOEBNERI  X",
+    "common": "MAGNOLIA ‘LEONARD MESSEL’",
+    "count": 9,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "TRIPETALA",
+    "common": "UMBRELLA MAGNOLIA",
+    "count": 9,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MORUS",
+    "species": "ALBA",
+    "common": "WEEPING MULBERRY",
+    "count": 9,
+    "type": "fruit",
+    "tags": [
+      "fruit",
+      "edible"
+    ],
+    "bloomMonths": [],
+    "harvestMonths": [
+      7,
+      8
+    ],
+    "usefulness": "Sweet edible mulberries that resemble blackberries, highly attractive to birds."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘SERENE’",
+    "count": 8,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "GLABRA",
+    "common": "OHIO BUCKEYE",
+    "count": 7,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "AVELLANA",
+    "common": "CONTORTED FILBERT",
+    "count": 7,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "FICUS",
+    "species": "SPECIES",
+    "common": "FIG SPECIES SPECIES",
+    "count": 7,
+    "type": "fruit",
+    "tags": [
+      "fruit",
+      "edible"
+    ],
+    "bloomMonths": [],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible sweet figs, lush tropical foliage."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "OBOVATA",
+    "common": "JAPANESE BIGLEAF MAGNOLIA",
+    "count": 7,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘IOLANTHE’",
+    "count": 7,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "DOMESTIC APPLE",
+    "count": 7,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "DOLGO CRABAPPLE",
+    "count": 7,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "MAACKII",
+    "common": "MANCHURIAN CHERRY",
+    "count": 7,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "ALTERNIFOLIA",
+    "common": "PAGODA DOGWOOD",
+    "count": 6,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "AVELLANA",
+    "common": "YAMHILL FILBERT",
+    "count": 6,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "COLUMA",
+    "common": "PURPLE LEAF HAZELNUT",
+    "count": 6,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "DAWSONIANA",
+    "common": "MAGNOLIA ‘CHYVERTON RED’",
+    "count": 6,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "RACEMOSA",
+    "common": "GREY DOGWOOD",
+    "count": 5,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "LIRIODENDRON",
+    "species": "CHINENSE",
+    "common": "WILD DRAGON CHINESE TULIPTREE",
+    "count": 5,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Unique yellow-green tulip-shaped flowers, large native shade canopy."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "DAWSONIANA",
+    "common": "DAWSON’S MAGNOLIA",
+    "count": 5,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "GRANDIFLORA",
+    "common": "DD BLANSHARD MAGNOLIA",
+    "count": 5,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SARGENTIANA",
+    "common": "SARGENT'S MAGNOLIA",
+    "count": 5,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "BACCATA",
+    "common": "SIBERIAN CRABAPPLE",
+    "count": 5,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "IOENSIS",
+    "common": "PRAIRIE CRABAPPLE",
+    "count": 5,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "MICROMALUS   X",
+    "common": "MIDGET CRABAPPLE",
+    "count": 5,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SUBHIRTELLA",
+    "common": "SNOW FOUNTAINS WEEPING CHERRY",
+    "count": 5,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SWEETHEART",
+    "common": "SWEETHEART CHERRY",
+    "count": 5,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      6,
+      7
+    ],
+    "usefulness": "Edible cherries and beautiful spring blossoms."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "XX",
+    "common": "STARLIGHT DOGWOOD",
+    "count": 4,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "AVELLANA",
+    "common": "ETA FILBERT",
+    "count": 4,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "AILANTHIFOLIA",
+    "common": "JAPANESE WALNUT",
+    "count": 4,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "CAMPBELLII",
+    "common": "CAMPBELL'S MAGNOLIA",
+    "count": 4,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "CORONARIA",
+    "common": "WILD SWEET CRABAPPLE",
+    "count": 4,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "PENDULA",
+    "common": "WEEPING CRABAPPLE",
+    "count": 4,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "MUME",
+    "common": "JAPANESE APRICOT",
+    "count": 4,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible stone fruits and delicate spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "CHEALS WEEPING CHERRY",
+    "count": 4,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "UMINEKO CHERRY",
+    "count": 4,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "PYRIFOLIA",
+    "common": "ASIAN PEAR",
+    "count": 4,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9,
+      10
+    ],
+    "usefulness": "Edible pears and abundant white spring blossoms."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "CARNEA   X",
+    "common": "RED HORSE CHESTNUT",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "CARNEA   X",
+    "common": "RED HORSECHESTNUT",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "FLORIDA",
+    "common": "TRICOLOR DOGWOOD",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "AVELLANA",
+    "common": "JEFFERSON FILBERT",
+    "count": 3,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "REGIA",
+    "common": "CARPATHIAN WALNUT",
+    "count": 3,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "LIRIODENDRON",
+    "species": "TULIPIFERA",
+    "common": "VARIEGATED TULIP TREE",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Unique yellow-green tulip-shaped flowers, large native shade canopy."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "MACROPHYLLA",
+    "common": "BIGLEAF MAGNOLIA",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "OFFICINALIS",
+    "common": "GINKGO-LEAVED MAGNOLIA",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SOULANGEANA  X",
+    "common": "MAGNOLIA ‘RUSTICA RUBRA’",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SPRENGERI",
+    "common": "MAGNOLIA ‘DIVA’",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SPRENGERI",
+    "common": "SPRENGER'S MAGNOLIA",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "VEITCHII  X",
+    "common": "VEITCH MAGNOLIA",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "VIRGINIANA",
+    "common": "SWEETBAY MAGNOLIA",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘DAYBREAK’",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "GINGER GOLD APPLE",
+    "count": 3,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "SPECTABILIS",
+    "common": "CHINESE CRABAPPLE",
+    "count": 3,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "AMERICAN BEAUTY CRABAPPLE",
+    "count": 3,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "BRIGANTINA",
+    "common": "NANKING CHERRY",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "COCOMILIA",
+    "common": "ITALIAN PLUM",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Early spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "KOREAN HILL CHERRY",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "OJOCHIN JAPANESE CHERRY",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "YAE-BENISHIDARE-ZAKURA CHERRY",
+    "count": 3,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "SPECIES",
+    "common": "BUCKEYE SPECIES",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "CASTANEA",
+    "species": "CRENATA",
+    "common": "JAPANESE CHESTNUT",
+    "count": 2,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      6,
+      7
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible sweet chestnuts (roasted in autumn). Note: Do not confuse with toxic Horse Chestnut."
+  },
+  {
+    "genus": "CASTANEA",
+    "species": "MOLLISSIMA",
+    "common": "CHINESE CHESTNUT",
+    "count": 2,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      6,
+      7
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible sweet chestnuts (roasted in autumn). Note: Do not confuse with toxic Horse Chestnut."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "RUTGERSENSIS",
+    "common": "CONSTELLATION DOGWOOD",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "XX",
+    "common": "VENUS DOGWOOD",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "LIRIODENDRON",
+    "species": "TULIPIFERA",
+    "common": "TULIP TREE 'FASTIGIATA'",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Unique yellow-green tulip-shaped flowers, large native shade canopy."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "KOBUS",
+    "common": "ALIA'S MAGNOLIA",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "LILIIFLORA",
+    "common": "MAGNOLIA ‘BETTY’",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SARGENTIANA",
+    "common": "MAGNOLIA ‘BLOOD MOON’",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SARGENTIANA",
+    "common": "ROBUST SARGENT MAGNOLIA",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SOULANGEANA  X",
+    "common": "ALEXANDRINA SAUCER MAGNOLIA",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "VEITCHII  X",
+    "common": "RED VEITCH MAGNOLIA",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "X BROOKLYNENSIS",
+    "common": "ELIZABETH MAGNOLIA HYBRID",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘ATHENE’",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘BLUSHING BELLE’",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "W.B. CLARKE MAGNOLIA",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "ZENII",
+    "common": "ZENI MAGNOLIA",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "HUPEHENSIS",
+    "common": "TEA CRABAPPLE",
+    "count": 2,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "PUMILA",
+    "common": "ELISE RATHKE CRABAPPLE",
+    "count": 2,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "SARGENTII",
+    "common": "ROSE SARGENT CRABAPPLE",
+    "count": 2,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "ELEY FLOWERING CRABAPPLE",
+    "count": 2,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "PURPLE-LEAF HYBRID CRABAPPLE",
+    "count": 2,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "PADUS",
+    "common": "WATERER BIRD CHERRY",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "ICHIHYO CHERRY",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "MIKURUMA-GAESHI CHERRY",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "MIYAKO CHERRY",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SUBHIRTELLA",
+    "common": "WEEPING HIGAN CHERRY",
+    "count": 2,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "BUSHII   X",
+    "common": "BUSH BUCKEYE",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "GLABRA",
+    "common": "APPALACHIAN BUCKEYE",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "AESCULUS",
+    "species": "MUTABILIS",
+    "common": "INDUTA BUCKEYE",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "conkers"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Huge white/pink flower spikes in spring. Produces shiny brown conkers (toxic)."
+  },
+  {
+    "genus": "CASTANEA",
+    "species": "SATIVA",
+    "common": "VARIEGATED SWEET CHESTNUT",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      6,
+      7
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible sweet chestnuts (roasted in autumn). Note: Do not confuse with toxic Horse Chestnut."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "ALBA",
+    "common": "SIBERIAN DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "ALBA",
+    "common": "VARIEGATED DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "ALTERNIFOLIA",
+    "common": "SILVER PAGODA DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "CAPITATA",
+    "common": "MOUNTAINMOON EVERGREEN DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "CONTROVERSA",
+    "common": "VARIEGATED GIANT DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "FLORIDA",
+    "common": "RAINBOW DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "KOUSA",
+    "common": "WOLF EYES KOUSA DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "NUTTALLII",
+    "common": "CORIGO GIANT DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "SANGUINEA",
+    "common": "BLOODTWIG DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "SANGUINEA",
+    "common": "MIDWINTER FIRE DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORNUS",
+    "species": "XX",
+    "common": "CELESTIAL SHADOW DOGWOOD",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "native"
+    ],
+    "bloomMonths": [
+      5,
+      6
+    ],
+    "harvestMonths": [],
+    "usefulness": "Official flower of British Columbia, gorgeous white/pink bracts."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "FARGESII",
+    "common": "FARGES HAZEL",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "JACQUEMONTII",
+    "common": "JACQUEMONTII HAZEL",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "CORYLUS",
+    "species": "MAXIMA",
+    "common": "PURPLE GIANT FILBERT",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      2,
+      3
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible hazelnuts (filberts), attractive winter catkins."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "CATHAYENSIS",
+    "common": "CHINESE WALNUT",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "JUGLANS",
+    "species": "REGIA",
+    "common": "CUTLEAF ENGLISH WALNUT",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "nut",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible walnuts (black walnut or English walnut) and valuable shade canopy."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "BROOKLYNENSIS",
+    "common": "YELLOW BIRD MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "CAMPBELLII",
+    "common": "CHARLES RAFFILL MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "CAMPBELLII X",
+    "common": "CAMPBELL'S MAGNOLIA HYBRID",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "CAVALERIEI",
+    "common": "PLATEPETAL YULAN MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "ERNESTII",
+    "common": "ERNEST'S MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "GRANDIFLORA",
+    "common": "EDITH BOGUE MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "GRANDIFLORA",
+    "common": "MONLAND SOUTHERN MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "GRANDIFLORA",
+    "common": "ST. MARY SOUTHERN MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "KEWENSIS X",
+    "common": "KEWENSIS HYBRID MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "KEWENSIS X",
+    "common": "MAGNOLIA ‘IUFER’",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "KOBUS",
+    "common": "NORTHERN KOBUS MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "LOEBNERI X",
+    "common": "LOEBNER MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "MACROPHYLLA",
+    "common": "ASHE'S MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "MEDIA X",
+    "common": "CHARITY MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "PROCTORIANA X",
+    "common": "PROCTOR'S MAGNOLIA HYBRID",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SALICIFOLIA",
+    "common": "WILLOW-LEAF MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SARGENTIANA",
+    "common": "DIVA SARGENT MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SOULANGEANA  X",
+    "common": "LENNEI SAUCER MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SOULANGEANA  X",
+    "common": "LILIPUTIAN SAUCER MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SOULANGEANA  X",
+    "common": "PICTURE SAUCER MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SOULANGEANA  X",
+    "common": "VERBANICA SAUCER MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "SPRENGERI",
+    "common": "COPELAND COURT MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "STELLATA",
+    "common": "CHRYSANTHEMUMIFLORA MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "STELLATA",
+    "common": "ROYAL STAR MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "LILAC CHALICE MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA \"CHARLES COATES\"",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA PURPLE SENSATION",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘BIG DUDE’",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘BUTTERFLIES’",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘CAMEO’",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "MAGNOLIA ‘CLEOPATRA’",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "NIMBUS MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "SUNBURST MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MAGNOLIA",
+    "species": "XX",
+    "common": "TRANQUILITY MAGNOLIA",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "showy"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Large, dramatic, fragrant cup-shaped flowers that appear before the leaves."
+  },
+  {
+    "genus": "MALUS",
+    "species": "ADSTRINGENS",
+    "common": "DURLEO CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "BALDWIN APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "BLENHEIM ORANGE APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "COX'S ORANGE PIPPIN APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "DUCHESS OF OLDENBURG APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "ESOPUS SPITZENBURG APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "GLORIA MUNDI APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "GRAVENSTEIN APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "GRIMES GOLDEN APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "JONAGOLD APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "KESWICK CODLIN APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "LEMON PIPPIN APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "RIBSTON PIPPIN APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "ROTER STETTINER APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "SWEET BOUGH APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "WOLD RIVER APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "DOMESTICA",
+    "common": "YELLOW TRANSPARENT APPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10
+    ],
+    "usefulness": "Edible apples for foraging, sweet white-pink spring blossoms."
+  },
+  {
+    "genus": "MALUS",
+    "species": "ROBUSTA",
+    "common": "RED SENTINEL CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "SARGENTII",
+    "common": "SARGENT CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "TSCHONOSKII",
+    "common": "TSCHONOSKII CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "DONALD WYMAN CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "ECHTERMEYER CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "PENDULOUS HYBRID CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "XX",
+    "common": "WATSON'S CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MALUS",
+    "species": "YUNNANENSIS",
+    "common": "VEITCH'S CRABAPPLE",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "crabapple"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      9,
+      10,
+      11
+    ],
+    "usefulness": "Stunning spring flower clusters and colorful autumn crabapples (high pectin for jellies)."
+  },
+  {
+    "genus": "MORUS",
+    "species": "ALBA",
+    "common": "CONTORTED WHITE MULBERRY",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "fruit",
+      "edible"
+    ],
+    "bloomMonths": [],
+    "harvestMonths": [
+      7,
+      8
+    ],
+    "usefulness": "Sweet edible mulberries that resemble blackberries, highly attractive to birds."
+  },
+  {
+    "genus": "MORUS",
+    "species": "AUSTRALIS",
+    "common": "AUSTRALIAN MULBERRY",
+    "count": 1,
+    "type": "fruit",
+    "tags": [
+      "fruit",
+      "edible"
+    ],
+    "bloomMonths": [],
+    "harvestMonths": [
+      7,
+      8
+    ],
+    "usefulness": "Sweet edible mulberries that resemble blackberries, highly attractive to birds."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "ARMENIACA",
+    "common": "APRICOT",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9
+    ],
+    "usefulness": "Edible stone fruits and delicate spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASIFERA",
+    "common": "PURPLE PLUM",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "purple-leaves"
+    ],
+    "bloomMonths": [
+      3,
+      4
+    ],
+    "harvestMonths": [],
+    "usefulness": "Showy early-spring pink blossoms and deep purple foliage."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CERASUS",
+    "common": "NORTH STAR CHERRY",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4,
+      5
+    ],
+    "harvestMonths": [
+      6,
+      7
+    ],
+    "usefulness": "Edible cherries and beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "CEREA X",
+    "common": "HYBRID CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "INCISA",
+    "common": "LITTLE TWIST FUJI CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "PADUS",
+    "common": "PURPLE-LEAF BIRD CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SCHMITTII",
+    "common": "SCHMITT'S CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "JO-NIOI CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "ROYAL BURGUNDY CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "SHOGETSU JAPANESE CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "SPONTANEOUS CHERRY BLOSSOM",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SERRULATA",
+    "common": "WASHI-NO-O CHERRY BLOSSOM",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Beautiful spring blossoms."
+  },
+  {
+    "genus": "PRUNUS",
+    "species": "SUBHIRTELLA",
+    "common": "DOUBLE WEEPING JAPANESE CHERRY",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "ornamental"
+    ],
+    "bloomMonths": [
+      3,
+      4,
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Spectacular spring blossoms, highly photogenic cultural heritage."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "SALICIFOLIA",
+    "common": "WEEPING WILLOW-LEAFED PEAR",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9,
+      10
+    ],
+    "usefulness": "Edible pears and abundant white spring blossoms."
+  },
+  {
+    "genus": "PYRUS",
+    "species": "SALICIFOLIA",
+    "common": "WILLOW-LEAVED PEAR",
+    "count": 1,
+    "type": "both",
+    "tags": [
+      "fruit",
+      "blossom",
+      "edible"
+    ],
+    "bloomMonths": [
+      4
+    ],
+    "harvestMonths": [
+      8,
+      9,
+      10
+    ],
+    "usefulness": "Edible pears and abundant white spring blossoms."
+  },
+  {
+    "genus": "SYRINGA",
+    "species": "EMODI",
+    "common": "HIMALAYAN LILAC",
+    "count": 1,
+    "type": "flower",
+    "tags": [
+      "blossom",
+      "fragrant"
+    ],
+    "bloomMonths": [
+      5
+    ],
+    "harvestMonths": [],
+    "usefulness": "Highly fragrant lilac flower clusters."
+  }
+]
