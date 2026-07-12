@@ -1,2 +1,38 @@
-:root { --surface-canvas: oklch(.97 .012 92); --surface-raised: oklch(.99 .008 94); --text-primary: oklch(.25 .025 67); --text-secondary: oklch(.48 .025 69); --border-subtle: oklch(.82 .018 82); --focus-ring: oklch(.54 .13 226); --phenology-bloom: oklch(.68 .13 8); --phenology-canopy: oklch(.52 .12 145); --phenology-harvest: oklch(.69 .14 70); }
-:root[data-theme=dusk] { --surface-canvas: oklch(.19 .016 71); --surface-raised: oklch(.25 .018 72); --text-primary: oklch(.93 .012 88); --text-secondary: oklch(.74 .02 83); --border-subtle: oklch(.39 .018 75); --focus-ring: oklch(.72 .11 225); }
+:root {
+  --surface-canvas: oklch(.97 .012 92);
+  --surface-raised: oklch(.99 .008 94);
+  --surface-soft: oklch(.945 .018 92);
+  --surface-map-control: oklch(.99 .008 94 / .96);
+  --surface-scrim: oklch(.27 .02 73 / .36);
+  --text-primary: oklch(.25 .025 67);
+  --text-secondary: oklch(.46 .025 69);
+  --text-on-accent: oklch(.985 .008 94);
+  --border-subtle: oklch(.82 .018 82);
+  --border-strong: oklch(.62 .035 82);
+  --focus-ring: oklch(.54 .13 226);
+  --phenology-bloom: oklch(.68 .13 8);
+  --phenology-canopy: oklch(.48 .105 145);
+  --phenology-harvest: oklch(.62 .13 70);
+  --phenology-dormant: oklch(.59 .07 238);
+  --season-accent: oklch(.45 .10 145);
+  --shadow-floating: 0 8px 28px oklch(.32 .025 70 / .18);
+}
+
+:root[data-theme=dusk] {
+  --surface-canvas: oklch(.19 .016 71);
+  --surface-raised: oklch(.25 .018 72);
+  --surface-soft: oklch(.29 .024 76);
+  --surface-map-control: oklch(.25 .018 72 / .97);
+  --text-primary: oklch(.93 .012 88);
+  --text-secondary: oklch(.76 .02 83);
+  --text-on-accent: oklch(.97 .01 90);
+  --border-subtle: oklch(.39 .018 75);
+  --border-strong: oklch(.57 .025 78);
+  --focus-ring: oklch(.72 .11 225);
+  --phenology-bloom: oklch(.75 .1 8);
+  --phenology-canopy: oklch(.68 .1 145);
+  --phenology-harvest: oklch(.75 .11 72);
+  --phenology-dormant: oklch(.72 .07 235);
+  --season-accent: oklch(.68 .1 145);
+  --shadow-floating: 0 10px 34px oklch(.08 .012 68 / .42);
+}

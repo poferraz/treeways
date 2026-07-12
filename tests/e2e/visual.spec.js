@@ -9,12 +9,16 @@ const viewports = [
 ];
 
 for (const { name, viewport } of viewports) {
-  test(`selected tree layout remains stable at ${name}`, async ({ page }) => {
+  test(`selected tree layout remains stable at ${name}`, async ({ page, browserName }) => {
+    test.skip(browserName !== 'chromium', 'Pixel baselines are captured by the dedicated Chromium visual gate.');
     await page.setViewportSize(viewport);
     await waitForApp(page);
     await selectFirstSearchResult(page);
+    await page.locator('#map').evaluate(map => {
+      map.style.background = 'oklch(0.91 0.02 160)';
+      for (const child of map.children) child.setAttribute('hidden', '');
+    });
     await test.expect(page.locator('.app-shell')).toHaveScreenshot(`${name}-selected-tree.png`, {
-      mask: [page.locator('#map')],
       animations: 'disabled'
     });
   });

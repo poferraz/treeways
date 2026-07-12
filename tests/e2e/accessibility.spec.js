@@ -11,6 +11,7 @@ test('core map, search, filter, and selected-tree states have no serious Axe vio
 
 test('announces filter changes through the polite status region', async ({ page }) => {
   await waitForApp(page);
+  await page.getByRole('button', { name: 'Filters', exact: true }).click();
   await page.getByRole('button', { name: /Edible/i }).click();
   await expect(page.locator('[aria-live="polite"]')).toContainText('Filters applied.');
 });
