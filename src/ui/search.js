@@ -1,3 +1,5 @@
+import { scientificName, titleCase } from './format.js';
+
 export function createSearch({ search, onSelect }) {
   const form = document.createElement('form');
   form.className = 'search';
@@ -94,14 +96,4 @@ export function createSearch({ search, onSelect }) {
   });
   form.addEventListener('submit', event => event.preventDefault());
   return form;
-}
-
-function titleCase(value) {
-  return String(value).toLocaleLowerCase().replace(/\b\w/g, letter => letter.toLocaleUpperCase());
-}
-
-function scientificName(tree) {
-  const genus = titleCase(tree.genus);
-  const species = String(tree.species || '').toLocaleLowerCase();
-  return `${genus} ${species}`.trim() || 'Scientific name not recorded';
 }

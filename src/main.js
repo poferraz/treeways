@@ -8,12 +8,14 @@ import { loadCityManifest } from './data/city-loader.js';
 import { DataWorkerClient } from './data/worker-client.js';
 import { distanceMeters } from './data/spatial-index.js';
 import { maskHasMonth } from './domain/phenology.js';
+import { VANCOUVER_CENTER } from './domain/location.js';
 import { toFeature } from './domain/tree.js';
 import { MapController } from './map/map-controller.js';
 import { createAppShell } from './ui/app-shell.js';
 import { createSearch } from './ui/search.js';
 import { createFilters } from './ui/filters.js';
-import { renderNearbyInspector, renderSourceInfo, renderTreeInspector, seasonalState, titleCase } from './ui/tree-inspector.js';
+import { renderNearbyInspector, renderSourceInfo, renderTreeInspector, seasonalState } from './ui/tree-inspector.js';
+import { titleCase } from './ui/format.js';
 import { addRouteStop, moveRouteStop, renderRouteBuilder } from './ui/route-builder.js';
 import { routeSummary } from './ui/route-summary.js';
 import { OsrmProvider } from './services/routing/osrm-provider.js';
@@ -206,7 +208,7 @@ function renderNearby() {
 }
 
 function withDistance(tree) {
-  const origin = store.getState().location ?? map?.getCenter() ?? { latitude: 49.2827, longitude: -123.1207 };
+  const origin = store.getState().location ?? map?.getCenter() ?? VANCOUVER_CENTER;
   return { ...tree, distance: distanceMeters(origin, tree) };
 }
 
