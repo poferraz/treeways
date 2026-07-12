@@ -13,3 +13,12 @@ export async function selectFirstSearchResult(page, query = 'apple') {
   await option.click();
   await expect(page.getByRole('button', { name: 'Add to route' })).toBeVisible();
 }
+
+export async function selectFirstSearchResultByKeyboard(page, query = 'apple') {
+  const search = page.getByRole('combobox', { name: 'Search trees' });
+  await search.fill(query);
+  await expect(page.getByRole('option').first()).toBeVisible();
+  await search.press('ArrowDown');
+  await search.press('Enter');
+  await expect(page.getByRole('button', { name: 'Add to route' })).toBeVisible();
+}
