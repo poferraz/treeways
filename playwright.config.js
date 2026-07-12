@@ -22,7 +22,7 @@ export default defineConfig({
     { name: 'webkit', use: { ...devices['Desktop Safari'] } }
   ],
   webServer: {
-    command: 'npm run preview -- --host 127.0.0.1 --port 4174',
+    command: 'npm run build && npm run preview -- --host 127.0.0.1 --port 4174',
     url: baseURL,
     reuseExistingServer: false,
     timeout: 30_000

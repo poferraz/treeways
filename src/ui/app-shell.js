@@ -1,2 +1,69 @@
 import { createBottomSheet } from './bottom-sheet.js';
-export function createAppShell() { const app = document.createElement('main'); app.className = 'app-shell'; const map = document.createElement('section'); map.id = 'map'; map.setAttribute('aria-label', 'Interactive tree map'); const inspectorContent = document.createElement('section'); inspectorContent.className = 'inspector-content'; inspectorContent.setAttribute('aria-label', 'Tree details'); const sheet = createBottomSheet(inspectorContent); const toolbar = document.createElement('header'); toolbar.className = 'toolbar'; const offlineNotice = document.createElement('p'); offlineNotice.className = 'offline-notice'; offlineNotice.hidden = true; offlineNotice.setAttribute('role', 'status'); app.append(map, toolbar, offlineNotice, sheet.element); return { app, map, toolbar, inspector: inspectorContent, sheet, offlineNotice }; }
+
+export function createAppShell() {
+  const app = document.createElement('main');
+  app.className = 'app-shell';
+
+  const skipLink = document.createElement('a');
+  skipLink.className = 'skip-link';
+  skipLink.href = '#nearby-results';
+  skipLink.textContent = 'Skip to nearby trees';
+
+  const map = document.createElement('section');
+  map.id = 'map';
+  map.setAttribute('role', 'region');
+  map.setAttribute('aria-label', 'Interactive tree map of Vancouver');
+
+  const toolbar = document.createElement('header');
+  toolbar.className = 'toolbar';
+  toolbar.setAttribute('aria-label', 'Map controls');
+
+  const cityContext = document.createElement('div');
+  cityContext.className = 'city-context';
+  const cityName = document.createElement('strong');
+  cityName.textContent = 'Vancouver';
+  const season = document.createElement('span');
+  season.textContent = currentSeason();
+  cityContext.append(cityName, season);
+
+  const searchSlot = document.createElement('div');
+  searchSlot.className = 'toolbar-search';
+  const actionsSlot = document.createElement('div');
+  actionsSlot.className = 'toolbar-actions';
+  toolbar.append(cityContext, searchSlot, actionsSlot);
+
+  const inspectorContent = document.createElement('div');
+  inspectorContent.className = 'inspector-content';
+  const sheet = createBottomSheet(inspectorContent);
+
+  const routeCapsule = document.createElement('button');
+  routeCapsule.type = 'button';
+  routeCapsule.className = 'route-capsule';
+  routeCapsule.hidden = true;
+
+  const offlineNotice = document.createElement('p');
+  offlineNotice.className = 'offline-notice';
+  offlineNotice.hidden = true;
+  offlineNotice.setAttribute('role', 'status');
+
+  app.append(skipLink, map, toolbar, routeCapsule, offlineNotice, sheet.element);
+  return {
+    app,
+    map,
+    toolbar,
+    searchSlot,
+    actionsSlot,
+    inspector: inspectorContent,
+    sheet,
+    routeCapsule,
+    offlineNotice
+  };
+}
+
+function currentSeason(date = new Date()) {
+  const month = date.getMonth() + 1;
+  if (month >= 3 && month <= 5) return 'Spring';
+  if (month >= 6 && month <= 8) return 'Summer';
+  if (month >= 9 && month <= 11) return 'Autumn';
+  return 'Winter';
+}

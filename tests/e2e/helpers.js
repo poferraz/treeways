@@ -11,5 +11,5 @@ export async function selectFirstSearchResult(page, query = 'apple') {
   const option = page.getByRole('option').first();
   await expect(option).toBeVisible();
   await option.click();
-  await expect(page.locator('.inspector-content h1')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Add to route' })).toBeVisible();
 }
