@@ -1,4 +1,5 @@
 import { maskHasMonth } from '../domain/phenology.js';
+import { scientificName, titleCase } from './format.js';
 
 export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources }) {
   root.replaceChildren();
@@ -228,16 +229,6 @@ export function seasonalState(tree, date = new Date()) {
   if (maskHasMonth(tree.harvestMask, month)) return { label: 'Reported harvest period', className: 'harvest' };
   if (tree.bloomMask || tree.harvestMask) return { label: 'Seasonal period expected later', className: 'dormant' };
   return { label: 'Seasonal timing not recorded', className: 'dormant' };
-}
-
-export function titleCase(value) {
-  return String(value).toLocaleLowerCase().replace(/\b\w/g, letter => letter.toLocaleUpperCase());
-}
-
-function scientificName(tree) {
-  const genus = titleCase(tree.genus);
-  const species = String(tree.species || '').toLocaleLowerCase();
-  return `${genus} ${species}`.trim() || 'Scientific name not recorded';
 }
 
 function formatDistance(distance) {
