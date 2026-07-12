@@ -1,0 +1,1 @@
+export const actions = { selectTree: id => ({ type: 'SELECT_TREE', id }), setFilters: filters => ({ type: 'SET_FILTERS', filters }), setRouteStops: stops => ({ type: 'SET_ROUTE_STOPS', stops }), setRoute: route => ({ type: 'SET_ROUTE', route }), setSheet: sheet => ({ type: 'SET_SHEET', sheet }) };

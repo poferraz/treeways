@@ -6,14 +6,21 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "test:unit": "vitest --run",
+    "check": "tsc --project jsconfig.json",
+    "city:import": "node scripts/city/import.js",
+    "city:build": "node scripts/city/build-pack.js",
+    "city:validate": "node scripts/city/validate.js",
+    "check:bundle": "node scripts/check-bundle-budget.js"
   },
   "dependencies": {
     "maplibre-gl": "^4.5.0"
   },
   "devDependencies": {
+    "jsdom": "^24.0.0",
+    "typescript": "^7.0.2",
     "vite": "^5.0.0",
-    "vitest": "^1.0.0",
-    "jsdom": "^24.0.0"
+    "vitest": "^1.0.0"
   }
 }

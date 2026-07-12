@@ -1,0 +1,1 @@
+export function createStatusRegion() { const element = document.createElement('p'); element.className = 'sr-only'; element.setAttribute('aria-live', 'polite'); return { element, announce(message) { element.textContent = ''; requestAnimationFrame(() => { element.textContent = message; }); } }; }

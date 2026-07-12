@@ -1,0 +1,1 @@
+{"compilerOptions":{"checkJs":true,"strict":false,"skipLibCheck":true,"target":"ES2022","module":"ESNext","moduleResolution":"bundler","allowJs":true,"noEmit":true},"include":["src/core/**/*.js","src/domain/**/*.js","src/data/**/*.js"]}

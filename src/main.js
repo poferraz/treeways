@@ -1,189 +1,23 @@
-import { state } from './state.js';
-import { Drawer } from './components/drawer.js';
-import { MapController } from './map.js';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import './styles/tokens.css';
+import './styles/base.css';
+import './styles/app-shell.css';
+import { createStore } from './core/store.js';
+import { actions } from './core/actions.js';
+import { loadCityManifest } from './data/city-loader.js';
+import { DataWorkerClient } from './data/worker-client.js';
+import { toFeature } from './domain/tree.js';
+import { MapController } from './map/map-controller.js';
+import { createAppShell } from './ui/app-shell.js';
+import { createSearch } from './ui/search.js';
+import { createFilters } from './ui/filters.js';
+import { renderTreeInspector } from './ui/tree-inspector.js';
+import { addRouteStop } from './ui/route-builder.js';
+import { OsrmProvider } from './services/routing/osrm-provider.js';
+import { createStatusRegion } from './ui/status-region.js';
 
-// Import local compressed dataset directly using Vite
-import curatedData from './data/curated_trees.json';
-
-class App {
-  constructor() {
-    this.drawer = null;
-    this.mapController = null;
-    
-    this.initApp();
-  }
-
-  async initApp() {
-    // 1. Unpack compressed flat trees data
-    const unpackedTrees = this.unpackCuratedTrees(curatedData);
-    state.set('curatedTrees', unpackedTrees);
-    
-    // 2. Initialize UI components
-    const drawerEl = document.getElementById('bottom-sheet');
-    const contentEl = document.getElementById('sheet-content');
-    this.drawer = new Drawer(drawerEl, contentEl);
-
-    // 3. Load MapLibre script files dynamically in DOM if not present, then boot map
-    await this.ensureMaplibreLoaded();
-    this.mapController = new MapController('map-container');
-    
-    // 4. Hook autocomplete search box
-    this.initSearchAutoComplete(unpackedTrees);
-
-    // 5. Hook filters
-    this.initFilters();
-    
-    // Render initial empty state
-    this.drawer.renderEmptyState();
-  }
-
-  unpackCuratedTrees(data) {
-    const { species, trees } = data;
-    return trees.map(t => {
-      const [id, lat, lng, speciesIdx, height, diameter, address] = t;
-      const s = species[speciesIdx];
-      return {
-        id,
-        lat,
-        lng,
-        name: s.name,
-        genus: s.genus,
-        species: s.species,
-        type: s.type,
-        tags: s.tags,
-        bloom: s.bloom,
-        harvest: s.harvest,
-        usefulness: s.usefulness,
-        height,
-        diameter,
-        address
-      };
-    });
-  }
-
-  ensureMaplibreLoaded() {
-    return new Promise((resolve) => {
-      if (window.maplibregl) {
-        resolve();
-        return;
-      }
-      
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css';
-      document.head.appendChild(link);
-      
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js';
-      script.onload = () => resolve();
-      document.head.appendChild(script);
-    });
-  }
-
-  initSearchAutoComplete(trees) {
-    const input = document.getElementById('search-input');
-    const dropdown = document.getElementById('search-suggestions');
-    if (!input || !dropdown) return;
-
-    // Compile unique species names
-    const uniqueSpecies = Array.from(new Set(trees.map(t => `${t.name} (${t.genus} ${t.species})`)))
-      .map(str => {
-        const parts = str.match(/(.*) \((.*) (.*)\)/);
-        return {
-          common: parts[1],
-          genus: parts[2],
-          species: parts[3]
-        };
-      });
-
-    input.addEventListener('input', (e) => {
-      const val = e.target.value.toUpperCase();
-      if (!val) {
-        dropdown.classList.add('hidden');
-        return;
-      }
-
-      const matches = uniqueSpecies.filter(s => 
-        s.common.includes(val) || s.genus.includes(val) || s.species.includes(val)
-      ).slice(0, 5);
-
-      if (matches.length === 0) {
-        dropdown.classList.add('hidden');
-        return;
-      }
-
-      dropdown.innerHTML = matches.map(m => `
-        <div class="suggestion-item" data-common="${m.common}">
-          <span>${m.common}</span>
-          <span class="scientific">${m.genus} ${m.species}</span>
-        </div>
-      `).join('');
-
-      dropdown.classList.remove('hidden');
-    });
-
-    dropdown.addEventListener('click', (e) => {
-      const item = e.target.closest('.suggestion-item');
-      if (!item) return;
-
-      const commonName = item.getAttribute('data-common');
-      input.value = commonName;
-      dropdown.classList.add('hidden');
-
-      // Find the closest tree matching this name and select it
-      const matchTree = trees.find(t => t.name === commonName);
-      if (matchTree) {
-        state.setSelectedTree(matchTree);
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.search-container')) {
-        dropdown.classList.add('hidden');
-      }
-    });
-  }
-
-  initFilters() {
-    const filterContainer = document.getElementById('filter-pills');
-    if (!filterContainer) return;
-
-    filterContainer.addEventListener('click', (e) => {
-      const pill = e.target.closest('.filter-pill');
-      if (!pill) return;
-
-      filterContainer.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
-      pill.classList.add('active');
-
-      const filterValue = pill.getAttribute('data-filter');
-      state.set('activeFilters', filterValue);
-
-      this.applyFilter(filterValue);
-    });
-  }
-
-  applyFilter(filterType) {
-    const allTrees = this.unpackCuratedTrees(curatedData);
-    const currentMonth = state.get('currentMonth');
-
-    let filtered = allTrees;
-    if (filterType === 'fruit') {
-      filtered = allTrees.filter(t => t.type === 'fruit' || t.type === 'both');
-    } else if (filterType === 'flower') {
-      filtered = allTrees.filter(t => t.type === 'flower' || t.type === 'both');
-    } else if (filterType === 'bloom-now') {
-      filtered = allTrees.filter(t => t.bloom && t.bloom.includes(currentMonth));
-    } else if (filterType === 'harvest-now') {
-      filtered = allTrees.filter(t => t.harvest && t.harvest.includes(currentMonth));
-    }
-
-    state.set('curatedTrees', filtered);
-    state.setSelectedTree(null); // clear detail sheet selection on filtering
-  }
-}
-
-// Instantiate application on DOM load
-window.addEventListener('DOMContentLoaded', () => {
-  new App();
-});
-export { App };
+const initialState = { city: null, dataStatus: 'loading', selectedTreeId: null, filters: { kind: 'all' }, sheet: 'closed', location: null, theme: localStorage.getItem('theme') ?? 'daylight', route: { stops: [], version: 0, status: 'idle', geometry: null, distance: null, duration: null }, error: null };
+const store = createStore(initialState); const worker = new DataWorkerClient(); const routeProvider = new OsrmProvider(); let map; let routeAbort; let selectedTree;
+async function start() { const shell = createAppShell(); document.body.replaceChildren(shell.app); document.documentElement.dataset.theme = store.getState().theme; const status = createStatusRegion(); shell.app.append(status.element); const manifest = await loadCityManifest('vancouver'); await worker.loadCity(manifest.data.pack); store.dispatch({ type: 'CITY_LOADED', city: manifest }); map = new MapController(shell.map, { onSelect: id => selectTree(id) }); const trees = await worker.queryBounds(manifest.bounds); map.setTrees(trees.map(toFeature)); const selectSearchTree = tree => selectTree(tree.id, tree); shell.toolbar.append(createSearch({ search: query => worker.search(query, 8), onSelect: selectSearchTree }), createFilters({ onChange: kind => { store.dispatch(actions.setFilters({ kind })); status.announce('Filters applied.'); } })); const theme = document.createElement('button'); theme.type = 'button'; theme.textContent = 'Dusk mode'; theme.addEventListener('click', () => { const value = document.documentElement.dataset.theme === 'dusk' ? 'daylight' : 'dusk'; document.documentElement.dataset.theme = value; localStorage.setItem('theme', value); theme.textContent = value === 'dusk' ? 'Daylight mode' : 'Dusk mode'; }); shell.toolbar.append(theme); store.subscribe(state => { if (state.selectedTreeId !== selectedTree?.id) renderTreeInspector(shell.inspector, selectedTree, { onRoute: tree => requestRoute(addRouteStop(state.route.stops, tree)), onNavigate: () => {} }); if (state.route.geometry) map.setRoute(state.route.geometry); }); async function selectTree(id, tree) { selectedTree = tree ?? await worker.getTree(id); store.dispatch(actions.selectTree(id)); map.select(id); shell.sheet.setState('peek'); status.announce(`${selectedTree.commonName} selected.`); } async function requestRoute(stops) { routeAbort?.abort(); const version = store.getState().route.version + 1; store.dispatch(actions.setRouteStops(stops)); if (stops.length < 2) return; routeAbort = new AbortController(); store.dispatch(actions.setRoute({ ...store.getState().route, status: 'loading' })); try { const route = await routeProvider.route(stops, routeAbort.signal); if (store.getState().route.version !== version) return; store.dispatch(actions.setRoute({ ...store.getState().route, ...route, status: 'ready' })); status.announce(`Route ready: ${(route.distance / 1000).toFixed(1)} kilometres, ${Math.round(route.duration / 60)} minutes walking.`); } catch (error) { if (error.name !== 'AbortError') store.dispatch(actions.setRoute({ ...store.getState().route, status: 'error' })); } } }
+start().catch(error => { document.body.textContent = `The tree map could not start: ${error.message}`; });
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));

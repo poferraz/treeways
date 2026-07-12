@@ -1,0 +1,1 @@
+export function createObservationDrafts(storage = localStorage) { const key = 'urban-canopy-observation-drafts'; return { list: () => JSON.parse(storage.getItem(key) ?? '[]'), save(draft) { const drafts = JSON.parse(storage.getItem(key) ?? '[]'); storage.setItem(key, JSON.stringify([...drafts, { ...draft, status: 'draft' }])); } }; }

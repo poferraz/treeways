@@ -1,0 +1,1 @@
+export function routeSummary(route) { if (route.status === 'loading') return 'Calculating walking route'; if (route.status === 'error') return 'Route could not be calculated.'; return route.distance ? `${(route.distance / 1000).toFixed(1)} km · ${Math.round(route.duration / 60)} minutes walking` : `${route.stops.length} stop${route.stops.length === 1 ? '' : 's'}`; }

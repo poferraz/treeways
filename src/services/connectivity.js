@@ -1,0 +1,1 @@
+export function createConnectivity(onChange) { const update = () => onChange(navigator.onLine); addEventListener('online', update); addEventListener('offline', update); return { isOnline: () => navigator.onLine, dispose: () => { removeEventListener('online', update); removeEventListener('offline', update); } }; }
