@@ -112,6 +112,7 @@ function createLocationButton() {
       status.announce('Location found. Nearby trees are now sorted from your position.');
       renderNearby();
     } catch (error) {
+      console.error('Geolocation failed:', error);
       button.textContent = 'Location unavailable';
       status.announce('Location is unavailable. Trees remain sorted from the map centre.');
     } finally {
@@ -252,6 +253,7 @@ async function updateRoute(stops, force = false) {
     status.announce(`Route ready: ${(route.distance / 1000).toFixed(1)} kilometres, ${Math.round(route.duration / 60)} minutes walking.`);
   } catch (error) {
     if (error.name === 'AbortError') return;
+    console.error('Route calculation failed:', error);
     store.dispatch(actions.setRoute({ ...store.getState().route, status: 'error' }));
     status.announce(navigator.onLine ? 'Route could not be calculated. Try again or navigate to an individual tree.' : 'Route could not be calculated while offline.');
   }
