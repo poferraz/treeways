@@ -1,0 +1,1 @@
+export function createTranslator(messages, locale = 'en-CA') { return { text(key, values = {}) { return (messages[key] ?? key).replace(/\{(\w+)\}/g, (_, name) => String(values[name] ?? '')); }, number(value, options) { return new Intl.NumberFormat(locale, options).format(value); }, date(value, options) { return new Intl.DateTimeFormat(locale, options).format(value); } }; }

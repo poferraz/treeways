@@ -1,0 +1,1 @@
+export function addRouteStop(stops, tree) { return stops.some(stop => stop.id === tree.id) ? stops : [...stops, { id: tree.id, commonName: tree.commonName, latitude: tree.latitude, longitude: tree.longitude }]; }
