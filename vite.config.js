@@ -10,6 +10,14 @@ export default defineConfig({
           maplibre: ['maplibre-gl']
         }
       }
+    },
+    worker: {
+      rollupOptions: {
+        output: {
+          entryFileNames: 'assets/[name].js',
+          chunkFileNames: 'assets/[name].js'
+        }
+      }
     }
   },
   server: {

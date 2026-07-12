@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { selectFirstSearchResult, waitForApp } from './helpers.js';
+import { selectFirstSearchResult, selectFirstSearchResultByKeyboard, waitForApp } from './helpers.js';
 
 test('loads the city pack and lets visitors search and select a tree', async ({ page }) => {
   await waitForApp(page);
@@ -35,7 +35,7 @@ test('filters change the visible result set and keep a reset path', async ({ pag
 
 test('builds and exposes an ordered walking route', async ({ page }) => {
   await waitForApp(page);
-  await selectFirstSearchResult(page, 'apple');
+  await selectFirstSearchResultByKeyboard(page, 'apple');
   await page.getByRole('button', { name: 'Add to route' }).click();
   await expect(page.getByRole('button', { name: /Route.*1 stop saved/ })).toBeVisible();
   await page.evaluate(() => {
@@ -44,7 +44,7 @@ test('builds and exposes an ordered walking route', async ({ page }) => {
       ? Promise.resolve(new Response(JSON.stringify({ routes: [{ distance: 1400, duration: 1080, geometry: { type: 'LineString', coordinates: [[-123.18, 49.24], [-123.15, 49.25]] } }] }), { status: 200, headers: { 'Content-Type': 'application/json' } }))
       : originalFetch(input, init);
   });
-  await selectFirstSearchResult(page, 'cherry');
+  await selectFirstSearchResultByKeyboard(page, 'cherry');
   await page.getByRole('button', { name: 'Add to route' }).click();
   await expect(page.getByRole('button', { name: /Route.*1.4 km, 18 minutes walking/ })).toBeVisible();
   await page.getByRole('button', { name: /Route.*1.4 km/ }).click();
