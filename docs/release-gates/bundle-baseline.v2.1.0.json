@@ -1,0 +1,14 @@
+{
+  "version": "v2.1.0",
+  "definition": "Core entry is every app-authored JavaScript module fetched during default startup, even when moved to another startup chunk. Third-party maplibre is tracked separately and cannot be used to evade the core-entry gate.",
+  "coreEntry": {
+    "assets": ["index.js", "data.worker-*.js"],
+    "gzipBytes": 14340,
+    "maxRelativeGrowth": 0.05,
+    "absoluteMaxGzipBytes": 16000
+  },
+  "css": { "asset": "index.css", "gzipBytes": 12691, "absoluteMaxGzipBytes": 14000 },
+  "cityData": { "artifact": "vancouver.v2.1.0.json", "gzipBytes": 5555961, "absoluteMaxGzipBytes": 5600000 },
+  "defaultThirdParty": { "asset": "maplibre.js", "gzipBytes": 216980, "absoluteMaxGzipBytes": 230000 },
+  "measurement": "npm run build followed by npm run check:bundle; gzip is zlib level-default and bytes are summed across all declared core assets."
+}

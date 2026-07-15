@@ -1,0 +1,9 @@
+{
+  "total_count": 4,
+  "results": [
+    {"asset_id": 1, "common_name":"APPLE", "genus_name":"MALUS", "species_name":"DOMESTICA", "height_m":null, "diameter_cm":null, "address":"1 TEST", "geo_point_2d":{"lat":49.25,"lon":-123.1}},
+    {"asset_id": 1, "common_name":"APPLE", "genus_name":"MALUS", "species_name":"DOMESTICA", "height_m":4, "diameter_cm":7, "address":"1 TEST", "geo_point_2d":{"lat":49.25,"lon":-123.1}},
+    {"asset_id": 2, "common_name":"OAK", "genus_name":"QUERCUS", "species_name":"RUBRA", "height_m":151, "diameter_cm":7, "address":"2 TEST", "geo_point_2d":{"lat":49.25,"lon":-123.1}},
+    {"asset_id": 3, "common_name":"OAK", "genus_name":"QUERCUS", "species_name":"RUBRA", "height_m":4, "diameter_cm":7, "address":"3 TEST", "geo_point_2d":{"lat":0,"lon":0}}
+  ]
+}

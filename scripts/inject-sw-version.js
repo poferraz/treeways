@@ -7,7 +7,7 @@ const assetsDir = join(distDir, 'assets');
 
 function findWorkerAsset() {
   const files = readdirSync(assetsDir);
-  const worker = files.find(name => /^data\.worker-[A-Za-z0-9]+\.js$/.test(name));
+  const worker = files.find(name => /^data\.worker-[A-Za-z0-9_-]+\.js$/.test(name));
   if (!worker) {
     console.error('Could not find data.worker-*.js in dist/assets');
     process.exit(1);
