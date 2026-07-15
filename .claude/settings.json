@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "n=$(git -C \"$CLAUDE_PROJECT_DIR\" status --porcelain 2>/dev/null | wc -l | tr -d ' '); [ \"$n\" -gt 15 ] && echo \"Working tree has $n uncommitted files — commit gate-certified work at each milestone exit (AGENTS.md), push to origin at session end.\"; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
