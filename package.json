@@ -30,8 +30,12 @@
     "test:performance": "lhci autorun",
     "check": "tsc --project jsconfig.json",
     "city:import": "node scripts/city/import.js",
+    "city:refresh": "node scripts/city/refresh.js",
+    "city:refresh:full": "node scripts/city/refresh.js vancouver --full",
     "city:build": "node scripts/city/build-pack.js",
     "city:validate": "node scripts/city/validate.js",
+    "city:benchmark": "node scripts/city/benchmark-backends.js",
+    "city:verify": "node scripts/verify-city-determinism.js",
     "check:bundle": "node scripts/check-bundle-budget.js"
   },
   "dependencies": {
@@ -39,12 +43,16 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
+    "@mapbox/vector-tile": "^1.3.1",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.61.1",
     "jsdom": "^24.1.3",
+    "geojson-vt": "^4.0.3",
+    "pbf": "^3.3.0",
     "typescript": "^7.0.2",
     "vite": "^6.4.3",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "vt-pbf": "^3.1.3"
   },
   "overrides": {
     "@lhci/cli": {

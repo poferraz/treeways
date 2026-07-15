@@ -1,0 +1,1 @@
+{"total_count":3,"results":[{"mapid":"a","name":"Garden A","number_of_food_trees":"yes","food_tree_varieties":"Apple","geo_point_2d":{"lat":49.25,"lon":-123.1}},{"mapid":"a","name":"Garden A","number_of_food_trees":"2","geo_point_2d":{"lat":49.25,"lon":-123.1}},{"mapid":"b","name":"Garden B","number_of_food_trees":"2","geo_point_2d":{"lat":0,"lon":0}}]}

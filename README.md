@@ -42,6 +42,8 @@ Then open the local URL from Vite.
 | `npm run test:offline` | Offline service-worker checks |
 | `npm run check` | TypeScript check over JS sources |
 | `npm run check:bundle` | Bundle-size budget check |
+| `npm run city:refresh -- vancouver` | Explicit network refresh of the pinned source snapshot |
+| `npm run city:verify` | Two byte-identical city builds from pinned inputs |
 
 Run `npm run test:unit`, `npm run check`, `npm run build`, and `npm run check:bundle` before submitting changes.
 
@@ -56,7 +58,7 @@ See [`CONTRIBUTING.md`](./CONTRIBUTING.md). The short version:
 
 ## Data and attribution
 
-City data and media have independent licences. See each city pack's `LICENSE-DATA.md` and its attribution block.
+City data and media have independent licences. See each city pack's `LICENSE-DATA.md`, attribution block, and [data provenance](./docs/data-provenance.md). City builds are offline by default; refreshing a source is an explicit maintainer action.
 
 ## Contributing
 

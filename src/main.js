@@ -81,7 +81,7 @@ async function start() {
   shell.routeCapsule.addEventListener('click', showRouteBuilder);
   renderNearby();
   updateRouteCapsule();
-  status.announce(`${allTrees.length} curated trees loaded for Vancouver.`);
+  status.announce(`${allTrees.length} reported public-tree records loaded for Vancouver.`);
 }
 
 function wireConnectivity() {
