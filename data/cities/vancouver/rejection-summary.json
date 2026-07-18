@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "city": "vancouver",
+  "sourceSnapshotId": "public-trees-2026-07-12-full",
+  "sourceSnapshotSha256": "3eb0140b7e968d21f6e4dd4bc54b33dca7495a284bafda3435ca9bcca9f09764",
+  "sourceRecords": 185845,
+  "acceptedRecords": 185307,
+  "rejectedRecords": 538,
+  "reasons": {
+    "invalid-diameter-cm": 531,
+    "invalid-height-m": 6,
+    "invalid-coordinate": 1
+  },
+  "note": "Compact committed accounting from the pinned full-snapshot import. Row-level generated rejects remain reproducible working data and are gitignored."
+}

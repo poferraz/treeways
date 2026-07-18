@@ -8,4 +8,15 @@ setTrees(trees) { const update = () => setTreeData(this.map, trees); this.map.lo
 select(id) { if (this.selectedId) this.map.setFeatureState({ source: 'trees', id: this.selectedId }, { selected: false }); this.selectedId = id; if (id) this.map.setFeatureState({ source: 'trees', id }, { selected: true }); }
 getCenter() { const center = this.map.getCenter(); return { latitude: center.lat, longitude: center.lng }; }
 showLocation(location) { this.locationMarker?.remove(); const marker = document.createElement('div'); marker.className = 'user-location-marker'; marker.setAttribute('aria-label', 'Your location'); this.locationMarker = new maplibregl.Marker({ element: marker }).setLngLat([location.longitude, location.latitude]).addTo(this.map); this.map.easeTo({ center: [location.longitude, location.latitude], duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 500 }); }
-setRoute(geometry) { setRouteData(this.map, geometry); } destroy() { this.locationMarker?.remove(); this.map.remove(); } }
+setRoute(geometry) { setRouteData(this.map, geometry); }
+showTrail(geometry) {
+  const update = () => {
+    setRouteData(this.map, geometry);
+    const coordinates = geometry?.coordinates ?? [];
+    if (coordinates.length < 2) return;
+    const bounds = coordinates.slice(1).reduce((value, coordinate) => value.extend(coordinate), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
+    this.map.fitBounds(bounds, { padding: 72, maxZoom: 15, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650 });
+  };
+  this.map.getSource('route') ? update() : this.map.once('load', update);
+}
+destroy() { this.locationMarker?.remove(); this.map.remove(); } }

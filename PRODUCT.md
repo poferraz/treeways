@@ -1,24 +1,24 @@
-# Vancouver Interactive Tree Map
+# Treeways
 
 ## Product definition
 
-Vancouver Interactive Tree Map is a map-first living field guide for people walking through Vancouver who want to find, identify, and return to notable urban trees. It combines a curated species layer with municipal street-tree context, seasonal phenology, and simple walking routes.
+Treeways is a map-first field guide for people who want to understand a city through its trees. Vancouver launches with neighbourhood discovery trails, municipal street-tree context, measured giants, tree-family comparisons, and external walking or driving directions.
 
-The product is not a general inventory browser. Its job is to answer a physical, time-sensitive question: "What is this nearby tree, and is it worth walking to now?"
+The product is not a general inventory browser. Its job is to answer: "What trees are worth noticing near me, and what route helps me compare them?"
 
 ## People and jobs
 
 | Person | Situation | Job to be done |
 | --- | --- | --- |
 | Curious walker | Sees a tree while outdoors | Identify it without losing place on the map. |
-| Seasonal forager | Wants edible trees at the right time | Find nearby, currently harvestable trees and plan a safe route. |
-| Blossom seeker | Is planning a short walk | Find trees likely to be blooming now. |
+| Fruit-tree observer | Wants to compare fruit-tree forms | Find nearby families without food-safety or harvesting claims. |
+| Blossom seeker | Is planning a short walk | Compare flowering-tree relatives, with unknown timing kept explicit. |
 | Accessibility-conscious visitor | Cannot rely on dense map interaction | Browse nearby trees, details, and routes as structured content. |
 
 ## Product promise
 
 - The map stays visible and spatial context is never discarded for a generic dashboard.
-- Seasonal status is current, understandable, and distinct from fixed categories.
+- Seasonal guidance is useful but never presented as live observation without evidence.
 - Tree facts are presented with botanical care, clear provenance, and no invented certainty.
 - The interface works in sunlight, one-handed use, keyboard use, and reduced-motion settings.
 
@@ -39,7 +39,7 @@ The v2 design retires permanent dark mode, broad glass surfaces, emoji controls,
 
 ## Success criteria
 
-- A person can select a nearby tree, understand its current seasonal state, and start navigation in a few deliberate actions.
+- A person can choose a neighbourhood trail and open its ordered stops in walking or driving directions in a few deliberate actions.
 - A person can search by common name, scientific name, neighbourhood, or nearby tree and choose among relevant specimens.
 - Filters change the visible map layer without rebuilding markers or hiding the reset path.
 - The same essential tasks are possible from structured lists without relying on the map.
@@ -48,7 +48,7 @@ The v2 design retires permanent dark mode, broad glass surfaces, emoji controls,
 ## Non-goals for v2 design
 
 - Crowdsourced observations, accounts, social feeds, and gamified collecting.
-- Claims that a tree is safe to eat or currently harvestable without clear data support and local guidance.
+- Claims that a tree is edible, safe to eat, available to harvest, accessible, or on a safe route without specific evidence and review.
 - A comprehensive inventory interface for every municipal field.
 - Decorative seasonal reskins that alter the meaning of categorical markers.
 

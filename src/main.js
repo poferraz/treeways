@@ -7,7 +7,6 @@ import { actions } from './core/actions.js';
 import { loadCityManifest } from './data/city-loader.js';
 import { DataWorkerClient } from './data/worker-client.js';
 import { distanceMeters } from './data/spatial-index.js';
-import { maskHasMonth } from './domain/phenology.js';
 import { VANCOUVER_CENTER } from './domain/location.js';
 import { toFeature } from './domain/tree.js';
 import { MapController } from './map/map-controller.js';
@@ -22,6 +21,7 @@ import { OsrmProvider } from './services/routing/osrm-provider.js';
 import { getLocation } from './services/geolocation.js';
 import { createStatusRegion } from './ui/status-region.js';
 import { createConnectivity } from './services/connectivity.js';
+import { classifyGiant } from './domain/giant.js';
 
 const initialState = {
   city: null,
@@ -46,6 +46,8 @@ let manifest;
 let allTrees = [];
 let visibleTrees = [];
 let selectedTree = null;
+let trails;
+let trailExperience;
 let activeView = 'nearby';
 let routeAbort;
 
@@ -148,15 +150,14 @@ function applyFilter(kind) {
   filters.setCount(visibleTrees.length);
   if (selectedTree && !visibleTrees.some(tree => tree.id === selectedTree.id)) clearSelection();
   if (activeView === 'nearby') renderNearby();
-  status.announce(`${visibleTrees.length} curated trees visible. ${kind === 'all' ? 'Filters cleared.' : 'Filters applied.'}`);
+  status.announce(`${visibleTrees.length} tree records visible. ${kind === 'all' ? 'Filters cleared.' : 'Filters applied.'}`);
 }
 
 function matchesFilter(tree, kind, date = new Date()) {
-  const month = date.getMonth() + 1;
-  if (kind === 'edible') return tree.tags.includes('edible') || tree.type === 'fruit' || tree.type === 'both';
-  if (kind === 'blossoms') return tree.tags.includes('blossom') || tree.type === 'flower' || tree.type === 'both';
-  if (kind === 'blooming') return maskHasMonth(tree.bloomMask, month);
-  if (kind === 'harvesting') return maskHasMonth(tree.harvestMask, month);
+  if (kind === 'fruit-families') return ['MALUS', 'PYRUS', 'PRUNUS', 'FICUS'].includes(tree.genus);
+  if (kind === 'flowering-families') return ['PRUNUS', 'MALUS', 'MAGNOLIA', 'CORNUS'].includes(tree.genus);
+  if (kind === 'giants') return classifyGiant(tree).isGiant;
+  if (kind === 'big-trunks') return Number(tree.diameterCm) >= 100;
   return true;
 }
 
@@ -198,6 +199,7 @@ function renderNearby() {
   renderNearbyInspector(shell.inspector, nearby, {
     total: visibleTrees.length,
     onSelect: tree => selectTree(tree.id, tree),
+    onTrails: showTrails,
     onLocate: () => shell.actionsSlot.querySelector('[aria-label="Find trees near my location"]').click(),
     onSources: () => {
       activeView = 'sources';
@@ -206,6 +208,42 @@ function renderNearby() {
     }
   });
   filters?.setCount(visibleTrees.length);
+}
+
+async function showTrails() {
+  const experience = await loadTrailExperience();
+  trails ??= experience.buildTrailSuggestions(allTrees);
+  activeView = 'trails';
+  selectedTree = null;
+  map.select(null);
+  map.setRoute(null);
+  shell.sheet.setSelectionActive(false);
+  shell.sheet.setState('full');
+  experience.renderTrailCatalogue(shell.inspector, trails, {
+    onBack: () => {
+      map.setRoute(null);
+      shell.sheet.setState('peek');
+      renderNearby();
+    },
+    onSelect: showTrail
+  });
+  status.announce(`${trails.length} Treeways trail previews available.`);
+}
+
+function showTrail(trail) {
+  activeView = 'trail';
+  map.showTrail(trailExperience.trailGeometry(trail));
+  shell.sheet.setState('half');
+  trailExperience.renderTrailDetail(shell.inspector, trail, { onBack: showTrails });
+  status.announce(`${trail.name} selected. ${trail.waypoints.length} tree stops. Route order awaits human review.`);
+}
+
+async function loadTrailExperience() {
+  if (!trailExperience) {
+    const [domain, ui] = await Promise.all([import('./domain/trail-suggestions.js'), import('./ui/trail-browser.js')]);
+    trailExperience = { ...domain, ...ui };
+  }
+  return trailExperience;
 }
 
 function withDistance(tree) {
@@ -269,7 +307,7 @@ function updateRouteCapsule() {
 }
 
 function loadingMarkup() {
-  return '<section class="loading-state" role="status"><p class="section-label">Vancouver field guide</p><h1>Loading trees</h1><div class="loading-line"></div><div class="loading-line short"></div><p>Loading map and tree data.</p></section>';
+  return '<section class="loading-state" role="status"><p class="wordmark">Treeways</p><p class="section-label">Vancouver field guide</p><h1>Loading the city canopy</h1><div class="loading-line"></div><div class="loading-line short"></div><p>Preparing public tree records and neighbourhood trails.</p></section>';
 }
 
 start().catch(error => {

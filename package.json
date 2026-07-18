@@ -1,13 +1,13 @@
 {
-  "name": "urban-canopy-engine",
+  "name": "treeways",
   "version": "1.0.0",
-  "description": "A map-first field guide for urban trees.",
+  "description": "Neighbourhood discovery trails through Vancouver's public trees.",
   "type": "module",
   "license": "MIT",
-  "author": "Urban Canopy Engine contributors",
+  "author": "Paulo Ferraz",
   "repository": {
     "type": "git",
-    "url": "https://github.com/poferraz/urban-canopy-engine.git"
+    "url": "https://github.com/poferraz/treeways.git"
   },
   "keywords": [
     "trees",
