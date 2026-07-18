@@ -19,7 +19,7 @@ test('renders the standalone three-pilot human-review artifact', async ({ page }
   await expect(page.locator('svg polyline.route')).toBeVisible();
   await expect(page.getByText('3.6 km', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Approve candidate' })).toBeEnabled();
-  await expect(page.locator('#status')).toContainText('Routed with OpenRouteService');
+  await expect(page.locator('#status')).toContainText('Human reviewed by Paulo on 2026-07-18.');
   await page.screenshot({ path: testInfo.outputPath('grandview-route.png'), fullPage: true });
   await page.locator('.candidate').nth(2).click();
   await expect(page.locator('.candidate[aria-current="true"]')).toContainText('Kitsilano');

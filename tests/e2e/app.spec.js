@@ -10,12 +10,19 @@ test('loads the city pack and lets visitors search and select a tree', async ({ 
   await expect(page.locator('.bottom-sheet')).toHaveAttribute('data-state', 'peek');
 });
 
-test('starts with tree highlights and keeps the broken preview catalogue hidden', async ({ page }) => {
+test('starts with tree highlights and exposes only the three human-reviewed trails', async ({ page }) => {
   await waitForApp(page);
   await expect(page.getByRole('button', { name: 'Show all public trees' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Tree highlights near map centre' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Browse neighbourhood trails' })).toHaveCount(0);
-  await expect(page.locator('.trail-card')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Browse neighbourhood trails' }).click();
+  await expect(page.getByRole('heading', { name: 'Reviewed neighbourhood walks' })).toBeVisible();
+  await expect(page.locator('.trail-card')).toHaveCount(3);
+  await page.getByRole('button', { name: /Cherry blossoms in Mount Pleasant/ }).click();
+  await expect(page.getByRole('heading', { name: 'Cherry blossoms in Mount Pleasant' })).toBeVisible();
+  await expect(page.getByText('6.1 km', { exact: true })).toBeVisible();
+  await expect(page.locator('.trail-detail-meta')).toContainText('5tree-rich areas');
+  await expect(page.getByText('Loop', { exact: true })).toBeVisible();
+  await expect(page.getByText('311 recorded trees across 5 distinct areas. Individual records appear around each area on the map.')).toBeVisible();
 });
 
 test('loads the complete public inventory only when requested', async ({ page }) => {
