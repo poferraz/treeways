@@ -4,36 +4,42 @@ import { scientificName, titleCase } from './format.js';
 export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources, onTrails, highlightMode = false }) {
   root.replaceChildren();
   const intro = document.createElement('section');
-  intro.className = 'orientation-note';
-  const eyebrow = document.createElement('p');
-  eyebrow.className = 'section-label';
-  eyebrow.textContent = 'Treeways · Vancouver';
+  intro.className = 'home-intro';
+  const brand = document.createElement('header');
+  brand.className = 'home-brand';
   const title = document.createElement('h1');
-  title.textContent = 'Find your way through the trees';
-  const copy = document.createElement('p');
-  copy.textContent = seasonalWelcome();
+  title.textContent = 'Treeways';
+  const context = document.createElement('p');
+  context.textContent = `Vancouver tree walks and field guide · ${currentSeason()}`;
+  brand.append(title, context);
+  const actionHeading = document.createElement('h2');
+  actionHeading.className = 'sr-only';
+  actionHeading.textContent = 'Choose how to explore';
   const introActions = document.createElement('div');
-  introActions.className = 'inline-actions';
-  const locate = document.createElement('button');
-  locate.type = 'button';
-  locate.className = 'primary-action';
-  locate.textContent = 'Find trees near me';
-  locate.addEventListener('click', onLocate);
+  introActions.className = 'home-actions';
+  if (onTrails) {
+    introActions.append(homeAction({
+      label: 'Explore 3 trails',
+      detail: 'Reviewed tree walks',
+      className: 'home-action primary',
+      onClick: onTrails
+    }));
+  }
+  introActions.append(homeAction({
+    label: 'Trees near me',
+    detail: 'Use my location',
+    className: 'home-action secondary',
+    onClick: onLocate
+  }));
+  const copy = document.createElement('p');
+  copy.className = 'home-copy';
+  copy.textContent = seasonalWelcome();
   const sources = document.createElement('button');
   sources.type = 'button';
-  sources.className = 'text-button';
-  sources.textContent = 'How data is sourced';
+  sources.className = 'text-button home-source-link';
+  sources.textContent = 'About the tree data';
   sources.addEventListener('click', onSources);
-  if (onTrails) {
-    const trails = document.createElement('button');
-    trails.type = 'button';
-    trails.className = 'secondary-action';
-    trails.textContent = 'Browse neighbourhood trails';
-    trails.addEventListener('click', onTrails);
-    introActions.append(trails);
-  }
-  introActions.append(locate, sources);
-  intro.append(eyebrow, title, copy, introActions);
+  intro.append(brand, actionHeading, introActions, copy, sources);
 
   const nearby = document.createElement('section');
   nearby.id = 'nearby-results';
@@ -44,7 +50,7 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
   const heading = document.createElement('h2');
   heading.textContent = highlightMode ? 'Tree highlights near map centre' : 'Trees near map centre';
   const count = document.createElement('span');
-  count.textContent = highlightMode ? `${total} highlights` : `${total} visible`;
+  count.textContent = highlightMode ? `${formatCount(total)} highlights` : `${formatCount(total)} visible`;
   headingRow.append(heading, count);
   nearby.append(headingRow);
 
@@ -66,12 +72,43 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
   root.append(intro, nearby);
 }
 
+function homeAction({ label, detail, className, onClick }) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = className;
+  const copy = document.createElement('span');
+  const title = document.createElement('strong');
+  title.textContent = label;
+  const description = document.createElement('small');
+  description.textContent = detail;
+  copy.append(title, description);
+  const arrow = document.createElement('span');
+  arrow.className = 'home-action-arrow';
+  arrow.textContent = '→';
+  arrow.setAttribute('aria-hidden', 'true');
+  button.append(copy, arrow);
+  button.addEventListener('click', onClick);
+  return button;
+}
+
 function seasonalWelcome(date = new Date()) {
   const month = date.getMonth() + 1;
   if (month >= 6 && month <= 8) return 'Summer is a good time to notice canopy shape, shade, and fruit-tree forms. Start with a neighbourhood trail or explore what is near you.';
   if (month >= 9 && month <= 11) return 'Autumn changes the city block by block. Compare maples, fruit-tree families, and measured giants on a neighbourhood trail.';
   if (month >= 3 && month <= 5) return 'Flowering-tree season moves quickly. Compare cherries, plums, magnolias, and dogwoods while noting that timing varies by tree.';
   return 'Winter makes bark, branching, and evergreen form easier to notice. Start with a neighbourhood trail or explore nearby records.';
+}
+
+function currentSeason(date = new Date()) {
+  const month = date.getMonth() + 1;
+  if (month >= 6 && month <= 8) return 'Summer';
+  if (month >= 9 && month <= 11) return 'Autumn';
+  if (month >= 3 && month <= 5) return 'Spring';
+  return 'Winter';
+}
+
+function formatCount(value) {
+  return new Intl.NumberFormat('en-CA').format(value);
 }
 
 export function renderTreeInspector(root, tree, { onRoute, routeStopIndex }) {

@@ -75,6 +75,7 @@ async function start() {
     onMove: () => activeView === 'nearby' && renderNearby()
   });
   map.setTrees(allTrees.map(toFeature));
+  updateInventoryToggle();
 
   const search = createSearch({
     search: async query => {
@@ -196,7 +197,7 @@ function clearSelection() {
   selectedTree = null;
   activeView = 'nearby';
   store.dispatch(actions.selectTree(null));
-  map.select(null);
+  restoreMapOverview();
   shell.sheet.setSelectionActive(false);
   shell.sheet.setState('peek');
   renderNearby();
@@ -225,14 +226,12 @@ async function showTrails() {
   if (!trails.length) return;
   activeView = 'trails';
   selectedTree = null;
-  map.select(null);
-  map.setRoute(null);
-  map.setTrees(visibleTrees.map(toFeature));
+  restoreMapOverview();
   shell.sheet.setSelectionActive(false);
   shell.sheet.setState('full');
   experience.renderTrailCatalogue(shell.inspector, trails, {
     onBack: () => {
-      map.setRoute(null);
+      restoreMapOverview();
       shell.sheet.setState('peek');
       renderNearby();
     },
@@ -243,6 +242,7 @@ async function showTrails() {
 
 function showTrail(trail) {
   activeView = 'trail';
+  shell.map.dataset.view = 'trail';
   const trailTreeIds = new Set(trail.clusterStops.flatMap(stop => stop.memberTreeIds));
   const sourceTrees = inventoryMode === 'all' ? allTrees : highlightTrees;
   map.setTrees(sourceTrees.filter(tree => trailTreeIds.has(tree.id)).map(toFeature));
@@ -250,6 +250,13 @@ function showTrail(trail) {
   shell.sheet.setState('half');
   trailExperience.renderTrailDetail(shell.inspector, trail, { onBack: showTrails });
   status.announce(`${trail.name} selected. ${trail.clusterStops.length} tree-rich area stops.`);
+}
+
+function restoreMapOverview() {
+  shell.map.dataset.view = 'overview';
+  map.select(null);
+  map.setRoute(null);
+  map.setTrees(visibleTrees.map(toFeature));
 }
 
 async function loadTrailExperience() {
@@ -276,8 +283,7 @@ async function setInventoryMode(mode) {
   const sourceTrees = mode === 'all' ? allTrees : highlightTrees;
   visibleTrees = sourceTrees.filter(tree => matchesFilter(tree, store.getState().filters.kind));
   map.setTrees(visibleTrees.map(toFeature));
-  shell.inventoryToggle.textContent = mode === 'all' ? 'Show tree highlights' : 'Show all public trees';
-  shell.inventoryToggle.setAttribute('aria-pressed', String(mode === 'all'));
+  updateInventoryToggle();
   filters?.setCount(visibleTrees.length);
   if (activeView === 'nearby') renderNearby();
 }
@@ -286,8 +292,8 @@ async function ensureFullInventory() {
   if (fullInventoryLoaded) return;
   if (inventoryLoad) return inventoryLoad;
   shell.inventoryToggle.disabled = true;
-  shell.inventoryToggle.textContent = 'Loading public trees';
   shell.inventoryToggle.setAttribute('aria-busy', 'true');
+  updateInventoryToggle({ loading: true });
   inventoryLoad = (async () => {
     const completePack = await worker.loadCity(manifest.data.pack);
     allTrees = await worker.queryBounds(manifest.bounds);
@@ -300,8 +306,26 @@ async function ensureFullInventory() {
     inventoryLoad = null;
     shell.inventoryToggle.disabled = false;
     shell.inventoryToggle.removeAttribute('aria-busy');
-    shell.inventoryToggle.textContent = inventoryMode === 'all' ? 'Show tree highlights' : 'Show all public trees';
+    updateInventoryToggle();
   }
+}
+
+function updateInventoryToggle({ loading = false } = {}) {
+  const enabled = inventoryMode === 'all';
+  shell.inventoryToggle.setAttribute('aria-checked', String(enabled));
+  const inventoryStatus = shell.inventoryToggle.querySelector('.inventory-toggle-status');
+  if (loading) {
+    inventoryStatus.textContent = 'Loading complete inventory';
+    return;
+  }
+  const count = enabled ? allTrees.length : highlightTrees.length;
+  inventoryStatus.textContent = enabled
+    ? `${formatCount(count)} records shown`
+    : `${formatCount(count)} highlights shown`;
+}
+
+function formatCount(value) {
+  return new Intl.NumberFormat('en-CA').format(value);
 }
 
 function withDistance(tree) {

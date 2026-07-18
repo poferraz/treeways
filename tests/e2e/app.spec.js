@@ -3,7 +3,7 @@ import { selectFirstSearchResult, selectFirstSearchResultByKeyboard, waitForApp 
 
 test('loads the city pack and lets visitors search and select a tree', async ({ page }) => {
   await waitForApp(page);
-  await expect(page.getByRole('heading', { name: 'Find your way through the trees' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Treeways' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Tree highlights near map centre' })).toBeVisible();
   await selectFirstSearchResult(page);
   await expect(page.getByRole('button', { name: 'Add to route' })).toBeVisible();
@@ -12,9 +12,12 @@ test('loads the city pack and lets visitors search and select a tree', async ({ 
 
 test('starts with tree highlights and exposes only the three human-reviewed trails', async ({ page }) => {
   await waitForApp(page);
-  await expect(page.getByRole('button', { name: 'Show all public trees' })).toBeVisible();
+  const inventorySwitch = page.getByRole('switch', { name: 'All public trees' });
+  await expect(inventorySwitch).toBeVisible();
+  await expect(inventorySwitch).toHaveAttribute('aria-checked', 'false');
+  await expect(inventorySwitch).toContainText('4,534 highlights shown');
   await expect(page.getByRole('heading', { name: 'Tree highlights near map centre' })).toBeVisible();
-  await page.getByRole('button', { name: 'Browse neighbourhood trails' }).click();
+  await page.getByRole('button', { name: 'Explore 3 trails' }).click();
   await expect(page.getByRole('heading', { name: 'Reviewed neighbourhood walks' })).toBeVisible();
   await expect(page.locator('.trail-card')).toHaveCount(3);
   await page.getByRole('button', { name: /Cherry blossoms in Mount Pleasant/ }).click();
@@ -23,15 +26,22 @@ test('starts with tree highlights and exposes only the three human-reviewed trai
   await expect(page.locator('.trail-detail-meta')).toContainText('5tree-rich areas');
   await expect(page.getByText('Loop', { exact: true })).toBeVisible();
   await expect(page.getByText('311 recorded trees across 5 distinct areas. Individual records appear around each area on the map.')).toBeVisible();
+  await page.getByRole('button', { name: 'All trails' }).click();
+  await page.getByRole('button', { name: 'Back to nearby trees' }).click();
+  await expect(page.getByRole('heading', { name: 'Tree highlights near map centre' })).toBeVisible();
+  await expect(inventorySwitch).toHaveAttribute('aria-checked', 'false');
+  await expect(page.locator('#map')).toHaveAttribute('data-view', 'overview');
 });
 
 test('loads the complete public inventory only when requested', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await waitForApp(page);
-  await page.getByRole('button', { name: 'Show all public trees' }).click();
-  await expect(page.getByText('185307 visible')).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByRole('button', { name: 'Show tree highlights' })).toBeVisible();
-  await page.getByRole('button', { name: 'Show tree highlights' }).click();
+  const inventorySwitch = page.getByRole('switch', { name: 'All public trees' });
+  await inventorySwitch.click();
+  await expect(inventorySwitch).toHaveAttribute('aria-checked', 'true', { timeout: 20_000 });
+  await expect(inventorySwitch).toContainText('185,307 records shown');
+  await inventorySwitch.click();
+  await expect(inventorySwitch).toHaveAttribute('aria-checked', 'false');
   await expect(page.getByRole('heading', { name: 'Tree highlights near map centre' })).toBeVisible();
 });
 
@@ -49,13 +59,13 @@ test('supports keyboard search selection and returns focus after escape', async 
 
 test('filters change the visible result set and keep a reset path', async ({ page }) => {
   await waitForApp(page);
-  await expect(page.getByText('185307 visible')).toHaveCount(0);
+  await expect(page.getByText('185,307 visible')).toHaveCount(0);
   await page.getByRole('button', { name: 'Filters', exact: true }).click();
   await page.getByRole('button', { name: 'Fruit families', exact: true }).click();
   await expect(page.locator('[aria-live="polite"]')).toContainText(/tree records visible.*Filters applied/);
-  await expect(page.getByText('185307 visible')).toBeHidden();
+  await expect(page.getByText('185,307 visible')).toBeHidden();
   await page.getByRole('button', { name: 'Clear filters' }).click();
-  await expect(page.getByText('185307 visible')).toBeVisible();
+  await expect(page.getByText('185,307 visible')).toBeVisible();
 });
 
 test('builds an ordered stop list and hands it to external walking directions', async ({ page }) => {

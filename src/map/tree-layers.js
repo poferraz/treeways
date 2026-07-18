@@ -5,8 +5,8 @@ export function addTreeLayers(map) {
     type: 'geojson',
     data: EMPTY,
     cluster: true,
-    clusterMaxZoom: 14,
-    clusterRadius: 48
+    clusterMaxZoom: 13,
+    clusterRadius: 34
   });
 
   map.addLayer({
@@ -60,4 +60,12 @@ export function addTreeLayers(map) {
 
 export function setTreeData(map, features) {
   map.getSource('trees')?.setData({ type: 'FeatureCollection', features });
+}
+
+export function setTreeDataWhenReady(map, features) {
+  if (map.getSource('trees')) {
+    setTreeData(map, features);
+    return;
+  }
+  map.once('load', () => setTreeData(map, features));
 }
