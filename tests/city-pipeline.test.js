@@ -7,7 +7,7 @@ import { vancouverAdapter } from '../scripts/city/adapters/vancouver.js';
 import foodSitesFixture from './fixtures/city/vancouver-food-sites.json';
 import { vancouverFoodSitesAdapter } from '../scripts/city/adapters/vancouver-food-sites.js';
 import { decodeTreePack } from '../src/data/tree-pack.js';
-import { composeCityArtifact } from '../scripts/city/build-pack.js';
+import { composeCityArtifact, composeHighlightArtifact } from '../scripts/city/build-pack.js';
 import { jsonBytes, sha256, writePinnedSnapshot } from '../scripts/city/pipeline.js';
 import { createPmtilesCandidate, toEligibleGeoJsonFeatures, validateBenchmarkReport, verifyFilterCorrectClustering } from '../scripts/city/benchmark-backends.js';
 import { decodePmtiles } from '../scripts/city/pmtiles.js';
@@ -61,6 +61,27 @@ describe('Vancouver city pipeline', () => {
     expect(artifact.foodSites).toHaveLength(1);
   });
 
+  it('builds a small startup pack from deterministic highlights and keeps reviewed trail members available', () => {
+    const normalized = {
+      schemaVersion: 2, sourceSnapshot: { id: 'snapshot' }, evidence: { schemaVersion: 1, sources: [], records: [] },
+      species: [{ commonName: 'Test' }],
+      trees: [
+        ['highlight', 49.2, -123.1, 0, null, null, null, null, 'highlight'],
+        ['trail-member', 49.21, -123.11, 0, null, null, null, null, 'trail-member'],
+        ['background', 49.22, -123.12, 0, null, null, null, null, 'background']
+      ],
+      treeMeasurements: {},
+      trails: [{ id: 'reviewed', clusterStops: [{ memberTreeIds: ['trail-member'] }] }],
+      trailMembership: { 'trail-member': ['reviewed'] }
+    };
+    const full = composeCityArtifact(normalized, { sourceSnapshot: {}, foodSites: [] }, 'v2.1.0');
+    const highlights = composeHighlightArtifact(full, { method: 'density-areas-and-recorded-size', treeIds: ['highlight'], densityAreas: [], criteria: {} });
+    expect(highlights.trees.map(tree => tree[0])).toEqual(['highlight', 'trail-member']);
+    expect(highlights.trails).toEqual(full.trails);
+    expect(highlights.highlightSelection).toMatchObject({ method: 'density-areas-and-recorded-size', treeCount: 2 });
+    expect(highlights.trees).toHaveLength(2);
+  });
+
   it('writes pinned gzip snapshots and artifact checksums deterministically', async () => {
     const directory = await mkdtemp(join(tmpdir(), 'city-pipeline-'));
     const snapshotPath = join(directory, 'snapshot.json.gz');
@@ -96,45 +117,95 @@ describe('Vancouver city pipeline', () => {
     expect(() => validateBenchmarkReport({ ...report, artifact: { ...report.artifact, sha256: 'stale' } }, { artifactPath: 'artifact.json', artifactBytes, trees, foodSites: [] })).toThrow('Benchmark report drift');
   });
 
-  it('generates byte-stable, measurement-only giant candidate packets without seasonal or forage candidates', () => {
-    const trees = [['g2', 49.21, -123.11, 0, 21, 50, null, null, 'g2'], ['small', 49.22, -123.12, 0, 10, 50, null, null, 'small'], ['g1', 49.20, -123.10, 0, 24, 20, null, null, 'g1']];
-    const input = { city: 'vancouver', sourceArtifact: { city: 'vancouver', sha256: 'artifact', sourceSnapshotSha256: 'snapshot' }, trees };
+  it('keeps generated cluster pilots explicitly separate from reviewed trails', () => {
+    const trees = clusterTrees();
+    const input = {
+      city: 'vancouver',
+      sourceArtifact: { city: 'vancouver', sha256: 'artifact', sourceSnapshotSha256: 'snapshot' },
+      species: [{ commonName: 'KWANZAN FLOWERING CHERRY', genus: 'PRUNUS', species: 'SERRULATA' }],
+      trees
+    };
     const first = generateCandidateReviewPacket(input);
     const second = generateCandidateReviewPacket(input);
     expect(JSON.stringify(first)).toBe(JSON.stringify(second));
-    expect(first.status).toBe('NOT HUMAN REVIEWED');
-    expect(first.unsupportedThemeCandidates).toEqual({ season: [], forage: [] });
-    expect(first.candidates).toHaveLength(2);
-    expect(first.candidates.every(candidate => candidate.theme === 'giant-measurements' && candidate.proposedOrder.includes('not pedestrian routing') && candidate.distance.notWalkingDistance)).toBe(true);
-    expect(first.candidates.flatMap(candidate => candidate.waypointTreeIds).sort()).toEqual(['g1', 'g2']);
-    expect(first.candidates[0].valueScore.components[0]).toHaveProperty('heightM');
+    expect(first).toMatchObject({ schemaVersion: 2, status: 'NOT HUMAN REVIEWED' });
+    expect(first.candidates).toHaveLength(1);
+    expect(first.candidates.every(candidate => candidate.status === 'NOT HUMAN REVIEWED' && candidate.clusterStops.length >= 3)).toBe(true);
+    expect(first.candidates.every(candidate => candidate.review == null)).toBe(true);
   });
 
-  it('compiles only human-reviewed, bounded waypoint records and builds exact reverse membership', () => {
-    const trees = [['a', 49.2, -123.1, 0, 21, null, null, null, 'a'], ['b', 49.21, -123.11, 0, 22, null, null, null, 'b']];
-    const context = { cityId: 'vancouver', sourceSnapshotSha256: 'snapshot', candidateGeneratorVersion: 'm3-a-giant-measurements-v1', trees, bounds: [-123.3, 49.18, -122.9, 49.35] };
-    const trail = { id: 'reviewed-waypoints', cityId: 'vancouver', name: 'Approved waypoint sequence', waypointTreeIds: ['a', 'b'], exportAnchors: [{ treeId: 'a', latitude: 49.2, longitude: -123.1 }, { treeId: 'b', latitude: 49.21, longitude: -123.11 }], narrative: 'A reviewed sequence of waypoints.', accessibilityNotes: 'unknown', pedestrianPlausibility: 'unknown', review: { status: 'human-reviewed', reviewer: 'Alicia', reviewedAt: '2026-07-12' }, candidateId: 'candidate-a', candidateGeneratorVersion: 'm3-a-giant-measurements-v1', sourceSnapshotSha256: 'snapshot', caveats: [] };
-    const source = { schemaVersion: 1, cityId: 'vancouver', sourceSnapshotSha256: 'snapshot', candidateGeneratorVersion: 'm3-a-giant-measurements-v1', trails: [trail] };
+  it('compiles only reviewed cluster trails and maps every member tree back to the trail', () => {
+    const trees = clusterTrees();
+    const context = trailContext(trees);
+    const trail = reviewedClusterTrail(trees);
+    const source = reviewedSource(trail);
     const compiled = compileReviewedTrails(source, context);
     expect(compiled.trails).toHaveLength(1);
-    expect(compiled.trailMembership).toEqual({ a: ['reviewed-waypoints'], b: ['reviewed-waypoints'] });
+    expect(Object.keys(compiled.trailMembership)).toHaveLength(24);
+    expect(compiled.trailMembership['a-0']).toEqual(['mount-pleasant-cherry-blossoms']);
+    expect(compiled.trails[0]).toMatchObject({ neighbourhoodName: 'Mount Pleasant', mode: 'walking', shape: 'point-to-point', size: 'small' });
     expect(JSON.stringify(compileReviewedTrails(source, context))).toBe(JSON.stringify(compiled));
-    expect(() => validateTrailMembership(compiled.trails, { a: ['missing'] }, new Set(['a', 'b']), context.bounds)).toThrow('exactly');
+    expect(() => validateTrailMembership(compiled.trails, { 'a-0': ['missing'] }, new Set(trees.map(tree => tree[0])), context.bounds)).toThrow('exactly');
   });
 
-  it('rejects candidate-like, self-reviewed, unsafe, malformed, and orphan trail source records', () => {
-    const trees = [['a', 49.2, -123.1, 0, 21, null, null, null, 'a'], ['b', 49.21, -123.11, 0, 22, null, null, null, 'b']];
-    const context = { cityId: 'vancouver', sourceSnapshotSha256: 'snapshot', candidateGeneratorVersion: 'm3-a-giant-measurements-v1', trees, bounds: [-123.3, 49.18, -122.9, 49.35] };
-    const base = { id: 'candidate-raw', cityId: 'vancouver', name: 'Name', waypointTreeIds: ['a', 'b'], exportAnchors: [{ treeId: 'a', latitude: 49.2, longitude: -123.1 }, { treeId: 'b', latitude: 49.21, longitude: -123.11 }], narrative: 'Waypoint sequence.', accessibilityNotes: 'unknown', pedestrianPlausibility: 'unknown', review: { status: 'human-reviewed', reviewer: 'Human', reviewedAt: '2026-07-12' }, candidateId: 'candidate-a', candidateGeneratorVersion: 'm3-a-giant-measurements-v1', sourceSnapshotSha256: 'snapshot', caveats: [] };
-    const source = trail => ({ schemaVersion: 1, cityId: 'vancouver', sourceSnapshotSha256: 'snapshot', candidateGeneratorVersion: 'm3-a-giant-measurements-v1', trails: [trail] });
+  it('rejects unreviewed, unsafe, malformed, non-pedestrian, and orphan cluster trails', () => {
+    const trees = clusterTrees();
+    const context = trailContext(trees);
+    const base = reviewedClusterTrail(trees);
+    const source = trail => reviewedSource(trail);
     expect(() => compileReviewedTrails(source({ ...base, review: { ...base.review, reviewer: 'AI Agent' } }), context)).toThrow('human review');
     expect(() => compileReviewedTrails(source({ ...base, narrative: 'A safe walking route.' }), context)).toThrow('unsupported');
-    expect(() => compileReviewedTrails(source({ ...base, waypointTreeIds: ['a', 'missing'] }), context)).toThrow('missing tree');
-    expect(() => compileReviewedTrails(source({ ...base, exportAnchors: [{ ...base.exportAnchors[0], latitude: 1 }, base.exportAnchors[1]] }), context)).toThrow('malformed');
+    expect(() => compileReviewedTrails(source({ ...base, route: { ...base.route, provenance: { ...base.route.provenance, profile: 'driving-car' } } }), context)).toThrow('foot-walking');
+    expect(() => compileReviewedTrails(source({ ...base, clusterStops: [{ ...base.clusterStops[0], memberTreeIds: [...base.clusterStops[0].memberTreeIds.slice(0, -1), 'missing'] }, ...base.clusterStops.slice(1)] }), context)).toThrow('missing tree');
+    expect(() => compileReviewedTrails(source({ ...base, clusterStops: [{ ...base.clusterStops[0], anchor: { ...base.clusterStops[0].anchor, latitude: 1 } }, ...base.clusterStops.slice(1)] }), context)).toThrow('anchor');
     expect(() => compileReviewedTrails({ ...source(base), trails: [base, { ...base }] }, context)).toThrow('unique IDs');
-    expect(() => compileReviewedTrails(source({ ...base, waypointTreeIds: Array.from({ length: 21 }, (_, index) => `tree-${index}`) }), context)).toThrow('waypoint order');
-    const candidate = generateCandidateReviewPacket({ city: 'vancouver', sourceArtifact: { city: 'vancouver', sha256: 'artifact', sourceSnapshotSha256: 'snapshot' }, trees }).candidates[0];
-    expect(() => compileReviewedTrails(source(candidate), context)).toThrow('human review');
-    expect(compileReviewedTrails({ schemaVersion: 1, trails: [] }, context)).toEqual({ trails: [], trailMembership: {} });
+    expect(compileReviewedTrails({ schemaVersion: 2, trails: [] }, context)).toEqual({ trails: [], trailMembership: {} });
   });
 });
+
+function clusterTrees() {
+  const origins = [[49.2635, -123.105], [49.2635, -123.101], [49.2635, -123.097]];
+  return origins.flatMap(([latitude, longitude], clusterIndex) => Array.from({ length: 8 }, (_, treeIndex) => {
+    const id = `${String.fromCharCode(97 + clusterIndex)}-${treeIndex}`;
+    return [id, latitude + treeIndex * 0.00001, longitude, 0, 21, 50, null, `${100 + clusterIndex * 100} E 10TH AV`, id];
+  }));
+}
+
+function trailContext(trees) {
+  return { cityId: 'vancouver', sourceSnapshotSha256: 'snapshot', candidateGeneratorVersion: 'treeways-density-clusters-v1', trees, bounds: [-123.3, 49.18, -122.9, 49.35] };
+}
+
+function reviewedSource(trail) {
+  return { schemaVersion: 2, cityId: 'vancouver', sourceSnapshotSha256: 'snapshot', candidateGeneratorVersion: 'treeways-density-clusters-v1', trails: [trail] };
+}
+
+function reviewedClusterTrail(trees) {
+  const clusterStops = ['a', 'b', 'c'].map((prefix, clusterIndex) => {
+    const members = trees.filter(tree => String(tree[0]).startsWith(`${prefix}-`));
+    const anchor = members[0];
+    return {
+      id: `cluster-${prefix}`,
+      locationLabel: `${100 + clusterIndex * 100} block of East 10th Avenue`,
+      radiusM: 70,
+      anchor: { treeId: anchor[0], latitude: anchor[1], longitude: anchor[2] },
+      memberTreeIds: members.map(tree => tree[0]),
+      themeTreeIds: members.slice(0, 3).map(tree => tree[0]),
+      totalTreeCount: 8,
+      themeTreeCount: 3,
+      diversityCount: 1
+    };
+  });
+  return {
+    id: 'mount-pleasant-cherry-blossoms', cityId: 'vancouver', name: 'Cherry blossoms around East 10th Avenue', neighbourhoodName: 'Mount Pleasant',
+    theme: { id: 'cherry-blossoms', displayName: 'Cherry blossoms' }, size: 'small', mode: 'walking', shape: 'point-to-point',
+    clusterStops,
+    route: {
+      anchorOrder: ['cluster-a', 'cluster-b', 'cluster-c'],
+      geometry: { type: 'LineString', coordinates: [[-123.12, 49.25], [-123.115, 49.252], [-123.11, 49.254]] },
+      distanceM: 1800, durationSeconds: 1300, legDistancesM: [900, 900], snappedDistancesM: [4, 5, 3],
+      provenance: { provider: 'openrouteservice', profile: 'foot-walking', engineVersion: '9.9.0', graphDate: '2026-07-01', generatedAt: '2026-07-18T20:00:00.000Z', attribution: '© openrouteservice.org by HeiGIT | Map data © OpenStreetMap contributors', resultLicense: 'CC-BY-4.0' }
+    },
+    narrative: 'Three tree-rich areas with recorded cherry relatives.', accessibilityNotes: 'unknown', pedestrianPlausibility: 'unknown', safetyNotes: 'unknown', rightOfAccess: 'unknown', liveConditions: 'unknown',
+    review: { status: 'human-reviewed', reviewer: 'Alicia', reviewedAt: '2026-07-18' }, candidateId: 'candidate-a', candidateGeneratorVersion: 'treeways-density-clusters-v1', sourceSnapshotSha256: 'snapshot', caveats: []
+  };
+}

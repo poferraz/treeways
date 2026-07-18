@@ -15,4 +15,6 @@ data/cities/vancouver/*
 !data/cities/vancouver/trails-review.json
 !data/cities/vancouver/evidence-registry.json
 !data/cities/vancouver/rejection-summary.json
+!data/cities/vancouver/trail-pilots.json
+!data/cities/vancouver/trail-pilots-routed.json
 .vercel

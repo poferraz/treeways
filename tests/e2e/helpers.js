@@ -3,6 +3,7 @@ import { expect } from '@playwright/test';
 export async function waitForApp(page) {
   await page.goto('/');
   await expect(page.getByRole('combobox', { name: 'Search trees' })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('button', { name: 'Show all public trees' })).toBeVisible();
 }
 
 export async function selectFirstSearchResult(page, query = 'apple') {

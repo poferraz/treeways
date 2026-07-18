@@ -11,7 +11,7 @@ Deadline: Tuesday, July 21, 2026 at 5:00 PM Pacific.
 - [x] MIT code licence and City data attribution
 - [x] Before/after Build Week ledger in `BUILD_WEEK.md`
 - [x] Production Vercel URL recorded in README: <https://treeways.vercel.app>
-- [ ] Paulo completes route review and chooses preview vs reviewed launch wording
+- [ ] Paulo routes and reviews the three pilots; unreviewed catalogue remains hidden
 - [ ] Name-clearance decision for `Treeways` recorded before submission
 
 ## Devpost entry
@@ -29,7 +29,7 @@ Deadline: Tuesday, July 21, 2026 at 5:00 PM Pacific.
 - [ ] Voiceover identifies the problem and target user
 - [ ] Show seasonal welcome and complete Vancouver map
 - [ ] Open a neighbourhood trail and explain size/theme
-- [ ] Show ordered stops and walking/driving handoffs
+- [ ] Show tree-rich areas, routed walking distance, and the walking handoff
 - [ ] Show search, a measured giant, and the evidence caveat
 - [ ] Explain what was pre-existing vs built during Build Week
 - [ ] Explain how Codex/GPT-5.6 accelerated implementation

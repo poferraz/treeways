@@ -1,58 +1,63 @@
-# M3-B trail review
+# Three-pilot trail review
 
-**Status:** awaiting human review. M3-A (candidate generation) is committed at `f73589c`. The compiler at `src/domain/trails.js` enforces the M3 gate (no AI in the reviewer field, `accessibilityNotes` / `pedestrianPlausibility` must be the literal string `unknown`, narrative cannot mention walkable/safe/accessible/etc.).
+**Status:** all three pilots are routed; no pilot is human reviewed or published.
 
-## What's here
+Treeways now starts with three density-first pilot areas:
 
-- `review-tool.html` — single-file interactive map for reviewing the 25 candidates. Double-click to open in a browser.
-- The candidate packet is embedded directly into the HTML so the tool works offline-from-the-repo (you still need internet for the OSM basemap tiles).
+- Mount Pleasant — Cherry blossoms
+- Grandview-Woodland — Fruit-tree families
+- Kitsilano — Maples
 
-## How to use
+Each candidate has three to five distinct tree-rich areas. Overall public-tree
+density determines which areas qualify; the friendly theme name is a highlight,
+not the primary selection rule.
 
-1. Open `docs/m3-b/review-tool.html` in a browser.
-2. Click a candidate in the left sidebar — the map flies to the cell and highlights the waypoint trees + the proposed nearest-neighbour order (dashed line).
-3. Fill in the approval form at the bottom:
-   - **Name** — short, location-based, your voice.
-   - **Narrative** — waypoint-oriented description of the trees, grounded in the measured facts. The form will block approval if the narrative uses any of these words: *accessible, safe, walkable, walking route, pedestrian-safe, permission, edible, bloom, harvest*.
-   - **Reviewer** — your name. The form will block approval if it contains *ai, agent, or model* (the gate regex).
-   - **Reviewed date** — pre-filled with today.
-   - **Accessibility / pedestrian plausibility** — leave as the literal `unknown` (the gate enforces this).
-4. Click **Approve & save draft**. The candidate gets a green badge in the sidebar.
-5. Repeat for any other candidates you want to publish. Reject the rest.
-6. Click **Download reviewed.json**. Save the file to `data/cities/vancouver/trails-review.json` (overwrite the empty stub there).
-7. Run `npm run city:validate`. If it passes, M3-B is complete and the public artifact gets `trails` + `trailMembership` populated.
+## Rebuild the review artifact
 
-## What the gate checks (cheat sheet)
+1. Add `OPENROUTESERVICE_API_KEY` to `.env.local`.
+2. Run `npm run city:route-pilots` when the candidates or ORS graph changes. This snaps the area anchors, calculates a
+   walking-distance matrix, chooses a loop or point-to-point order, requests the
+   routed geometry, records the actual distance and ORS provenance, validates
+   route quality, and rebuilds `review-tool.html`.
+3. Open `docs/m3-b/review-tool.html` directly in a browser.
 
-The compiler at `src/domain/trails.js::validateTrail()` enforces, per reviewed trail:
+The review tool works as a standalone file. It shows every cluster member tree,
+theme matches, area counts, routed path, ordered stops, distance, and provenance.
 
-| Field | Requirement |
-|---|---|
-| `id` | unique, non-empty |
-| `name` | non-empty, human-authored |
-| `cityId` | must match the city being built (vancouver) |
-| `sourceSnapshotSha256` | must match the current snapshot hash (regenerates after `npm run city:refresh`) |
-| `candidateGeneratorVersion` | must match `m3-a-giant-measurements-v1` (current) |
-| `review.status` | literal string `human-reviewed` |
-| `review.reviewer` | non-empty, no `ai`/`agent`/`model` |
-| `review.reviewedAt` | non-empty ISO date |
-| `waypointTreeIds` | 2–20 entries, unique, all must exist in the tree inventory |
-| `exportAnchors` | 2–5 entries, each `treeId` must be in `waypointTreeIds`, lat/lng must match the tree's exact WGS84 coordinates |
-| `narrative` | non-empty, no forbidden words (see above) |
-| `accessibilityNotes` | literal string `unknown` |
-| `pedestrianPlausibility` | literal string `unknown` |
+Current routed results:
 
-If the snapshot SHA changes between the candidate packet and your reviewed file, you must re-validate: open the regenerated `data/cities/vancouver/reports/trail-candidates.json`, copy the new `sourceSnapshotSha256` into your reviewed file.
+- Mount Pleasant / Cherry blossoms — 6.1 km loop, large
+- Grandview-Woodland / Fruit-tree families — 3.6 km point-to-point, medium
+- Kitsilano / Maples — 3.3 km point-to-point, medium
 
-## Refreshing the candidate packet
+## Human review
 
-```bash
-npm run city:refresh      # rebuilds snapshot + artifact + candidate packet
-npm run city:validate     # re-runs all gates
-```
+For each pilot, Paulo must inspect cluster membership, path shape, area order,
+name, narrative, and limitations. Approving requires an identified human reviewer
+and an ISO review date. Accessibility, pedestrian plausibility, safety, right of
+access, and live conditions remain the literal value `unknown`.
 
-The tool's embedded data is a one-time snapshot from `data/cities/vancouver/reports/trail-candidates.json`. If you regenerate it, re-run the injection step:
+Download `reviewed.json`, inspect it, then save it as
+`data/cities/vancouver/trails-review.json`. Run `npm run city:build` and
+`npm run city:validate`. Only trails that pass the schema-v2 compiler enter the
+public city artifact and catalogue.
 
-```bash
-node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('data/cities/vancouver/reports/trail-candidates.json','utf8'));const h=fs.readFileSync('docs/m3-b/review-tool.html','utf8');const d=JSON.stringify(p,null,2).replace(/<\//g,'<\\\\/');fs.writeFileSync('docs/m3-b/review-tool.html',h.replace(/<script type=\"application\/json\" id=\"candidate-data\">[\s\S]*?<\/script>/,'<script type=\"application/json\" id=\"candidate-data\">'+d+'</script>'));"
-```
+Generated or merely routed candidates are never published automatically.
+
+## Compiler requirements
+
+The release gate verifies:
+
+- three to five unique cluster stops;
+- 60–75 m cluster radii, at least eight trees per area, and at least three theme
+  matches;
+- no repeated member tree across areas;
+- exact City-record anchor coordinates;
+- loop or point-to-point anchor order matching the clusters;
+- OpenRouteService `foot-walking` geometry, actual distance and duration;
+- anchor snap no greater than 40 m, legs no greater than 2 km, and limited
+  repeated geometry;
+- source snapshot and generator provenance;
+- identified human reviewer and review date;
+- no unsupported safety, access, accessibility, condition, bloom, harvest, or
+  edibility claims.

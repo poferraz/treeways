@@ -1,47 +1,92 @@
-import { createHash } from 'node:crypto';
-import { classifyGiant } from '../../src/domain/giant.js';
+import { buildDensityClusters, selectTrailClusters, THEMES, CLUSTER_DEFAULTS } from '../../src/domain/trail-clusters.js';
 
-export const CANDIDATE_GENERATOR_VERSION = 'm3-a-giant-measurements-v1';
-const CELL_SIZE = 0.02;
-const MAX_GROUPS = 25;
-const MAX_WAYPOINTS = 5;
+export const CANDIDATE_GENERATOR_VERSION = 'treeways-density-clusters-v1';
 
-export function generateCandidateReviewPacket({ city, sourceArtifact, trees }) {
-  const groups = new Map();
-  for (const tuple of trees) {
-    const [id, latitude, longitude, , heightM, diameterCm, canopySpreadM] = tuple;
-    const giant = classifyGiant({ heightM, canopySpreadM });
-    if (!giant.isGiant) continue;
-    const cell = `${Math.floor(Number(latitude) / CELL_SIZE)}:${Math.floor(Number(longitude) / CELL_SIZE)}`;
-    const score = measurementScore(heightM, diameterCm, canopySpreadM);
-    (groups.get(cell) ?? groups.set(cell, []).get(cell)).push({ id: String(id), latitude: Number(latitude), longitude: Number(longitude), heightM, diameterCm, canopySpreadM, giantReasons: giant.reasons, score });
-  }
-  const candidates = [...groups.entries()].map(([cell, members]) => candidateForCell(city, sourceArtifact, cell, members)).sort((a, b) => b.valueScore.total - a.valueScore.total || a.id.localeCompare(b.id)).slice(0, MAX_GROUPS).sort((a, b) => a.id.localeCompare(b.id));
+const PILOT_AREAS = Object.freeze([
+  { id: 'mount-pleasant', name: 'Mount Pleasant', themeId: 'cherry-blossoms', bounds: [-123.117, 49.256, -123.077, 49.272] },
+  { id: 'grandview-woodland', name: 'Grandview-Woodland', themeId: 'fruit-tree-families', bounds: [-123.078, 49.262, -123.052, 49.293] },
+  { id: 'kitsilano', name: 'Kitsilano', themeId: 'maples', bounds: [-123.185, 49.257, -123.145, 49.28] }
+]);
+
+const PILOT_THEMES = Object.freeze([
+  THEMES.cherryBlossoms,
+  THEMES.maples,
+  THEMES.fruitTreeFamilies,
+  THEMES.recordedSize
+]);
+
+export function generateCandidateReviewPacket({ city, sourceArtifact, species = [], trees }) {
+  const records = trees.map(tuple => treeRecord(tuple, species));
+  const candidates = PILOT_AREAS.map(area => candidateForArea(area, records)).filter(Boolean);
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     status: 'NOT HUMAN REVIEWED',
     candidateGeneratorVersion: CANDIDATE_GENERATOR_VERSION,
     sourceArtifact,
-    generatedFacts: { candidateTheme: 'giant-measurements', inputFields: ['tree id', 'coordinates', 'heightM', 'diameterCm', 'canopySpreadM'], distance: { method: 'straight-line haversine waypoint distance', unit: 'm', notWalkingDistance: true }, classifier: 'src/domain/giant.js classifyGiant' },
-    proposedEditorialContent: { names: 'none', narratives: 'none', accessibility: UNKNOWN, pedestrianPlausibility: UNKNOWN },
-    unsupportedFields: ['forage', 'bloom', 'harvest', 'canopy enrichment', 'food access', 'harvesting permission', 'walking-route distance', 'safety', 'accessibility'],
-    requiredHumanDecisions: ['Approve or reject a candidate.', 'Supply a human-approved name, reviewed waypoint order, export anchors, waypoint-oriented narrative, reviewer identity/date, and unknown-preserving access and pedestrian notes.'],
-    candidates,
-    unsupportedThemeCandidates: { season: [], forage: [] }
+    methodology: {
+      priority: ['overall public-tree density', 'theme matches', 'recorded diversity', 'supported measurements'],
+      clusterRadiusM: CLUSTER_DEFAULTS.radiusM,
+      minimumClusterTrees: CLUSTER_DEFAULTS.minimumTrees,
+      minimumThemeTrees: CLUSTER_DEFAULTS.minimumThemeTrees,
+      clusterStops: { minimum: CLUSTER_DEFAULTS.minimumStops, maximum: CLUSTER_DEFAULTS.maximumStops },
+      routeStatus: 'requires pinned foot-walking routing before review'
+    },
+    unsupportedClaims: ['safety', 'accessibility', 'pedestrian plausibility', 'right of access', 'edibility', 'harvesting permission', 'live bloom', 'live fruit'],
+    requiredHumanDecisions: ['Approve or reject each routed pilot.', 'Review cluster membership, path shape, order, name, narrative, limitations, reviewer identity, and review date.'],
+    candidates
   };
 }
 
-function candidateForCell(city, sourceArtifact, cell, members) {
-  const ranked = [...members].sort((a, b) => b.score.total - a.score.total || a.id.localeCompare(b.id)).slice(0, MAX_WAYPOINTS);
-  const ordered = nearestOrder(ranked);
-  const canonical = JSON.stringify({ city, sourceSnapshotSha256: sourceArtifact.sourceSnapshotSha256, theme: 'giant-measurements', cell, waypointTreeIds: ordered.map(member => member.id) });
-  const id = `candidate-${createHash('sha256').update(canonical).digest('hex').slice(0, 16)}`;
-  return { id, label: `generated-giant-measurements-${cell}`, theme: 'giant-measurements', season: null, status: 'NOT HUMAN REVIEWED', waypointTreeIds: ordered.map(member => member.id), waypoints: ordered.map(member => ({ treeId: member.id, latitude: member.latitude, longitude: member.longitude, scoreComponents: member.score, giantReasons: member.giantReasons })), proposedOrder: 'deterministic nearest-neighbour order from highest measurement score; not pedestrian routing', distance: { method: 'straight-line haversine waypoint distance', unit: 'm', value: round(distance(ordered)), notWalkingDistance: true }, valueScore: { total: round(ordered.reduce((sum, member) => sum + member.score.total, 0)), components: ordered.map(member => ({ treeId: member.id, ...member.score })) }, unresolved: { accessibility: UNKNOWN, pedestrianPlausibility: UNKNOWN, access: UNKNOWN, permission: UNKNOWN } };
+function candidateForArea(area, records) {
+  const localTrees = records.filter(tree => inBounds(tree, area.bounds));
+  const byId = new Map(localTrees.map(tree => [tree.id, tree]));
+  const densityClusters = buildDensityClusters(localTrees, { theme: THEMES.allTrees });
+  const themedOptions = PILOT_THEMES.map(theme => {
+    const eligibleClusters = densityClusters.map(cluster => withTheme(cluster, theme, byId)).filter(cluster => cluster.themeTreeCount >= CLUSTER_DEFAULTS.minimumThemeTrees);
+    const clusters = selectTrailClusters(eligibleClusters);
+    return { theme, clusters, score: clusters.reduce((total, cluster) => total + cluster.totalTreeCount * 100 + cluster.themeTreeCount * 10 + cluster.diversityCount, 0) };
+  }).filter(option => option.clusters.length >= CLUSTER_DEFAULTS.minimumStops)
+    .sort((a, b) => b.score - a.score || a.theme.id.localeCompare(b.theme.id));
+  const selected = themedOptions.find(option => option.theme.id === area.themeId) ?? themedOptions[0];
+  if (!selected) return null;
+  return {
+    id: `candidate-${area.id}-${selected.theme.id}`,
+    neighbourhoodId: area.id,
+    neighbourhoodName: area.name,
+    theme: { id: selected.theme.id, displayName: selected.theme.displayName },
+    status: 'NOT HUMAN REVIEWED',
+    clusterStops: selected.clusters,
+    routing: { status: 'not-routed', requiredProfile: 'foot-walking' },
+    unresolved: { accessibility: 'unknown', pedestrianPlausibility: 'unknown', safety: 'unknown', rightOfAccess: 'unknown', liveConditions: 'unknown' }
+  };
 }
 
-function measurementScore(heightM, diameterCm, canopySpreadM) { return { heightM: Number(heightM) || 0, diameterCm: Number(diameterCm) || 0, canopySpreadM: Number(canopySpreadM) || 0, total: round((Number(heightM) || 0) + (Number(diameterCm) || 0) / 100 + (Number(canopySpreadM) || 0) / 10) }; }
-function nearestOrder(members) { const remaining = [...members]; const ordered = [remaining.shift()]; while (remaining.length) { const current = ordered.at(-1); remaining.sort((a, b) => haversine(current, a) - haversine(current, b) || a.id.localeCompare(b.id)); ordered.push(remaining.shift()); } return ordered; }
-function distance(members) { return members.slice(1).reduce((sum, member, index) => sum + haversine(members[index], member), 0); }
-function haversine(a, b) { const radians = value => value * Math.PI / 180; const dLat = radians(b.latitude - a.latitude); const dLng = radians(b.longitude - a.longitude); const h = Math.sin(dLat / 2) ** 2 + Math.cos(radians(a.latitude)) * Math.cos(radians(b.latitude)) * Math.sin(dLng / 2) ** 2; return 6371000 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h)); }
-function round(value) { return Math.round(value * 100) / 100; }
-const UNKNOWN = 'unknown';
+function withTheme(cluster, selectedTheme, trees) {
+  const themeTreeIds = cluster.memberTreeIds.filter(id => selectedTheme.matches(trees.get(id)));
+  return {
+    ...cluster,
+    themeTreeIds,
+    themeTreeCount: themeTreeIds.length,
+    score: { ...cluster.score, themeMatches: themeTreeIds.length }
+  };
+}
+
+function inBounds(tree, bounds) {
+  return tree.longitude >= bounds[0] && tree.longitude <= bounds[2] && tree.latitude >= bounds[1] && tree.latitude <= bounds[3];
+}
+
+function treeRecord(tuple, species) {
+  const metadata = species[tuple[3]] ?? {};
+  return {
+    id: String(tuple[0]),
+    latitude: Number(tuple[1]),
+    longitude: Number(tuple[2]),
+    commonName: metadata.commonName ?? '',
+    genus: metadata.genus ?? '',
+    species: metadata.species ?? '',
+    heightM: tuple[4],
+    diameterCm: tuple[5],
+    canopySpreadM: tuple[6],
+    address: tuple[7]
+  };
+}

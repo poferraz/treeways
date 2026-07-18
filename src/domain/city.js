@@ -5,5 +5,7 @@ export function validateCityManifest(manifest) {
   if (!/^[a-z0-9-]+$/.test(manifest.id)) throw new TypeError('City id must be lowercase kebab-case');
   if (!Array.isArray(manifest.bounds) || manifest.bounds.length !== 4) throw new TypeError('City bounds must be [west, south, east, north]');
   if (!manifest.attribution.name || !manifest.attribution.license) throw new TypeError('City attribution is required');
+  if (!String(manifest.data?.highlightsPack ?? '').trim()) throw new TypeError('City manifest requires a startup highlight pack');
+  if (!String(manifest.data?.pack ?? '').trim()) throw new TypeError('City manifest requires a complete inventory pack');
   return manifest;
 }

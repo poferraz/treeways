@@ -1,17 +1,16 @@
-import { directionsUrl } from '../domain/trail-suggestions.js';
-import { scientificName, titleCase } from './format.js';
+import { orderedClusterStops } from '../domain/trails.js';
+import { googleWalkingDirectionsUrl } from './route-builder.js';
 
 export function renderTrailCatalogue(root, trails, { onBack, onSelect }) {
   root.replaceChildren();
   root.scrollTop = 0;
   const header = document.createElement('header');
   header.className = 'trail-intro';
-  header.innerHTML = '<p class="section-label">Treeways · Vancouver</p><h1>Choose a neighbourhood trail</h1><p>Ten data-guided routes for comparing tree families, exact species, fruit-tree forms, and measured giants.</p>';
-  const back = action('Back to nearby trees', 'text-button back-button', onBack);
-  header.prepend(back);
+  header.innerHTML = '<p class="section-label">Treeways · Vancouver</p><h1>Reviewed neighbourhood walks</h1><p>Density-led walks through tree-rich areas, with familiar tree names highlighted along the way.</p>';
+  header.prepend(action('Back to nearby trees', 'text-button back-button', onBack));
   const notice = document.createElement('div');
   notice.className = 'review-notice';
-  notice.innerHTML = '<strong>Preview routes</strong><p>Tree records are real. Route order is generated and still awaits the creator’s street-level review.</p>';
+  notice.innerHTML = '<strong>Human-reviewed catalogue</strong><p>Only routed pilots approved by an identified reviewer appear here.</p>';
   const filters = document.createElement('div');
   filters.className = 'trail-size-key';
   filters.innerHTML = '<span>Small ≤ 3 km</span><span>Medium ≤ 5 km</span><span>Large ≤ 8 km</span>';
@@ -29,36 +28,47 @@ export function renderTrailDetail(root, trail, { onBack }) {
   header.append(action('All trails', 'text-button back-button', onBack));
   const label = document.createElement('p');
   label.className = 'section-label';
-  label.textContent = `${trail.neighbourhood} · ${trail.theme}`;
+  label.textContent = `${trail.neighbourhoodName} · ${trail.theme.displayName}`;
   const title = document.createElement('h1');
   title.textContent = trail.name;
   const copy = document.createElement('p');
-  copy.textContent = trail.description;
+  copy.textContent = trail.narrative;
   header.append(label, title, copy);
 
   const meta = document.createElement('div');
   meta.className = 'trail-detail-meta';
-  meta.innerHTML = `<span><strong>${trail.distanceBand.label}</strong><small>up to ${trail.distanceBand.maximumKm} km</small></span><span><strong>${trail.waypoints.length}</strong><small>tree stops</small></span><span><strong>${trail.mode === 'driving' ? 'Drive' : 'Walk'}</strong><small>suggested mode</small></span>`;
+  meta.append(
+    metaItem(distanceLabel(trail), 'routed distance'),
+    metaItem(String(trail.clusterStops.length), 'tree-rich areas'),
+    metaItem(shapeLabel(trail.shape), 'walking trail')
+  );
 
   const directions = document.createElement('div');
   directions.className = 'primary-actions trail-directions';
-  directions.append(mapLink(trail, 'walking', 'Open walking route'), mapLink(trail, 'driving', 'Open driving route'));
+  const walkingLink = document.createElement('a');
+  walkingLink.className = 'primary-action';
+  walkingLink.href = googleWalkingDirectionsUrl(orderedClusterStops(trail).map(stop => stop.anchor));
+  walkingLink.target = '_blank';
+  walkingLink.rel = 'noopener noreferrer';
+  walkingLink.textContent = 'Open walking directions';
+  directions.append(walkingLink);
+
   const caveat = document.createElement('p');
   caveat.className = 'data-caution';
-  caveat.textContent = `The ${trail.spanKm.toFixed(1)} km figure is a straight-line span between records, not street distance. Google Maps determines the live route. Check crossings, closures, and access conditions.`;
+  caveat.textContent = 'Distance and path geometry come from the pinned OpenRouteService walking result. Accessibility, right of access, safety, and live conditions remain unknown; check current conditions before setting out.';
 
   const stops = document.createElement('ol');
   stops.className = 'trail-stop-list';
-  trail.waypoints.forEach(tree => {
+  orderedClusterStops(trail).filter((stop, index, ordered) => index === 0 || stop.id !== ordered[0].id).forEach((stop, index) => {
     const item = document.createElement('li');
     const number = document.createElement('span');
     number.className = 'stop-number';
-    number.textContent = String(stops.children.length + 1);
+    number.textContent = String(index + 1);
     const identity = document.createElement('span');
     const name = document.createElement('strong');
-    name.textContent = titleCase(tree.commonName);
+    name.textContent = stop.locationLabel;
     const details = document.createElement('small');
-    details.textContent = `${scientificName(tree)} · ${tree.address ? titleCase(tree.address) : 'Address not recorded'}`;
+    details.textContent = `${stop.totalTreeCount} recorded trees · ${stop.themeTreeCount} ${trail.theme.displayName} records · ${stop.diversityCount} recorded kinds`;
     identity.append(name, details);
     item.append(number, identity);
     stops.append(item);
@@ -66,7 +76,15 @@ export function renderTrailDetail(root, trail, { onBack }) {
 
   const provenance = document.createElement('section');
   provenance.className = 'trail-provenance';
-  provenance.innerHTML = `<h2>Before you go</h2><p>${trail.provenance}</p><p>Fruit-tree routes are for looking and learning only. Tree condition, seasonal timing, accessibility, and harvesting permission are not asserted.</p>`;
+  const provenanceTitle = document.createElement('h2');
+  provenanceTitle.textContent = 'Review and route record';
+  const review = document.createElement('p');
+  review.textContent = `Reviewed by ${trail.review.reviewer} on ${reviewDate(trail.review.reviewedAt)}.`;
+  const routing = document.createElement('p');
+  routing.textContent = trail.route.provenance.attribution;
+  const counts = document.createElement('p');
+  counts.textContent = `${totalTreeCount(trail)} recorded trees across ${trail.clusterStops.length} distinct areas. Individual records appear around each area on the map.`;
+  provenance.append(provenanceTitle, review, routing, counts);
   root.append(header, meta, directions, caveat, stops, provenance);
 }
 
@@ -75,20 +93,25 @@ function trailCard(trail, index, onSelect) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'trail-card';
-  button.innerHTML = `<span class="trail-number">${String(index + 1).padStart(2, '0')}</span><span class="trail-card-copy"><small>${trail.neighbourhood} · ${trail.theme}</small><strong>${trail.name}</strong><span>${trail.distanceBand.label} · up to ${trail.distanceBand.maximumKm} km · ${trail.waypoints.length} stops</span></span><span aria-hidden="true">→</span>`;
+  const number = document.createElement('span');
+  number.className = 'trail-number';
+  number.textContent = String(index + 1).padStart(2, '0');
+  const copy = document.createElement('span');
+  copy.className = 'trail-card-copy';
+  const context = document.createElement('small');
+  context.textContent = `${trail.neighbourhoodName} · ${trail.theme.displayName}`;
+  const name = document.createElement('strong');
+  name.textContent = trail.name;
+  const detail = document.createElement('span');
+  detail.textContent = `${shapeLabel(trail.shape)} · ${distanceLabel(trail)} · ${trail.clusterStops.length} tree-rich areas`;
+  const arrow = document.createElement('span');
+  arrow.setAttribute('aria-hidden', 'true');
+  arrow.textContent = '→';
+  copy.append(context, name, detail);
+  button.append(number, copy, arrow);
   button.addEventListener('click', () => onSelect(trail));
   item.append(button);
   return item;
-}
-
-function mapLink(trail, mode, label) {
-  const link = document.createElement('a');
-  link.className = mode === trail.mode ? 'primary-action' : 'secondary-action';
-  link.href = directionsUrl(trail, mode);
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  link.textContent = label;
-  return link;
 }
 
 function action(label, className, callback) {
@@ -98,4 +121,30 @@ function action(label, className, callback) {
   button.textContent = label;
   button.addEventListener('click', callback);
   return button;
+}
+
+function metaItem(value, label) {
+  const item = document.createElement('span');
+  const strong = document.createElement('strong');
+  strong.textContent = value;
+  const small = document.createElement('small');
+  small.textContent = label;
+  item.append(strong, small);
+  return item;
+}
+
+function distanceLabel(trail) {
+  return `${(trail.route.distanceM / 1000).toFixed(1)} km`;
+}
+
+function shapeLabel(shape) {
+  return shape === 'loop' ? 'Loop' : 'Point to point';
+}
+
+function totalTreeCount(trail) {
+  return new Set(trail.clusterStops.flatMap(stop => stop.memberTreeIds)).size;
+}
+
+function reviewDate(value) {
+  return new Date(`${value}T00:00:00Z`).toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }

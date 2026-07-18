@@ -44,6 +44,11 @@ describe('city pack contracts', () => {
     expect(() => validateTreePack({ schemaVersion: 2, species: [{ commonName: 'Apple', edibility: { status: 'unknown', evidence: [] } }], trees: [['a', 49.2, -123.1, 0, null, null, null, null, 'a']], treeMeasurements: { a: {} }, trails: [] })).toThrow('requires canopy');
   });
   it('requires city attribution', () => expect(() => validateManifest({ id: 'example', name: 'Example', locale: 'en', timezone: 'UTC', bounds: [0, 0, 1, 1], data: {}, attribution: {}, capabilities: {} })).toThrow('attribution'));
+  it('requires a separate startup highlight pack before the complete inventory', () => {
+    const manifest = { id: 'example', name: 'Example', locale: 'en', timezone: 'UTC', bounds: [0, 0, 1, 1], data: { pack: '/full.json' }, attribution: { name: 'Example', license: 'Example' }, capabilities: {} };
+    expect(() => validateManifest(manifest)).toThrow('highlight pack');
+    expect(validateManifest({ ...manifest, data: { ...manifest.data, highlightsPack: '/highlights.json' } }).data.highlightsPack).toBe('/highlights.json');
+  });
   it('only resolves exactly normalized scientific names and matching cultivars', () => {
     const exact = registry([record(), record({ id: 'acer-rubrum-red-sunset', cultivar: 'Red Sunset', recordUrl: 'https://example.test/red-sunset' })]);
     expect(resolveSpeciesEvidence({ genus: 'Acer', species: 'rubrum', cultivar: null }, exact).edibility.status).toBe('reported-edible');

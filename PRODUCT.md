@@ -2,7 +2,7 @@
 
 ## Product definition
 
-Treeways is a map-first field guide for people who want to understand a city through its trees. Vancouver launches with neighbourhood discovery trails, municipal street-tree context, measured giants, tree-family comparisons, and external walking or driving directions.
+Treeways is a map-first field guide for people who want to understand a city through its trees. Vancouver launches with a clean highlight map, optional complete public inventory, density-led neighbourhood walks, municipal street-tree context, and external walking directions.
 
 The product is not a general inventory browser. Its job is to answer: "What trees are worth noticing near me, and what route helps me compare them?"
 
@@ -24,7 +24,7 @@ The product is not a general inventory browser. Its job is to answer: "What tree
 
 ## Current product audit
 
-The current prototype has a useful foundation: MapLibre map, curated local data, viewport background trees, type and seasonal filters, autocomplete, a three-state drawer, and OSRM walking routes. The primary interaction path is real and should be preserved.
+The current implementation has a MapLibre map, highlights-first city loading, optional complete inventory, filters, autocomplete, a three-state drawer, ordered personal stops, and an external walking-directions handoff. The reviewed trail catalogue stays hidden while its three launch pilots await routing and human review.
 
 The v2 design retires permanent dark mode, broad glass surfaces, emoji controls, generic Unsplash species images, twelve equal month blocks, forced map recentering on every selection, and global gesture suppression. Search currently selects the first matching record; v2 must instead present nearby matching specimens. The existing selected tree, filters, route-stop list, data source, map, and state model are implementation inputs, not a contract for the final interface.
 
@@ -33,13 +33,13 @@ The v2 design retires permanent dark mode, broad glass surfaces, emoji controls,
 - Initial city: Vancouver, British Columbia. The city manifest provides location, hemisphere, seasonal periods, and supported data sources.
 - Curated records can coexist with municipal background records. They must remain visibly distinguishable.
 - Municipal records can be incomplete. Missing values are shown as unavailable, never guessed.
-- Routing depends on a provider and can be stale or unavailable.
+- Reviewed pilot routing uses pinned OpenRouteService `foot-walking` results and can become stale; current personal directions are calculated by the external maps app.
 - Location permission is optional and requested only after a location-dependent action.
 - No unverified media is used as species evidence. Attribution travels with every verified image.
 
 ## Success criteria
 
-- A person can choose a neighbourhood trail and open its ordered stops in walking or driving directions in a few deliberate actions.
+- A person can choose a reviewed neighbourhood walk, understand its tree-rich areas and actual routed distance, and open its ordered stops in walking directions in a few deliberate actions.
 - A person can search by common name, scientific name, neighbourhood, or nearby tree and choose among relevant specimens.
 - Filters change the visible map layer without rebuilding markers or hiding the reset path.
 - The same essential tasks are possible from structured lists without relying on the map.
@@ -64,3 +64,6 @@ The v2 design retires permanent dark mode, broad glass surfaces, emoji controls,
 8. Support non-map equivalents for nearby results, filters, route stop order, and selection.
 9. Use restrained, interruptible transform and opacity motion. Reduced motion uses immediate state changes plus optional brief fades.
 10. Never request location until the user invokes a location-dependent task.
+11. Choose trail areas by overall tree density first; use popular-name themes such as Cherry blossoms as highlights.
+12. Support both loops and point-to-point walking trails when the density pattern and routed overhead justify them.
+13. Keep generated and routed pilots out of the catalogue until an identified human completes the review gate.

@@ -1,40 +1,31 @@
-# Trail review and release gate
+# Trail review and publication gate
 
-Treeways never converts generated ordering into a human-review claim. The public
-preview is functional, but each trail retains `status: suggested` until Paulo
-Ferraz performs the checks below.
+Treeways separates four states: generated candidate, ORS-routed pilot,
+human-reviewed trail, and compiled public trail. Only the last state appears in
+the visitor catalogue.
 
-## Review each of the ten trails
+## Review each pilot
 
-1. Open the trail in Treeways on a phone.
-2. Open both walking and driving handoffs in Google Maps.
-3. Inspect the route at street level; remove private, inaccessible, implausible,
-   or awkward stops.
-4. Walk or drive the route where practical. Do not infer accessibility or safety
-   from map imagery.
-5. Confirm the public-tree record appears to match the street location. Record
-   discrepancies instead of silently correcting City data.
-6. Approve or rewrite the name, neighbourhood, description, mode, and stop order.
-7. Keep bloom, fruit, edibility, permission, and accessibility unknown unless a
-   cited source and the trail schema support the exact claim.
-8. Record reviewer name and ISO review date.
+1. Open `docs/m3-b/review-tool.html` after running `npm run city:route-pilots`.
+2. Inspect every individual member tree around each 70 m area. Confirm the stop
+   is genuinely tree-rich and the friendly theme is useful without dominating
+   the density decision.
+3. Inspect the ORS walking geometry, actual distance, loop/point-to-point shape,
+   anchor order, snap distances, and each leg.
+4. Check the streets in a current map and in person where practical. Record
+   concerns; do not infer accessibility, safety, or permission from imagery.
+5. Rewrite the popular-name-led title and factual narrative in Paulo’s voice.
+6. Keep accessibility, pedestrian plausibility, safety, right of access, and
+   live conditions as `unknown`.
+7. Approve or reject the candidate and record Paulo’s name and review date.
+8. Export the reviewed source and run the city build and validation gates.
 
-The existing generated-candidate tool is
-`docs/m3-b/review-tool.html`. Its giant-tree packet predates the consumer trail
-catalogue and remains useful for measurement-focused review. A later gate should
-compile approved Treeways routes into the city artifact through
-`data/cities/vancouver/trails-review.json`.
+## Public wording
 
-## Public wording before sign-off
+Before approval, call the records “candidates” or “routed pilots” and label them
+`NOT HUMAN REVIEWED`. Do not expose them in the visitor catalogue.
 
-- Use `Preview routes`, `suggested`, and `route order is not human reviewed`.
-- Describe sizes as straight-line spans between records.
-- Let Google Maps state live street distance and duration.
-- Do not use `safe`, `accessible`, `walkable`, `edible`, `in bloom`, or `ready to
-  harvest` as route claims.
-
-## Public wording after sign-off
-
-`Human reviewed` may describe the editorial stop selection and order only. It
-must not imply a professional safety, accessibility, botanical-condition, or
-right-of-access inspection.
+After approval, “human reviewed” describes the editorial cluster selection,
+route order, name, and narrative. It does not imply a professional safety,
+accessibility, botanical-condition, or right-of-access inspection. Public
+distance is the pinned ORS routed distance, not a straight-line estimate.

@@ -17,11 +17,11 @@ import { renderNearbyInspector, renderSourceInfo, renderTreeInspector, seasonalS
 import { titleCase } from './ui/format.js';
 import { addRouteStop, moveRouteStop, renderRouteBuilder } from './ui/route-builder.js';
 import { routeSummary } from './ui/route-summary.js';
-import { OsrmProvider } from './services/routing/osrm-provider.js';
 import { getLocation } from './services/geolocation.js';
 import { createStatusRegion } from './ui/status-region.js';
 import { createConnectivity } from './services/connectivity.js';
 import { classifyGiant } from './domain/giant.js';
+import { orderedClusterStops } from './domain/trails.js';
 
 const initialState = {
   city: null,
@@ -37,19 +37,21 @@ const initialState = {
 
 const store = createStore(initialState);
 const worker = new DataWorkerClient();
-const routeProvider = new OsrmProvider();
 let map;
 let shell;
 let status;
 let filters;
 let manifest;
 let allTrees = [];
+let highlightTrees = [];
 let visibleTrees = [];
 let selectedTree = null;
-let trails;
+let trails = [];
 let trailExperience;
 let activeView = 'nearby';
-let routeAbort;
+let fullInventoryLoaded = false;
+let inventoryLoad;
+let inventoryMode = 'highlights';
 
 async function start() {
   shell = createAppShell();
@@ -61,10 +63,12 @@ async function start() {
   wireConnectivity();
 
   manifest = await loadCityManifest('vancouver');
-  await worker.loadCity(manifest.data.pack);
+  const initialPack = await worker.loadCity(manifest.data.highlightsPack);
   store.dispatch({ type: 'CITY_LOADED', city: manifest });
-  allTrees = await worker.queryBounds(manifest.bounds);
-  visibleTrees = allTrees;
+  highlightTrees = await worker.queryBounds(manifest.bounds);
+  allTrees = highlightTrees;
+  visibleTrees = highlightTrees;
+  trails = initialPack.trails ?? [];
 
   map = new MapController(shell.map, {
     onSelect: id => selectTree(id),
@@ -73,23 +77,27 @@ async function start() {
   map.setTrees(allTrees.map(toFeature));
 
   const search = createSearch({
-    search: query => worker.search(query, 12),
+    search: async query => {
+      await ensureFullInventory();
+      return worker.search(query, 12);
+    },
     onSelect: tree => selectTree(tree.id, tree)
   });
   filters = createFilters({ onChange: applyFilter });
   shell.searchSlot.append(search);
   shell.actionsSlot.append(filters.element, createLocationButton(), createThemeButton());
+  shell.inventoryToggle.addEventListener('click', toggleInventoryMode);
   shell.sheet.onClose(clearSelection);
   shell.routeCapsule.addEventListener('click', showRouteBuilder);
   renderNearby();
   updateRouteCapsule();
-  status.announce(`${allTrees.length} reported public-tree records loaded for Vancouver.`);
+  status.announce(`${highlightTrees.length} tree highlights loaded for Vancouver. The complete public inventory is available on request.`);
 }
 
 function wireConnectivity() {
   const update = online => {
     shell.offlineNotice.hidden = online;
-    shell.offlineNotice.textContent = online ? '' : 'You are offline. Showing saved tree data. New walking routes need a connection.';
+    shell.offlineNotice.textContent = online ? '' : 'You are offline. Showing saved tree data.';
     if (!online) status.announce('You are offline. Showing saved tree data.');
   };
   createConnectivity(update);
@@ -143,7 +151,8 @@ function createThemeButton() {
   return button;
 }
 
-function applyFilter(kind) {
+async function applyFilter(kind) {
+  await setInventoryMode('all');
   store.dispatch(actions.setFilters({ kind }));
   visibleTrees = allTrees.filter(tree => matchesFilter(tree, kind));
   map.setTrees(visibleTrees.map(toFeature));
@@ -198,8 +207,9 @@ function renderNearby() {
   const nearby = visibleTrees.map(withDistance).sort((a, b) => a.distance - b.distance).slice(0, 8);
   renderNearbyInspector(shell.inspector, nearby, {
     total: visibleTrees.length,
+    highlightMode: inventoryMode === 'highlights',
     onSelect: tree => selectTree(tree.id, tree),
-    onTrails: showTrails,
+    onTrails: trails.length ? showTrails : null,
     onLocate: () => shell.actionsSlot.querySelector('[aria-label="Find trees near my location"]').click(),
     onSources: () => {
       activeView = 'sources';
@@ -212,11 +222,12 @@ function renderNearby() {
 
 async function showTrails() {
   const experience = await loadTrailExperience();
-  trails ??= experience.buildTrailSuggestions(allTrees);
+  if (!trails.length) return;
   activeView = 'trails';
   selectedTree = null;
   map.select(null);
   map.setRoute(null);
+  map.setTrees(visibleTrees.map(toFeature));
   shell.sheet.setSelectionActive(false);
   shell.sheet.setState('full');
   experience.renderTrailCatalogue(shell.inspector, trails, {
@@ -232,18 +243,65 @@ async function showTrails() {
 
 function showTrail(trail) {
   activeView = 'trail';
-  map.showTrail(trailExperience.trailGeometry(trail));
+  const trailTreeIds = new Set(trail.clusterStops.flatMap(stop => stop.memberTreeIds));
+  const sourceTrees = inventoryMode === 'all' ? allTrees : highlightTrees;
+  map.setTrees(sourceTrees.filter(tree => trailTreeIds.has(tree.id)).map(toFeature));
+  map.showTrail(trail.route.geometry, orderedClusterStops(trail).filter((stop, index, stops) => index === 0 || stop.id !== stops[0].id));
   shell.sheet.setState('half');
   trailExperience.renderTrailDetail(shell.inspector, trail, { onBack: showTrails });
-  status.announce(`${trail.name} selected. ${trail.waypoints.length} tree stops. Route order awaits human review.`);
+  status.announce(`${trail.name} selected. ${trail.clusterStops.length} tree-rich area stops.`);
 }
 
 async function loadTrailExperience() {
   if (!trailExperience) {
-    const [domain, ui] = await Promise.all([import('./domain/trail-suggestions.js'), import('./ui/trail-browser.js')]);
-    trailExperience = { ...domain, ...ui };
+    trailExperience = await import('./ui/trail-browser.js');
   }
   return trailExperience;
+}
+
+async function toggleInventoryMode() {
+  const nextMode = inventoryMode === 'highlights' ? 'all' : 'highlights';
+  try {
+    await setInventoryMode(nextMode);
+    status.announce(nextMode === 'all' ? `${allTrees.length} public-tree records are now shown.` : `${highlightTrees.length} tree highlights are now shown.`);
+  } catch (error) {
+    console.error('Complete inventory load failed:', error);
+    status.announce(navigator.onLine ? 'The complete public-tree inventory could not be loaded.' : 'Connect to load the complete public-tree inventory.');
+  }
+}
+
+async function setInventoryMode(mode) {
+  if (mode === 'all') await ensureFullInventory();
+  inventoryMode = mode;
+  const sourceTrees = mode === 'all' ? allTrees : highlightTrees;
+  visibleTrees = sourceTrees.filter(tree => matchesFilter(tree, store.getState().filters.kind));
+  map.setTrees(visibleTrees.map(toFeature));
+  shell.inventoryToggle.textContent = mode === 'all' ? 'Show tree highlights' : 'Show all public trees';
+  shell.inventoryToggle.setAttribute('aria-pressed', String(mode === 'all'));
+  filters?.setCount(visibleTrees.length);
+  if (activeView === 'nearby') renderNearby();
+}
+
+async function ensureFullInventory() {
+  if (fullInventoryLoaded) return;
+  if (inventoryLoad) return inventoryLoad;
+  shell.inventoryToggle.disabled = true;
+  shell.inventoryToggle.textContent = 'Loading public trees';
+  shell.inventoryToggle.setAttribute('aria-busy', 'true');
+  inventoryLoad = (async () => {
+    const completePack = await worker.loadCity(manifest.data.pack);
+    allTrees = await worker.queryBounds(manifest.bounds);
+    trails = completePack.trails ?? [];
+    fullInventoryLoaded = true;
+  })();
+  try {
+    await inventoryLoad;
+  } finally {
+    inventoryLoad = null;
+    shell.inventoryToggle.disabled = false;
+    shell.inventoryToggle.removeAttribute('aria-busy');
+    shell.inventoryToggle.textContent = inventoryMode === 'all' ? 'Show tree highlights' : 'Show all public trees';
+  }
 }
 
 function withDistance(tree) {
@@ -259,45 +317,20 @@ function showRouteBuilder() {
     onBack: () => selectedTree ? (activeView = 'tree', shell.sheet.setSelectionActive(true), renderSelectedTree()) : renderNearby(),
     onMove: (index, direction) => updateRoute(moveRouteStop(store.getState().route.stops, index, direction)),
     onRemove: index => updateRoute(store.getState().route.stops.filter((_, itemIndex) => itemIndex !== index)),
-    onClear: () => updateRoute([]),
-    onRetry: () => updateRoute(store.getState().route.stops, true)
+    onClear: () => updateRoute([])
   });
   render();
 }
 
-async function updateRoute(stops, force = false) {
-  routeAbort?.abort();
+function updateRoute(stops) {
   store.dispatch(actions.setRouteStops(stops));
-  const version = store.getState().route.version;
-  if (stops.length < 2) {
-    store.dispatch(actions.setRoute({ ...store.getState().route, status: 'idle', geometry: null, distance: null, duration: null }));
-    map.setRoute(null);
-    updateRouteCapsule();
-    if (activeView === 'route') showRouteBuilder();
-    else if (selectedTree) renderSelectedTree();
-    if (stops.length === 1) status.announce(`Stop 1 added: ${titleCase(stops[0].commonName)}.`);
-    return;
-  }
-  routeAbort = new AbortController();
-  store.dispatch(actions.setRoute({ ...store.getState().route, status: 'loading', geometry: force ? null : store.getState().route.geometry }));
-  updateRouteCapsule();
-  if (activeView === 'route') showRouteBuilder();
-  status.announce('Calculating walking route.');
-  try {
-    const route = await routeProvider.route(stops, routeAbort.signal);
-    if (store.getState().route.version !== version) return;
-    store.dispatch(actions.setRoute({ ...store.getState().route, ...route, status: 'ready' }));
-    map.setRoute(route.geometry);
-    status.announce(`Route ready: ${(route.distance / 1000).toFixed(1)} kilometres, ${Math.round(route.duration / 60)} minutes walking.`);
-  } catch (error) {
-    if (error.name === 'AbortError') return;
-    console.error('Route calculation failed:', error);
-    store.dispatch(actions.setRoute({ ...store.getState().route, status: 'error' }));
-    status.announce(navigator.onLine ? 'Route could not be calculated. Try again or navigate to an individual tree.' : 'Route could not be calculated while offline.');
-  }
+  store.dispatch(actions.setRoute({ ...store.getState().route, status: 'idle', geometry: null, distance: null, duration: null }));
+  map.setRoute(null);
   updateRouteCapsule();
   if (activeView === 'route') showRouteBuilder();
   else if (selectedTree) renderSelectedTree();
+  if (stops.length === 1) status.announce(`Stop 1 added: ${titleCase(stops[0].commonName)}.`);
+  if (stops.length > 1) status.announce(`${stops.length} ordered stops are ready to open in walking directions.`);
 }
 
 function updateRouteCapsule() {
