@@ -1,6 +1,6 @@
 # Three-pilot trail review
 
-**Status:** all three pilots are routed; no pilot is human reviewed or published.
+**Status:** all three trails were reviewed by Paulo on 2026-07-18 and compiled into the public city packs.
 
 Treeways now starts with three density-first pilot areas:
 
@@ -32,17 +32,20 @@ Current routed results:
 
 ## Human review
 
-For each pilot, Paulo must inspect cluster membership, path shape, area order,
+For each pilot, Paulo inspected cluster membership, path shape, area order,
 name, narrative, and limitations. Approving requires an identified human reviewer
 and an ISO review date. Accessibility, pedestrian plausibility, safety, right of
 access, and live conditions remain the literal value `unknown`.
 
-Download `reviewed.json`, inspect it, then save it as
-`data/cities/vancouver/trails-review.json`. Run `npm run city:build` and
-`npm run city:validate`. Only trails that pass the schema-v2 compiler enter the
-public city artifact and catalogue.
+The approved export was imported with `city:import-reviewed`, compiled into both
+packs with `city:publish-reviewed`, and checked with
+`city:validate-published`. Only trails that pass the schema-v2 compiler enter the
+public city artifact and catalogue. The published validator proves the approved
+source, full pack, and deterministic highlight pack agree when ignored raw
+pipeline inputs are not present in the isolated Build Week checkout.
 
-Generated or merely routed candidates are never published automatically.
+Generated or merely routed candidates are never published automatically. These
+three trails entered the catalogue only after Paulo's approval import.
 
 ## Compiler requirements
 

@@ -11,8 +11,8 @@ future cities can be added without rebuilding the core experience.
 
 Production: <https://treeways.vercel.app>
 
-Three routed launch pilots are prepared for Mount Pleasant, Grandview-Woodland,
-and Kitsilano. They remain outside the public catalogue until Paulo reviews them.
+Three routed launch trails for Mount Pleasant, Grandview-Woodland, and Kitsilano
+were reviewed by Paulo on July 18, 2026 and are available in the catalogue.
 Each walk connects three to five tree-rich areas and may be a loop or
 point-to-point route. Small, medium, and large bands use actual OpenRouteService
 walking distance, capped at 3 km, 5 km, and 8 km.
@@ -88,6 +88,9 @@ required for normal development.
 | `npm run city:verify` | Verify deterministic city builds from pinned inputs |
 | `npm run city:pilots` | Rebuild the three density-first candidate pilots |
 | `npm run city:route-pilots` | Route pilots with ORS and rebuild the review artifact |
+| `npm run city:import-reviewed -- PATH` | Canonically import a human-review export |
+| `npm run city:publish-reviewed` | Compile approved trails into both city packs |
+| `npm run city:validate-published` | Verify approved source and both published packs agree |
 
 ## Architecture
 

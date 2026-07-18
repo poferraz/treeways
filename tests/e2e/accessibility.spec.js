@@ -15,3 +15,11 @@ test('announces filter changes through the polite status region', async ({ page 
   await page.getByRole('button', { name: /Fruit families/i }).click();
   await expect(page.locator('[aria-live="polite"]')).toContainText('Filters applied.');
 });
+
+test('reviewed trail catalogue and route detail have no serious Axe violations', async ({ page }) => {
+  await waitForApp(page);
+  await page.getByRole('button', { name: 'Browse neighbourhood trails' }).click();
+  await expect((await new AxeBuilder({ page }).analyze()).violations.filter(({ impact }) => ['critical', 'serious'].includes(impact))).toEqual([]);
+  await page.getByRole('button', { name: /Maples in Kitsilano/ }).click();
+  await expect((await new AxeBuilder({ page }).analyze()).violations.filter(({ impact }) => ['critical', 'serious'].includes(impact))).toEqual([]);
+});

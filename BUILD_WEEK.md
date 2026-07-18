@@ -65,8 +65,9 @@ The new repository adds the consumer-facing product layer:
   Chromium against the deployed artifact
 
 The old ten generated previews were removed from the runtime. The three new
-pilots remain outside the public catalogue until OpenRouteService routing and
-Paulo's review through `docs/trail-review-guide.md` are complete.
+pilots were routed with OpenRouteService, reviewed by Paulo on 2026-07-18, and
+compiled into the public catalogue with exact reverse membership for 1,034 City
+tree records.
 
 Commits will be added to this ledger at every completed release gate.
 

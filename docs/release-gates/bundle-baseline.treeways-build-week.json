@@ -13,8 +13,8 @@
     "absoluteMaxGzipBytes": 2500
   },
   "css": { "asset": "index.css", "gzipBytes": 13488, "absoluteMaxGzipBytes": 14500 },
-  "cityData": { "artifact": "vancouver.highlights.v2.1.0.json", "gzipBytes": 166117, "absoluteMaxGzipBytes": 200000 },
-  "fullCityData": { "artifact": "vancouver.v2.1.0.json", "gzipBytes": 5555961, "absoluteMaxGzipBytes": 5600000 },
+  "cityData": { "artifact": "vancouver.highlights.v2.1.0.json", "gzipBytes": 215331, "absoluteMaxGzipBytes": 240000 },
+  "fullCityData": { "artifact": "vancouver.v2.1.0.json", "gzipBytes": 5572860, "absoluteMaxGzipBytes": 5600000 },
   "defaultThirdParty": { "asset": "maplibre.js", "gzipBytes": 216980, "absoluteMaxGzipBytes": 230000 },
   "measurement": "npm run build followed by npm run check:bundle; gzip is zlib level-default. The reviewed-trail chunk and complete inventory are intentionally absent from default startup and measured separately."
 }

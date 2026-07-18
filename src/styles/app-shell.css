@@ -258,7 +258,7 @@
 .trail-card-list { display: grid; gap: 0; margin: 0; padding: 0 0 28px; list-style: none; border-top: 1px solid var(--border-subtle); }
 .trail-card { display: grid; width: 100%; min-height: 88px; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 14px 4px; border: 0; border-bottom: 1px solid var(--border-subtle); background: transparent; text-align: left; }
 .trail-card:hover { background: linear-gradient(90deg, var(--wash-yellow), transparent 76%); }
-.trail-number { align-self: start; padding-top: 3px; color: var(--clay); font-family: Georgia, serif; font-size: .82rem; }
+.trail-number { align-self: start; padding-top: 3px; color: var(--season-accent); font-family: Georgia, serif; font-size: .82rem; }
 .trail-card-copy { display: grid; gap: 3px; }
 .trail-card-copy small { color: var(--season-accent); font-size: .65rem; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
 .trail-card-copy strong { font-family: Georgia, serif; font-size: 1.05rem; font-weight: 500; }

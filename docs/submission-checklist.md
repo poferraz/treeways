@@ -11,7 +11,7 @@ Deadline: Tuesday, July 21, 2026 at 5:00 PM Pacific.
 - [x] MIT code licence and City data attribution
 - [x] Before/after Build Week ledger in `BUILD_WEEK.md`
 - [x] Production Vercel URL recorded in README: <https://treeways.vercel.app>
-- [ ] Paulo routes and reviews the three pilots; unreviewed catalogue remains hidden
+- [x] Paulo routed and reviewed the three pilots; approved catalogue is compiled
 - [ ] Name-clearance decision for `Treeways` recorded before submission
 
 ## Devpost entry

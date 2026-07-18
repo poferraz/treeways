@@ -24,7 +24,7 @@ The product is not a general inventory browser. Its job is to answer: "What tree
 
 ## Current product audit
 
-The current implementation has a MapLibre map, highlights-first city loading, optional complete inventory, filters, autocomplete, a three-state drawer, ordered personal stops, and an external walking-directions handoff. The reviewed trail catalogue stays hidden while its three launch pilots await routing and human review.
+The current implementation has a MapLibre map, highlights-first city loading, optional complete inventory, filters, autocomplete, a three-state drawer, ordered personal stops, an external walking-directions handoff, and three Paulo-reviewed launch trails.
 
 The v2 design retires permanent dark mode, broad glass surfaces, emoji controls, generic Unsplash species images, twelve equal month blocks, forced map recentering on every selection, and global gesture suppression. Search currently selects the first matching record; v2 must instead present nearby matching specimens. The existing selected tree, filters, route-stop list, data source, map, and state model are implementation inputs, not a contract for the final interface.
 
