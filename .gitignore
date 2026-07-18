@@ -14,3 +14,5 @@ test-results/
 data/cities/vancouver/*
 !data/cities/vancouver/trails-review.json
 !data/cities/vancouver/evidence-registry.json
+!data/cities/vancouver/rejection-summary.json
+.vercel

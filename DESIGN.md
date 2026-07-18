@@ -1,8 +1,8 @@
-# Urban Canopy Engine v2 Design Specification
+# Treeways design specification
 
 ## Design read
 
-Mobile-first public field guide for outdoor walkers, with a quiet editorial botanical language and a practical spatial interface. This is a redesign of the existing map prototype, not a dashboard rebuild.
+Mobile-first public field guide for outdoor walkers, with a practical spatial interface and the warmth of a hand-made field journal. The Build Week direction synthesizes the user's preferred Refero references: Claude's warm editorial restraint, Anthropic's scientific notebook language, and General Intelligence's literary, hand-painted atmosphere. It does not copy their brands, assets, or typography.
 
 **Design settings:** variance 4, motion 3, density 6. The composition is stable enough for public utility, information-dense enough for field data, and animated only where motion preserves spatial context or confirms a state change.
 
@@ -10,11 +10,11 @@ Mobile-first public field guide for outdoor walkers, with a quiet editorial bota
 
 Daylight is the default because the primary use case is outdoors. It uses matte, lightly tinted surfaces over a desaturated map. Dusk is a user-selectable, system-aware alternative for low-light use. Both themes use the same semantic token names and hierarchy.
 
-Instrument Sans is used for controls, UI labels, and metadata. Newsreader italic is reserved for scientific names and short editorial notes because those are the moments that benefit from a botanical, publishing-informed voice. Self-host WOFF2 subsets and preload only the UI regular and semibold files. Use `font-display: swap`, stable fallback metrics, and a 65-75 character line length for reading text.
+System sans faces are used for controls, labels, and metadata. Georgia/Newsreader-style serif fallbacks carry names, headings, scientific labels, and editorial moments. This avoids a font download on the field interface while retaining a literary voice.
 
 All controls use authored SVGs from one icon family, such as Tabler or Phosphor. No emoji functions as an icon, status, or category label.
 
-The base system uses a 4 px spacing unit. Target control height is 48 px, with a hard minimum target of 44 by 44 px. Radius rules are 12 px for inputs and contained surfaces, 16 px for sheets and inspectors, and full radius only for compact control chips. Shadows are low-contrast, tinted to the surface, and used only to separate a floating surface from the map.
+The base system uses a 4 px spacing unit. Target control height is 48 px, with a hard minimum target of 44 by 44 px. Surfaces use warm paper, hairline borders, slightly asymmetric radii, and restrained pastel washes rather than glass or generic card shadows. Shadows are low-contrast and used only to separate a floating surface from the map.
 
 ## Token contract
 

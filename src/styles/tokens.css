@@ -1,21 +1,25 @@
 :root {
-  --surface-canvas: oklch(.97 .012 92);
-  --surface-raised: oklch(.99 .008 94);
-  --surface-soft: oklch(.945 .018 92);
-  --surface-map-control: oklch(.99 .008 94 / .96);
+  --surface-canvas: oklch(.965 .018 88);
+  --surface-raised: oklch(.985 .014 90);
+  --surface-soft: oklch(.925 .032 89);
+  --surface-map-control: oklch(.985 .014 90 / .94);
   --surface-scrim: oklch(.27 .02 73 / .36);
-  --text-primary: oklch(.25 .025 67);
-  --text-secondary: oklch(.46 .025 69);
+  --text-primary: oklch(.245 .032 62);
+  --text-secondary: oklch(.43 .036 67);
   --text-on-accent: oklch(.985 .008 94);
-  --border-subtle: oklch(.82 .018 82);
-  --border-strong: oklch(.62 .035 82);
+  --border-subtle: oklch(.77 .035 83);
+  --border-strong: oklch(.56 .055 79);
   --focus-ring: oklch(.54 .13 226);
-  --phenology-bloom: oklch(.68 .13 8);
-  --phenology-canopy: oklch(.48 .105 145);
-  --phenology-harvest: oklch(.62 .13 70);
+  --phenology-bloom: oklch(.67 .12 23);
+  --phenology-canopy: oklch(.44 .092 142);
+  --phenology-harvest: oklch(.64 .12 65);
   --phenology-dormant: oklch(.59 .07 238);
-  --season-accent: oklch(.45 .10 145);
-  --shadow-floating: 0 8px 28px oklch(.32 .025 70 / .18);
+  --season-accent: oklch(.49 .12 38);
+  --clay: oklch(.58 .13 40);
+  --moss: oklch(.44 .092 142);
+  --wash-yellow: oklch(.88 .075 86 / .55);
+  --wash-pink: oklch(.87 .07 25 / .38);
+  --shadow-floating: 0 8px 24px oklch(.32 .025 70 / .12);
 }
 
 :root[data-theme=dusk] {

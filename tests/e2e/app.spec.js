@@ -3,11 +3,21 @@ import { selectFirstSearchResult, selectFirstSearchResultByKeyboard, waitForApp 
 
 test('loads the city pack and lets visitors search and select a tree', async ({ page }) => {
   await waitForApp(page);
-  await expect(page.getByRole('heading', { name: 'Find a tree worth walking to' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Find your way through the trees' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Trees near map centre' })).toBeVisible();
   await selectFirstSearchResult(page);
   await expect(page.getByRole('button', { name: 'Add to route' })).toBeVisible();
   await expect(page.locator('.bottom-sheet')).toHaveAttribute('data-state', 'peek');
+});
+
+test('opens the Treeways catalogue and a neighbourhood route', async ({ page }) => {
+  await waitForApp(page);
+  await page.getByRole('button', { name: 'Browse neighbourhood trails' }).click();
+  await expect(page.getByRole('heading', { name: 'Choose a neighbourhood trail' })).toBeVisible();
+  await expect(page.locator('.trail-card')).toHaveCount(10);
+  await page.locator('.trail-card').first().click();
+  await expect(page.getByRole('link', { name: 'Open walking route' })).toHaveAttribute('href', /google\.com\/maps\/dir/);
+  await expect(page.getByText(/route order is not human reviewed/i)).toBeVisible();
 });
 
 test('supports keyboard search selection and returns focus after escape', async ({ page }) => {
@@ -24,13 +34,13 @@ test('supports keyboard search selection and returns focus after escape', async 
 
 test('filters change the visible result set and keep a reset path', async ({ page }) => {
   await waitForApp(page);
-  await expect(page.getByText('10000 visible')).toBeVisible();
+  await expect(page.getByText('185307 visible')).toBeVisible();
   await page.getByRole('button', { name: 'Filters', exact: true }).click();
-  await page.getByRole('button', { name: 'Edible', exact: true }).click();
-  await expect(page.locator('[aria-live="polite"]')).toContainText(/curated trees visible.*Filters applied/);
-  await expect(page.getByText('10000 visible')).toBeHidden();
+  await page.getByRole('button', { name: 'Fruit families', exact: true }).click();
+  await expect(page.locator('[aria-live="polite"]')).toContainText(/tree records visible.*Filters applied/);
+  await expect(page.getByText('185307 visible')).toBeHidden();
   await page.getByRole('button', { name: 'Clear filters' }).click();
-  await expect(page.getByText('10000 visible')).toBeVisible();
+  await expect(page.getByText('185307 visible')).toBeVisible();
 });
 
 test('builds and exposes an ordered walking route', async ({ page }) => {

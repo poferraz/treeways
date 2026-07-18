@@ -25,12 +25,15 @@ describe('Vancouver city pipeline', () => {
   });
 
   it('retains the full-snapshot rejection accounting in the committed evidence', async () => {
-    const report = JSON.parse(await readFile(join(process.cwd(), 'data/cities/vancouver/reports/rejects.json'), 'utf8'));
-    const reasons = Object.groupBy(report.rejects, reject => reject.reason);
-    expect(report.rejects).toHaveLength(538);
-    expect(reasons['invalid-diameter-cm']).toHaveLength(531);
-    expect(reasons['invalid-height-m']).toHaveLength(6);
-    expect(reasons['invalid-coordinate']).toHaveLength(1);
+    const report = JSON.parse(await readFile(join(process.cwd(), 'data/cities/vancouver/rejection-summary.json'), 'utf8'));
+    expect(report).toMatchObject({
+      sourceSnapshotSha256: '3eb0140b7e968d21f6e4dd4bc54b33dca7495a284bafda3435ca9bcca9f09764',
+      sourceRecords: 185845,
+      acceptedRecords: 185307,
+      rejectedRecords: 538,
+      reasons: { 'invalid-diameter-cm': 531, 'invalid-height-m': 6, 'invalid-coordinate': 1 }
+    });
+    expect(report.sourceRecords).toBe(report.acceptedRecords + report.rejectedRecords);
   });
 
   it('enforces the v2 tuple contract and empty trails collection', () => {

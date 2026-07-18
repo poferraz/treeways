@@ -1,0 +1,19 @@
+{
+  "version": "treeways-build-week-2026-07-17",
+  "definition": "Default-startup JavaScript is tracked separately from the trail experience, which is fetched only after a visitor chooses Browse neighbourhood trails. MapLibre remains a separately tracked third-party dependency.",
+  "coreEntry": {
+    "assets": ["index.js", "data.worker-*.js"],
+    "gzipBytes": 16043,
+    "maxRelativeGrowth": 0.05,
+    "absoluteMaxGzipBytes": 17500
+  },
+  "onDemandTrail": {
+    "assets": ["trail-browser.js", "trail-suggestions.js"],
+    "gzipBytes": 3885,
+    "absoluteMaxGzipBytes": 4500
+  },
+  "css": { "asset": "index.css", "gzipBytes": 13488, "absoluteMaxGzipBytes": 14500 },
+  "cityData": { "artifact": "vancouver.v2.1.0.json", "gzipBytes": 5555961, "absoluteMaxGzipBytes": 5600000 },
+  "defaultThirdParty": { "asset": "maplibre.js", "gzipBytes": 216980, "absoluteMaxGzipBytes": 230000 },
+  "measurement": "npm run build followed by npm run check:bundle; gzip is zlib level-default. The trail chunks are intentionally absent from default startup and measured as a separate feature budget."
+}

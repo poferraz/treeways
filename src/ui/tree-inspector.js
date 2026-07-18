@@ -1,17 +1,17 @@
 import { maskHasMonth } from '../domain/phenology.js';
 import { scientificName, titleCase } from './format.js';
 
-export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources }) {
+export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources, onTrails }) {
   root.replaceChildren();
   const intro = document.createElement('section');
   intro.className = 'orientation-note';
   const eyebrow = document.createElement('p');
   eyebrow.className = 'section-label';
-  eyebrow.textContent = 'Vancouver field guide';
+  eyebrow.textContent = 'Treeways · Vancouver';
   const title = document.createElement('h1');
-  title.textContent = 'Find a tree worth walking to';
+  title.textContent = 'Find your way through the trees';
   const copy = document.createElement('p');
-  copy.textContent = 'Curated trees are field-guide entries. Municipal records provide broader context when available.';
+  copy.textContent = seasonalWelcome();
   const introActions = document.createElement('div');
   introActions.className = 'inline-actions';
   const locate = document.createElement('button');
@@ -24,7 +24,12 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
   sources.className = 'text-button';
   sources.textContent = 'How data is sourced';
   sources.addEventListener('click', onSources);
-  introActions.append(locate, sources);
+  const trails = document.createElement('button');
+  trails.type = 'button';
+  trails.className = 'secondary-action';
+  trails.textContent = 'Browse neighbourhood trails';
+  trails.addEventListener('click', onTrails);
+  introActions.append(trails, locate, sources);
   intro.append(eyebrow, title, copy, introActions);
 
   const nearby = document.createElement('section');
@@ -56,6 +61,14 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
     nearby.append(list);
   }
   root.append(intro, nearby);
+}
+
+function seasonalWelcome(date = new Date()) {
+  const month = date.getMonth() + 1;
+  if (month >= 6 && month <= 8) return 'Summer is a good time to notice canopy shape, shade, and fruit-tree forms. Start with a neighbourhood trail or explore what is near you.';
+  if (month >= 9 && month <= 11) return 'Autumn changes the city block by block. Compare maples, fruit-tree families, and measured giants on a neighbourhood trail.';
+  if (month >= 3 && month <= 5) return 'Flowering-tree season moves quickly. Compare cherries, plums, magnolias, and dogwoods while noting that timing varies by tree.';
+  return 'Winter makes bark, branching, and evergreen form easier to notice. Start with a neighbourhood trail or explore nearby records.';
 }
 
 export function renderTreeInspector(root, tree, { onRoute, routeStopIndex }) {
@@ -112,7 +125,7 @@ export function renderTreeInspector(root, tree, { onRoute, routeStopIndex }) {
   [
     ['Height', tree.heightM == null ? 'Not recorded' : `${tree.heightM} m`],
     ['Diameter', tree.diameterCm == null ? 'Not recorded' : `${tree.diameterCm} cm`],
-    ['Source', tree.source ?? 'Not recorded']
+    ['Source', tree.source?.label ?? tree.source ?? 'Not recorded']
   ].forEach(([term, value]) => {
     const group = document.createElement('div');
     const dt = document.createElement('dt');

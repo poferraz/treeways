@@ -1,9 +1,9 @@
 const FILTERS = [
-  ['all', 'All curated'],
-  ['edible', 'Edible'],
-  ['blossoms', 'Blossoms'],
-  ['blooming', 'Blooming now'],
-  ['harvesting', 'Harvesting now']
+  ['all', 'All trees'],
+  ['fruit-families', 'Fruit families'],
+  ['flowering-families', 'Flowering families'],
+  ['giants', 'Measured giants'],
+  ['big-trunks', 'Big trunks']
 ];
 
 export function createFilters({ onChange }) {
@@ -62,6 +62,6 @@ export function createFilters({ onChange }) {
 
   return {
     element: root,
-    setCount(value) { count.textContent = `${value} curated ${value === 1 ? 'tree' : 'trees'} visible`; }
+    setCount(value) { count.textContent = `${value} ${value === 1 ? 'tree record' : 'tree records'} visible`; }
   };
 }

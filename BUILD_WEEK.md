@@ -44,18 +44,26 @@ history but develops the Build Week submission independently at
   foundations, giant-tree classification, trail candidate generation,
   deterministic-build verification, and expanded tests
 
-### Treeways extension
+### July 17 Treeways extension
 
-The new repository will add the reviewed, consumer-facing product layer:
+The new repository adds the consumer-facing product layer:
 
-- neighbourhood-first curated trails
-- exact-species, similar-appearance, typical bloom, fruit-viewing, measured
+- ten neighbourhood-first trail previews built from real municipal records
+- exact-species, related-family, similar-appearance, fruit-tree-family, measured
   height, and measured diameter themes
 - small (up to 3 km), medium (up to 5 km), and large (up to 8 km) trail sizes
 - walking and driving handoffs
-- seasonal first-run guidance
-- a human-reviewed trail catalogue compiled into the city artifact
-- public Vercel deployment and complete judge documentation
+- evidence-qualified seasonal first-run guidance
+- warm field-journal visual system synthesized from references 1, 2, and 6
+- Google Maps walking and driving handoffs
+- trail, route, accessibility, and pipeline regression tests
+- complete local, submission, and human-review documentation
+- production Vercel deployment at <https://treeways.vercel.app>, verified in
+  Chromium against the deployed artifact
+
+The route previews remain visibly suggested—not human reviewed—until Paulo
+completes `docs/trail-review-guide.md`. This allows a truthful working deployment
+without misrepresenting automated route order.
 
 Commits will be added to this ledger at every completed release gate.
 
@@ -86,4 +94,3 @@ implementation task will be added before submission.
 - Build Week commit history and this before/after ledger
 - public YouTube demo under three minutes with voiceover
 - `/feedback` session ID from the primary implementation task
-

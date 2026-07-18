@@ -20,11 +20,17 @@ export function createAppShell() {
 
   const cityContext = document.createElement('div');
   cityContext.className = 'city-context';
+  const brand = document.createElement('span');
+  brand.className = 'wordmark';
+  brand.textContent = 'Treeways';
   const cityName = document.createElement('strong');
   cityName.textContent = 'Vancouver';
   const season = document.createElement('span');
   season.textContent = currentSeason();
-  cityContext.append(cityName, season);
+  const place = document.createElement('span');
+  place.className = 'city-place';
+  place.append(cityName, document.createTextNode(' · '), season);
+  cityContext.append(brand, place);
 
   const searchSlot = document.createElement('div');
   searchSlot.className = 'toolbar-search';
