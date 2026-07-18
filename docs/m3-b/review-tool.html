@@ -1,0 +1,4121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>M3-B trail review · vancouver</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #161a22;
+      --panel-2: #1d2230;
+      --line: #2a3142;
+      --text: #e6e9ef;
+      --muted: #8a93a6;
+      --accent: #ffb86b;
+      --accent-2: #7cc4ff;
+      --warn: #ff7a7a;
+      --ok: #6fcf97;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .app { display: grid; grid-template-columns: 320px 1fr; grid-template-rows: 1fr auto; height: 100vh; }
+    .sidebar { grid-row: 1 / span 2; background: var(--panel); border-right: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column; }
+    .sidebar h1 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0; padding: 14px 16px 8px; }
+    .candidate-list { flex: 1; overflow-y: auto; }
+    .candidate { padding: 10px 16px; border-bottom: 1px solid var(--line); cursor: pointer; }
+    .candidate:hover { background: var(--panel-2); }
+    .candidate.active { background: var(--panel-2); border-left: 3px solid var(--accent); padding-left: 13px; }
+    .candidate .id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: var(--muted); }
+    .candidate .label { font-weight: 500; margin: 2px 0; }
+    .candidate .meta { font-size: 11px; color: var(--muted); display: flex; gap: 10px; }
+    .candidate .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; }
+    .badge.reviewed { background: rgba(111, 207, 151, 0.15); color: var(--ok); }
+    .badge.draft { background: rgba(138, 147, 166, 0.15); color: var(--muted); }
+    .map-wrap { position: relative; }
+    #map { width: 100%; height: 100%; }
+    .map-overlay { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; }
+    .map-overlay .pill { background: rgba(22, 26, 34, 0.9); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; font-size: 12px; color: var(--muted); pointer-events: auto; }
+    .map-overlay .pill b { color: var(--text); }
+    .drawer { grid-column: 2; background: var(--panel); border-top: 1px solid var(--line); max-height: 40vh; overflow-y: auto; padding: 16px 20px; }
+    .drawer h2 { margin: 0 0 4px; font-size: 16px; }
+    .drawer .sub { color: var(--muted); font-size: 12px; margin-bottom: 12px; }
+    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+    .fact { background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+    .fact .k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .fact .v { font-size: 14px; font-weight: 500; }
+    form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+    form .row.full { grid-template-columns: 1fr; }
+    label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
+    input[type="text"], input[type="date"], textarea { width: 100%; background: var(--panel-2); border: 1px solid var(--line); color: var(--text); padding: 8px 10px; border-radius: 4px; font: inherit; font-family: inherit; }
+    textarea { min-height: 60px; resize: vertical; }
+    .hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .hint.warn { color: var(--warn); }
+    .actions { display: flex; gap: 8px; margin-top: 12px; align-items: center; flex-wrap: wrap; }
+    button { background: var(--accent); color: #1a1a1a; border: 0; padding: 8px 14px; border-radius: 4px; font-weight: 500; cursor: pointer; font: inherit; }
+    button.secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
+    button.danger { background: var(--warn); color: #1a1a1a; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .toolbar { padding: 8px 16px; border-top: 1px solid var(--line); display: flex; gap: 8px; }
+    .toolbar .spacer { flex: 1; }
+    .status { font-size: 11px; color: var(--muted); align-self: center; }
+    .preview { background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 10px; max-height: 200px; overflow: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; white-space: pre; }
+    .errors { background: rgba(255, 122, 122, 0.1); border: 1px solid var(--warn); border-radius: 4px; padding: 8px 10px; margin: 8px 0; font-size: 12px; color: var(--warn); }
+    .empty { padding: 40px 20px; text-align: center; color: var(--muted); }
+    .maplibregl-popup-content { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); font: 12px/1.4 -apple-system, BlinkMacSystemFont, sans-serif; padding: 8px 10px; }
+    .maplibregl-popup-tip { border-top-color: var(--line) !important; border-bottom-color: var(--line) !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1>Trail candidates (25)</h1>
+      <div class="candidate-list" id="list"></div>
+      <div class="toolbar">
+        <span class="status" id="status">0 approved · 0 drafted</span>
+        <span class="spacer"></span>
+        <button class="secondary" id="btn-clear">Clear drafts</button>
+        <button id="btn-export">Download reviewed.json</button>
+      </div>
+    </aside>
+    <div class="map-wrap">
+      <div id="map"></div>
+      <div class="map-overlay">
+        <div class="pill" id="overlay-info"><b>—</b> · click a candidate</div>
+        <div class="pill">vancouver · v2.1.0 · giant-measurements</div>
+      </div>
+    </div>
+    <section class="drawer" id="drawer">
+      <div class="empty">Select a candidate on the left to start reviewing.</div>
+    </section>
+  </div>
+
+  <script type="application/json" id="candidate-data">
+{
+  "schemaVersion": 1,
+  "status": "NOT HUMAN REVIEWED",
+  "candidateGeneratorVersion": "m3-a-giant-measurements-v1",
+  "sourceArtifact": {
+    "city": "vancouver",
+    "artifact": "vancouver.v2.1.0.json",
+    "sha256": "ab17172955f9373111974258d342df6e92eb75a8b1d8d5b6e8e20d447d6cd79c",
+    "sourceSnapshotSha256": "3eb0140b7e968d21f6e4dd4bc54b33dca7495a284bafda3435ca9bcca9f09764"
+  },
+  "generatedFacts": {
+    "candidateTheme": "giant-measurements",
+    "inputFields": [
+      "tree id",
+      "coordinates",
+      "heightM",
+      "diameterCm",
+      "canopySpreadM"
+    ],
+    "distance": {
+      "method": "straight-line haversine waypoint distance",
+      "unit": "m",
+      "notWalkingDistance": true
+    },
+    "classifier": "src/domain/giant.js classifyGiant"
+  },
+  "proposedEditorialContent": {
+    "names": "none",
+    "narratives": "none",
+    "accessibility": "unknown",
+    "pedestrianPlausibility": "unknown"
+  },
+  "unsupportedFields": [
+    "forage",
+    "bloom",
+    "harvest",
+    "canopy enrichment",
+    "food access",
+    "harvesting permission",
+    "walking-route distance",
+    "safety",
+    "accessibility"
+  ],
+  "requiredHumanDecisions": [
+    "Approve or reject a candidate.",
+    "Supply a human-approved name, reviewed waypoint order, export anchors, waypoint-oriented narrative, reviewer identity/date, and unknown-preserving access and pedestrian notes."
+  ],
+  "candidates": [
+    {
+      "id": "candidate-099a08c3a2f829ca",
+      "label": "generated-giant-measurements-2461:-6155",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "320307",
+        "319922",
+        "320015",
+        "320023",
+        "320277"
+      ],
+      "waypoints": [
+        {
+          "treeId": "320307",
+          "latitude": 49.23260599979317,
+          "longitude": -123.0870319993552,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "319922",
+          "latitude": 49.23125899922796,
+          "longitude": -123.08349499992767,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 167.6,
+            "canopySpreadM": 0,
+            "total": 33.68
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "320015",
+          "latitude": 49.23063899930481,
+          "longitude": -123.08361700018231,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "320023",
+          "latitude": 49.23037099941514,
+          "longitude": -123.08316800060483,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "320277",
+          "latitude": 49.22941799935656,
+          "longitude": -123.08582699935789,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 157.5,
+            "canopySpreadM": 0,
+            "total": 33.58
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 631.23,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 168.42,
+        "components": [
+          {
+            "treeId": "320307",
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          },
+          {
+            "treeId": "319922",
+            "heightM": 32,
+            "diameterCm": 167.6,
+            "canopySpreadM": 0,
+            "total": 33.68
+          },
+          {
+            "treeId": "320015",
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          {
+            "treeId": "320023",
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          {
+            "treeId": "320277",
+            "heightM": 32,
+            "diameterCm": 157.5,
+            "canopySpreadM": 0,
+            "total": 33.58
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-0be977a59fed3397",
+      "label": "generated-giant-measurements-2462:-6153",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "327198",
+        "322941",
+        "322939",
+        "322938",
+        "323370"
+      ],
+      "waypoints": [
+        {
+          "treeId": "327198",
+          "latitude": 49.255274998739374,
+          "longitude": -123.05042999922007,
+          "scoreComponents": {
+            "heightM": 40,
+            "diameterCm": 75,
+            "canopySpreadM": 0,
+            "total": 40.75
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "322941",
+          "latitude": 49.257054998869975,
+          "longitude": -123.05912199932806,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 180.3,
+            "canopySpreadM": 0,
+            "total": 33.8
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "322939",
+          "latitude": 49.25728399879217,
+          "longitude": -123.05912599991599,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 185.4,
+            "canopySpreadM": 0,
+            "total": 33.85
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "322938",
+          "latitude": 49.25740999911547,
+          "longitude": -123.0591209995866,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 185.4,
+            "canopySpreadM": 0,
+            "total": 33.85
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "323370",
+          "latitude": 49.24343799919808,
+          "longitude": -123.0473460009107,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 205.7,
+            "canopySpreadM": 0,
+            "total": 34.06
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2473.8,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 176.31,
+        "components": [
+          {
+            "treeId": "327198",
+            "heightM": 40,
+            "diameterCm": 75,
+            "canopySpreadM": 0,
+            "total": 40.75
+          },
+          {
+            "treeId": "322941",
+            "heightM": 32,
+            "diameterCm": 180.3,
+            "canopySpreadM": 0,
+            "total": 33.8
+          },
+          {
+            "treeId": "322939",
+            "heightM": 32,
+            "diameterCm": 185.4,
+            "canopySpreadM": 0,
+            "total": 33.85
+          },
+          {
+            "treeId": "322938",
+            "heightM": 32,
+            "diameterCm": 185.4,
+            "canopySpreadM": 0,
+            "total": 33.85
+          },
+          {
+            "treeId": "323370",
+            "heightM": 32,
+            "diameterCm": 205.7,
+            "canopySpreadM": 0,
+            "total": 34.06
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-11964c9abd9db4e5",
+      "label": "generated-giant-measurements-2462:-6157",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "339942",
+        "340072",
+        "340068",
+        "340061",
+        "340527"
+      ],
+      "waypoints": [
+        {
+          "treeId": "339942",
+          "latitude": 49.24010799978314,
+          "longitude": -123.13308099977336,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "340072",
+          "latitude": 49.24049099898035,
+          "longitude": -123.13066199967597,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "340068",
+          "latitude": 49.2405719991069,
+          "longitude": -123.13059300016616,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 152.4,
+            "canopySpreadM": 0,
+            "total": 33.52
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "340061",
+          "latitude": 49.24055299943184,
+          "longitude": -123.13040500016498,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 139.7,
+            "canopySpreadM": 0,
+            "total": 33.4
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "340527",
+          "latitude": 49.24042799880958,
+          "longitude": -123.1298540004279,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 144.8,
+            "canopySpreadM": 0,
+            "total": 33.45
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 247.17,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.47,
+        "components": [
+          {
+            "treeId": "339942",
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          {
+            "treeId": "340072",
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          {
+            "treeId": "340068",
+            "heightM": 32,
+            "diameterCm": 152.4,
+            "canopySpreadM": 0,
+            "total": 33.52
+          },
+          {
+            "treeId": "340061",
+            "heightM": 32,
+            "diameterCm": 139.7,
+            "canopySpreadM": 0,
+            "total": 33.4
+          },
+          {
+            "treeId": "340527",
+            "heightM": 32,
+            "diameterCm": 144.8,
+            "canopySpreadM": 0,
+            "total": 33.45
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-1a5b070b301817a0",
+      "label": "generated-giant-measurements-2463:-6157",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "332695",
+        "332694",
+        "332556",
+        "334221",
+        "334128"
+      ],
+      "waypoints": [
+        {
+          "treeId": "332695",
+          "latitude": 49.27750099908779,
+          "longitude": -123.13594899969597,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 240,
+            "canopySpreadM": 0,
+            "total": 34.4
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "332694",
+          "latitude": 49.27762799897004,
+          "longitude": -123.13630900041231,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "332556",
+          "latitude": 49.27661499902862,
+          "longitude": -123.13475900000662,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 99.1,
+            "canopySpreadM": 0,
+            "total": 32.99
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "334221",
+          "latitude": 49.2696739994505,
+          "longitude": -123.1369679993895,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 101.6,
+            "canopySpreadM": 0,
+            "total": 33.02
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "334128",
+          "latitude": 49.2687489992558,
+          "longitude": -123.13465499949827,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 1173.95,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.02,
+        "components": [
+          {
+            "treeId": "332695",
+            "heightM": 32,
+            "diameterCm": 240,
+            "canopySpreadM": 0,
+            "total": 34.4
+          },
+          {
+            "treeId": "332694",
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          },
+          {
+            "treeId": "332556",
+            "heightM": 32,
+            "diameterCm": 99.1,
+            "canopySpreadM": 0,
+            "total": 32.99
+          },
+          {
+            "treeId": "334221",
+            "heightM": 32,
+            "diameterCm": 101.6,
+            "canopySpreadM": 0,
+            "total": 33.02
+          },
+          {
+            "treeId": "334128",
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-29a4f7bd49436c7a",
+      "label": "generated-giant-measurements-2461:-6159",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "318012",
+        "318013",
+        "318014",
+        "318217",
+        "318174"
+      ],
+      "waypoints": [
+        {
+          "treeId": "318012",
+          "latitude": 49.2229839985828,
+          "longitude": -123.16626099933016,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "318013",
+          "latitude": 49.2230379988216,
+          "longitude": -123.16627799975421,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "318014",
+          "latitude": 49.22306599876135,
+          "longitude": -123.16621400001772,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 147.3,
+            "canopySpreadM": 0,
+            "total": 33.47
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "318217",
+          "latitude": 49.22086599916078,
+          "longitude": -123.16411599989468,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 144.8,
+            "canopySpreadM": 0,
+            "total": 33.45
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "318174",
+          "latitude": 49.22071099876661,
+          "longitude": -123.16430399989926,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 144.8,
+            "canopySpreadM": 0,
+            "total": 33.45
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 321.91,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.7,
+        "components": [
+          {
+            "treeId": "318012",
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          {
+            "treeId": "318013",
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          {
+            "treeId": "318014",
+            "heightM": 32,
+            "diameterCm": 147.3,
+            "canopySpreadM": 0,
+            "total": 33.47
+          },
+          {
+            "treeId": "318217",
+            "heightM": 32,
+            "diameterCm": 144.8,
+            "canopySpreadM": 0,
+            "total": 33.45
+          },
+          {
+            "treeId": "318174",
+            "heightM": 32,
+            "diameterCm": 144.8,
+            "canopySpreadM": 0,
+            "total": 33.45
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-2f1a5971c4b08af5",
+      "label": "generated-giant-measurements-2460:-6153",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "323024",
+        "339173",
+        "322039",
+        "322177",
+        "322369"
+      ],
+      "waypoints": [
+        {
+          "treeId": "323024",
+          "latitude": 49.20967999857321,
+          "longitude": -123.0484560003003,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 193,
+            "canopySpreadM": 0,
+            "total": 33.93
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "339173",
+          "latitude": 49.21330399926528,
+          "longitude": -123.05181599990681,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "322039",
+          "latitude": 49.215820999118094,
+          "longitude": -123.04124799991352,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 175.3,
+            "canopySpreadM": 0,
+            "total": 33.75
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "322177",
+          "latitude": 49.205287999050235,
+          "longitude": -123.0558000002567,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 132.1,
+            "canopySpreadM": 0,
+            "total": 33.32
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "322369",
+          "latitude": 49.205608999245875,
+          "longitude": -123.05889199912941,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 3093.32,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.6,
+        "components": [
+          {
+            "treeId": "323024",
+            "heightM": 32,
+            "diameterCm": 193,
+            "canopySpreadM": 0,
+            "total": 33.93
+          },
+          {
+            "treeId": "339173",
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          },
+          {
+            "treeId": "322039",
+            "heightM": 32,
+            "diameterCm": 175.3,
+            "canopySpreadM": 0,
+            "total": 33.75
+          },
+          {
+            "treeId": "322177",
+            "heightM": 32,
+            "diameterCm": 132.1,
+            "canopySpreadM": 0,
+            "total": 33.32
+          },
+          {
+            "treeId": "322369",
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-47f9173e68e3209e",
+      "label": "generated-giant-measurements-2465:-6158",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "337191",
+        "335684",
+        "335680",
+        "337222",
+        "335643"
+      ],
+      "waypoints": [
+        {
+          "treeId": "337191",
+          "latitude": 49.301454735942045,
+          "longitude": -123.156482333277,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 198.1,
+            "canopySpreadM": 0,
+            "total": 33.98
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "335684",
+          "latitude": 49.302692999423655,
+          "longitude": -123.15607499929612,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 142.2,
+            "canopySpreadM": 0,
+            "total": 33.42
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "335680",
+          "latitude": 49.30288299891434,
+          "longitude": -123.15611599940068,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "337222",
+          "latitude": 49.30030699851682,
+          "longitude": -123.15774100061445,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 121.9,
+            "canopySpreadM": 0,
+            "total": 33.22
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "335643",
+          "latitude": 49.30664099843576,
+          "longitude": -123.15355800067195,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 193,
+            "canopySpreadM": 0,
+            "total": 33.93
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 1238.71,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.92,
+        "components": [
+          {
+            "treeId": "337191",
+            "heightM": 32,
+            "diameterCm": 198.1,
+            "canopySpreadM": 0,
+            "total": 33.98
+          },
+          {
+            "treeId": "335684",
+            "heightM": 32,
+            "diameterCm": 142.2,
+            "canopySpreadM": 0,
+            "total": 33.42
+          },
+          {
+            "treeId": "335680",
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          },
+          {
+            "treeId": "337222",
+            "heightM": 32,
+            "diameterCm": 121.9,
+            "canopySpreadM": 0,
+            "total": 33.22
+          },
+          {
+            "treeId": "335643",
+            "heightM": 32,
+            "diameterCm": 193,
+            "canopySpreadM": 0,
+            "total": 33.93
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-4be8504210665fca",
+      "label": "generated-giant-measurements-2460:-6158",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "314340",
+        "314315",
+        "319471",
+        "319470",
+        "319715"
+      ],
+      "waypoints": [
+        {
+          "treeId": "314340",
+          "latitude": 49.21308999918207,
+          "longitude": -123.14831900053044,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 162.6,
+            "canopySpreadM": 0,
+            "total": 33.63
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "314315",
+          "latitude": 49.21209199893798,
+          "longitude": -123.14786999990784,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "319471",
+          "latitude": 49.207699999,
+          "longitude": -123.14901299961825,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "319470",
+          "latitude": 49.207686998830454,
+          "longitude": -123.14899500011813,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "319715",
+          "latitude": 49.2060819988622,
+          "longitude": -123.15029799985004,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 815.01,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.24,
+        "components": [
+          {
+            "treeId": "314340",
+            "heightM": 32,
+            "diameterCm": 162.6,
+            "canopySpreadM": 0,
+            "total": 33.63
+          },
+          {
+            "treeId": "314315",
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          {
+            "treeId": "319471",
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          {
+            "treeId": "319470",
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          {
+            "treeId": "319715",
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-54066591daf774f5",
+      "label": "generated-giant-measurements-2462:-6155",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "23202",
+        "23211",
+        "22200",
+        "22249",
+        "326960"
+      ],
+      "waypoints": [
+        {
+          "treeId": "23202",
+          "latitude": 49.25099799947571,
+          "longitude": -123.08640700034917,
+          "scoreComponents": {
+            "heightM": 70,
+            "diameterCm": 20,
+            "canopySpreadM": 0,
+            "total": 70.2
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "23211",
+          "latitude": 49.250979999471966,
+          "longitude": -123.0852379999319,
+          "scoreComponents": {
+            "heightM": 50,
+            "diameterCm": 55,
+            "canopySpreadM": 0,
+            "total": 50.55
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "22200",
+          "latitude": 49.25181399974317,
+          "longitude": -123.08680499977855,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "22249",
+          "latitude": 49.25173799895744,
+          "longitude": -123.08210199969031,
+          "scoreComponents": {
+            "heightM": 63,
+            "diameterCm": 90,
+            "canopySpreadM": 0,
+            "total": 63.9
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "326960",
+          "latitude": 49.249211998894,
+          "longitude": -123.08249399986849,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 111.8,
+            "canopySpreadM": 0,
+            "total": 33.12
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 855.39,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 251.07,
+        "components": [
+          {
+            "treeId": "23202",
+            "heightM": 70,
+            "diameterCm": 20,
+            "canopySpreadM": 0,
+            "total": 70.2
+          },
+          {
+            "treeId": "23211",
+            "heightM": 50,
+            "diameterCm": 55,
+            "canopySpreadM": 0,
+            "total": 50.55
+          },
+          {
+            "treeId": "22200",
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          },
+          {
+            "treeId": "22249",
+            "heightM": 63,
+            "diameterCm": 90,
+            "canopySpreadM": 0,
+            "total": 63.9
+          },
+          {
+            "treeId": "326960",
+            "heightM": 32,
+            "diameterCm": 111.8,
+            "canopySpreadM": 0,
+            "total": 33.12
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-564bf328ac953959",
+      "label": "generated-giant-measurements-2463:-6155",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "330752",
+        "341222",
+        "330669",
+        "330667",
+        "338339"
+      ],
+      "waypoints": [
+        {
+          "treeId": "330752",
+          "latitude": 49.27399999916929,
+          "longitude": -123.08326600019242,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 203.2,
+            "canopySpreadM": 0,
+            "total": 34.03
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "341222",
+          "latitude": 49.27391699890415,
+          "longitude": -123.08457000051457,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 165.1,
+            "canopySpreadM": 0,
+            "total": 33.65
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "330669",
+          "latitude": 49.27488999881008,
+          "longitude": -123.08446999930584,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 162.6,
+            "canopySpreadM": 0,
+            "total": 33.63
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "330667",
+          "latitude": 49.27487899939246,
+          "longitude": -123.08425700034596,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 163,
+            "canopySpreadM": 0,
+            "total": 33.63
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "338339",
+          "latitude": 49.2760199997814,
+          "longitude": -123.08744400034153,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 482.72,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 168.95,
+        "components": [
+          {
+            "treeId": "330752",
+            "heightM": 32,
+            "diameterCm": 203.2,
+            "canopySpreadM": 0,
+            "total": 34.03
+          },
+          {
+            "treeId": "341222",
+            "heightM": 32,
+            "diameterCm": 165.1,
+            "canopySpreadM": 0,
+            "total": 33.65
+          },
+          {
+            "treeId": "330669",
+            "heightM": 32,
+            "diameterCm": 162.6,
+            "canopySpreadM": 0,
+            "total": 33.63
+          },
+          {
+            "treeId": "330667",
+            "heightM": 32,
+            "diameterCm": 163,
+            "canopySpreadM": 0,
+            "total": 33.63
+          },
+          {
+            "treeId": "338339",
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-6a064e62bb015818",
+      "label": "generated-giant-measurements-2461:-6152",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "179368",
+        "179369",
+        "321717",
+        "321719",
+        "321715"
+      ],
+      "waypoints": [
+        {
+          "treeId": "179368",
+          "latitude": 49.22619399924454,
+          "longitude": -123.0319780006832,
+          "scoreComponents": {
+            "heightM": 40,
+            "diameterCm": 90,
+            "canopySpreadM": 0,
+            "total": 40.9
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "179369",
+          "latitude": 49.22611899923657,
+          "longitude": -123.03198199975724,
+          "scoreComponents": {
+            "heightM": 40,
+            "diameterCm": 85,
+            "canopySpreadM": 0,
+            "total": 40.85
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "321717",
+          "latitude": 49.22102199915408,
+          "longitude": -123.02966100033838,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 76.2,
+            "canopySpreadM": 0,
+            "total": 32.76
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "321719",
+          "latitude": 49.220929998998855,
+          "longitude": -123.02967899976485,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 78.7,
+            "canopySpreadM": 0,
+            "total": 32.79
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "321715",
+          "latitude": 49.220964999624044,
+          "longitude": -123.02953500084404,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 104.1,
+            "canopySpreadM": 0,
+            "total": 33.04
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 621.11,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 180.34,
+        "components": [
+          {
+            "treeId": "179368",
+            "heightM": 40,
+            "diameterCm": 90,
+            "canopySpreadM": 0,
+            "total": 40.9
+          },
+          {
+            "treeId": "179369",
+            "heightM": 40,
+            "diameterCm": 85,
+            "canopySpreadM": 0,
+            "total": 40.85
+          },
+          {
+            "treeId": "321717",
+            "heightM": 32,
+            "diameterCm": 76.2,
+            "canopySpreadM": 0,
+            "total": 32.76
+          },
+          {
+            "treeId": "321719",
+            "heightM": 32,
+            "diameterCm": 78.7,
+            "canopySpreadM": 0,
+            "total": 32.79
+          },
+          {
+            "treeId": "321715",
+            "heightM": 32,
+            "diameterCm": 104.1,
+            "canopySpreadM": 0,
+            "total": 33.04
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-74a24005c4a9bc67",
+      "label": "generated-giant-measurements-2461:-6156",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "309647",
+        "309651",
+        "310097",
+        "313590",
+        "312554"
+      ],
+      "waypoints": [
+        {
+          "treeId": "309647",
+          "latitude": 49.23902799868428,
+          "longitude": -123.11076600098752,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 188,
+            "canopySpreadM": 0,
+            "total": 33.88
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "309651",
+          "latitude": 49.23911499918563,
+          "longitude": -123.1104819998057,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "310097",
+          "latitude": 49.23980599925338,
+          "longitude": -123.11520100006375,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 182.9,
+            "canopySpreadM": 0,
+            "total": 33.83
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "313590",
+          "latitude": 49.221247998958724,
+          "longitude": -123.1063549992664,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 175.3,
+            "canopySpreadM": 0,
+            "total": 33.75
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "312554",
+          "latitude": 49.22092599896141,
+          "longitude": -123.10742800032048,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 182.9,
+            "canopySpreadM": 0,
+            "total": 33.83
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2620.85,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 168.89,
+        "components": [
+          {
+            "treeId": "309647",
+            "heightM": 32,
+            "diameterCm": 188,
+            "canopySpreadM": 0,
+            "total": 33.88
+          },
+          {
+            "treeId": "309651",
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          {
+            "treeId": "310097",
+            "heightM": 32,
+            "diameterCm": 182.9,
+            "canopySpreadM": 0,
+            "total": 33.83
+          },
+          {
+            "treeId": "313590",
+            "heightM": 32,
+            "diameterCm": 175.3,
+            "canopySpreadM": 0,
+            "total": 33.75
+          },
+          {
+            "treeId": "312554",
+            "heightM": 32,
+            "diameterCm": 182.9,
+            "canopySpreadM": 0,
+            "total": 33.83
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-75b70ae5938ca9e7",
+      "label": "generated-giant-measurements-2462:-6156",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "310887",
+        "310691",
+        "310849",
+        "311224",
+        "130900"
+      ],
+      "waypoints": [
+        {
+          "treeId": "310887",
+          "latitude": 49.24199999982975,
+          "longitude": -123.10868900005326,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 271.8,
+            "canopySpreadM": 0,
+            "total": 34.72
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "310691",
+          "latitude": 49.2412219996164,
+          "longitude": -123.10855800050321,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 223.5,
+            "canopySpreadM": 0,
+            "total": 34.24
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "310849",
+          "latitude": 49.24319999884938,
+          "longitude": -123.1105810000014,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 167.6,
+            "canopySpreadM": 0,
+            "total": 33.68
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "311224",
+          "latitude": 49.24310799887083,
+          "longitude": -123.11459999961423,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 170.2,
+            "canopySpreadM": 0,
+            "total": 33.7
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "130900",
+          "latitude": 49.255738999265894,
+          "longitude": -123.11305300063887,
+          "scoreComponents": {
+            "heightM": 33,
+            "diameterCm": 104.1,
+            "canopySpreadM": 0,
+            "total": 34.04
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2052.42,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 170.38,
+        "components": [
+          {
+            "treeId": "310887",
+            "heightM": 32,
+            "diameterCm": 271.8,
+            "canopySpreadM": 0,
+            "total": 34.72
+          },
+          {
+            "treeId": "310691",
+            "heightM": 32,
+            "diameterCm": 223.5,
+            "canopySpreadM": 0,
+            "total": 34.24
+          },
+          {
+            "treeId": "310849",
+            "heightM": 32,
+            "diameterCm": 167.6,
+            "canopySpreadM": 0,
+            "total": 33.68
+          },
+          {
+            "treeId": "311224",
+            "heightM": 32,
+            "diameterCm": 170.2,
+            "canopySpreadM": 0,
+            "total": 33.7
+          },
+          {
+            "treeId": "130900",
+            "heightM": 33,
+            "diameterCm": 104.1,
+            "canopySpreadM": 0,
+            "total": 34.04
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-8d49bb14893f7c93",
+      "label": "generated-giant-measurements-2463:-6161",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "333161",
+        "333144",
+        "333751",
+        "331662",
+        "331474"
+      ],
+      "waypoints": [
+        {
+          "treeId": "333161",
+          "latitude": 49.27226199935516,
+          "longitude": -123.20372999903894,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "333144",
+          "latitude": 49.27240699937855,
+          "longitude": -123.20407399949754,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "333751",
+          "latitude": 49.27232499896137,
+          "longitude": -123.2045970005559,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "331662",
+          "latitude": 49.275454999111545,
+          "longitude": -123.21300099964343,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "331474",
+          "latitude": 49.27195899919343,
+          "longitude": -123.21428700018421,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 132.1,
+            "canopySpreadM": 0,
+            "total": 33.32
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 1170.55,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.11,
+        "components": [
+          {
+            "treeId": "333161",
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          {
+            "treeId": "333144",
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          {
+            "treeId": "333751",
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          {
+            "treeId": "331662",
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          {
+            "treeId": "331474",
+            "heightM": 32,
+            "diameterCm": 132.1,
+            "canopySpreadM": 0,
+            "total": 33.32
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-9b7991892209af8e",
+      "label": "generated-giant-measurements-2463:-6160",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "325245",
+        "324352",
+        "325223",
+        "315105",
+        "315094"
+      ],
+      "waypoints": [
+        {
+          "treeId": "325245",
+          "latitude": 49.2707299990577,
+          "longitude": -123.19278699942618,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "324352",
+          "latitude": 49.271622999013815,
+          "longitude": -123.19066699958285,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 165.1,
+            "canopySpreadM": 0,
+            "total": 33.65
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "325223",
+          "latitude": 49.274251999182674,
+          "longitude": -123.19805199956798,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "315105",
+          "latitude": 49.261031999665924,
+          "longitude": -123.18550699991376,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "315094",
+          "latitude": 49.26114799938519,
+          "longitude": -123.18505200020014,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 147.3,
+            "canopySpreadM": 0,
+            "total": 33.47
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2557.86,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.77,
+        "components": [
+          {
+            "treeId": "325245",
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          {
+            "treeId": "324352",
+            "heightM": 32,
+            "diameterCm": 165.1,
+            "canopySpreadM": 0,
+            "total": 33.65
+          },
+          {
+            "treeId": "325223",
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          {
+            "treeId": "315105",
+            "heightM": 32,
+            "diameterCm": 137.2,
+            "canopySpreadM": 0,
+            "total": 33.37
+          },
+          {
+            "treeId": "315094",
+            "heightM": 32,
+            "diameterCm": 147.3,
+            "canopySpreadM": 0,
+            "total": 33.47
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-a4f708f9255ca5ef",
+      "label": "generated-giant-measurements-2464:-6157",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "324436",
+        "338095",
+        "338420",
+        "338014",
+        "332716"
+      ],
+      "waypoints": [
+        {
+          "treeId": "324436",
+          "latitude": 49.29795399894652,
+          "longitude": -123.13398599975444,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 269.2,
+            "canopySpreadM": 0,
+            "total": 34.69
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "338095",
+          "latitude": 49.29771299896111,
+          "longitude": -123.13382299987303,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 236.2,
+            "canopySpreadM": 0,
+            "total": 34.36
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "338420",
+          "latitude": 49.2999469984793,
+          "longitude": -123.13330900038483,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 226.1,
+            "canopySpreadM": 0,
+            "total": 34.26
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "338014",
+          "latitude": 49.29955899927323,
+          "longitude": -123.1307960000316,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 251.5,
+            "canopySpreadM": 0,
+            "total": 34.52
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "332716",
+          "latitude": 49.28115599970024,
+          "longitude": -123.13921000048049,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 235.5,
+            "canopySpreadM": 0,
+            "total": 34.35
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2603.1,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 172.18,
+        "components": [
+          {
+            "treeId": "324436",
+            "heightM": 32,
+            "diameterCm": 269.2,
+            "canopySpreadM": 0,
+            "total": 34.69
+          },
+          {
+            "treeId": "338095",
+            "heightM": 32,
+            "diameterCm": 236.2,
+            "canopySpreadM": 0,
+            "total": 34.36
+          },
+          {
+            "treeId": "338420",
+            "heightM": 32,
+            "diameterCm": 226.1,
+            "canopySpreadM": 0,
+            "total": 34.26
+          },
+          {
+            "treeId": "338014",
+            "heightM": 32,
+            "diameterCm": 251.5,
+            "canopySpreadM": 0,
+            "total": 34.52
+          },
+          {
+            "treeId": "332716",
+            "heightM": 32,
+            "diameterCm": 235.5,
+            "canopySpreadM": 0,
+            "total": 34.35
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-a96d4085482489dc",
+      "label": "generated-giant-measurements-2461:-6153",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "74218",
+        "74220",
+        "74217",
+        "74214",
+        "74213"
+      ],
+      "waypoints": [
+        {
+          "treeId": "74218",
+          "latitude": 49.23413399848643,
+          "longitude": -123.04870599929242,
+          "scoreComponents": {
+            "heightM": 40,
+            "diameterCm": 60,
+            "canopySpreadM": 0,
+            "total": 40.6
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "74220",
+          "latitude": 49.23414899907477,
+          "longitude": -123.04887399976255,
+          "scoreComponents": {
+            "heightM": 35,
+            "diameterCm": 43,
+            "canopySpreadM": 0,
+            "total": 35.43
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "74217",
+          "latitude": 49.23426399860127,
+          "longitude": -123.04871699952831,
+          "scoreComponents": {
+            "heightM": 40,
+            "diameterCm": 57,
+            "canopySpreadM": 0,
+            "total": 40.57
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "74214",
+          "latitude": 49.234377998778726,
+          "longitude": -123.04889000069605,
+          "scoreComponents": {
+            "heightM": 35,
+            "diameterCm": 57,
+            "canopySpreadM": 0,
+            "total": 35.57
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "74213",
+          "latitude": 49.23449799863942,
+          "longitude": -123.04889300105201,
+          "scoreComponents": {
+            "heightM": 35,
+            "diameterCm": 42,
+            "canopySpreadM": 0,
+            "total": 35.42
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 60.63,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 187.59,
+        "components": [
+          {
+            "treeId": "74218",
+            "heightM": 40,
+            "diameterCm": 60,
+            "canopySpreadM": 0,
+            "total": 40.6
+          },
+          {
+            "treeId": "74220",
+            "heightM": 35,
+            "diameterCm": 43,
+            "canopySpreadM": 0,
+            "total": 35.43
+          },
+          {
+            "treeId": "74217",
+            "heightM": 40,
+            "diameterCm": 57,
+            "canopySpreadM": 0,
+            "total": 40.57
+          },
+          {
+            "treeId": "74214",
+            "heightM": 35,
+            "diameterCm": 57,
+            "canopySpreadM": 0,
+            "total": 35.57
+          },
+          {
+            "treeId": "74213",
+            "heightM": 35,
+            "diameterCm": 42,
+            "canopySpreadM": 0,
+            "total": 35.42
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-b4ae731b5f2b4f34",
+      "label": "generated-giant-measurements-2461:-6157",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "325822",
+        "339498",
+        "340605",
+        "340816",
+        "319235"
+      ],
+      "waypoints": [
+        {
+          "treeId": "325822",
+          "latitude": 49.23762799908435,
+          "longitude": -123.12397099930229,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "339498",
+          "latitude": 49.23968899882785,
+          "longitude": -123.12944300068467,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 139.7,
+            "canopySpreadM": 0,
+            "total": 33.4
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "340605",
+          "latitude": 49.23825899896722,
+          "longitude": -123.13242600072257,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 180.3,
+            "canopySpreadM": 0,
+            "total": 33.8
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "340816",
+          "latitude": 49.23793499920381,
+          "longitude": -123.13332299954659,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 132.1,
+            "canopySpreadM": 0,
+            "total": 33.32
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "319235",
+          "latitude": 49.22892599959685,
+          "longitude": -123.12068999887452,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 139.7,
+            "canopySpreadM": 0,
+            "total": 33.4
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2159.99,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.93,
+        "components": [
+          {
+            "treeId": "325822",
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          },
+          {
+            "treeId": "339498",
+            "heightM": 32,
+            "diameterCm": 139.7,
+            "canopySpreadM": 0,
+            "total": 33.4
+          },
+          {
+            "treeId": "340605",
+            "heightM": 32,
+            "diameterCm": 180.3,
+            "canopySpreadM": 0,
+            "total": 33.8
+          },
+          {
+            "treeId": "340816",
+            "heightM": 32,
+            "diameterCm": 132.1,
+            "canopySpreadM": 0,
+            "total": 33.32
+          },
+          {
+            "treeId": "319235",
+            "heightM": 32,
+            "diameterCm": 139.7,
+            "canopySpreadM": 0,
+            "total": 33.4
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-bfd578920a5bbe18",
+      "label": "generated-giant-measurements-2460:-6159",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "318237",
+        "317299",
+        "318363",
+        "316971",
+        "316833"
+      ],
+      "waypoints": [
+        {
+          "treeId": "318237",
+          "latitude": 49.21986699905755,
+          "longitude": -123.164127999576,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 190.5,
+            "canopySpreadM": 0,
+            "total": 33.91
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "317299",
+          "latitude": 49.21748599943584,
+          "longitude": -123.1652349989471,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "318363",
+          "latitude": 49.217039999059985,
+          "longitude": -123.16461500030839,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "316971",
+          "latitude": 49.21729299889487,
+          "longitude": -123.16611400104485,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "316833",
+          "latitude": 49.21899299961195,
+          "longitude": -123.16880399918631,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 162.6,
+            "canopySpreadM": 0,
+            "total": 33.63
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 727.99,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 168.32,
+        "components": [
+          {
+            "treeId": "318237",
+            "heightM": 32,
+            "diameterCm": 190.5,
+            "canopySpreadM": 0,
+            "total": 33.91
+          },
+          {
+            "treeId": "317299",
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          {
+            "treeId": "318363",
+            "heightM": 32,
+            "diameterCm": 154.9,
+            "canopySpreadM": 0,
+            "total": 33.55
+          },
+          {
+            "treeId": "316971",
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          {
+            "treeId": "316833",
+            "heightM": 32,
+            "diameterCm": 162.6,
+            "canopySpreadM": 0,
+            "total": 33.63
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-d92e5ae1c73135fa",
+      "label": "generated-giant-measurements-2462:-6154",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "26573",
+        "401384",
+        "316630",
+        "316626",
+        "322565"
+      ],
+      "waypoints": [
+        {
+          "treeId": "26573",
+          "latitude": 49.247552998685656,
+          "longitude": -123.0774389997751,
+          "scoreComponents": {
+            "heightM": 35,
+            "diameterCm": 97,
+            "canopySpreadM": 0,
+            "total": 35.97
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "401384",
+          "latitude": 49.255633885729615,
+          "longitude": -123.06912126898006,
+          "scoreComponents": {
+            "heightM": 35,
+            "diameterCm": 73,
+            "canopySpreadM": 0,
+            "total": 35.73
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "316630",
+          "latitude": 49.25716099866525,
+          "longitude": -123.07209799988884,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 195.6,
+            "canopySpreadM": 0,
+            "total": 33.96
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "316626",
+          "latitude": 49.257284999086245,
+          "longitude": -123.0727330005165,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "322565",
+          "latitude": 49.255510999765455,
+          "longitude": -123.06059599933353,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2308.06,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 172.14,
+        "components": [
+          {
+            "treeId": "26573",
+            "heightM": 35,
+            "diameterCm": 97,
+            "canopySpreadM": 0,
+            "total": 35.97
+          },
+          {
+            "treeId": "401384",
+            "heightM": 35,
+            "diameterCm": 73,
+            "canopySpreadM": 0,
+            "total": 35.73
+          },
+          {
+            "treeId": "316630",
+            "heightM": 32,
+            "diameterCm": 195.6,
+            "canopySpreadM": 0,
+            "total": 33.96
+          },
+          {
+            "treeId": "316626",
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          {
+            "treeId": "322565",
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-d982abb55953a5b0",
+      "label": "generated-giant-measurements-2463:-6152",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "315007",
+        "332006",
+        "332101",
+        "323610",
+        "324088"
+      ],
+      "waypoints": [
+        {
+          "treeId": "315007",
+          "latitude": 49.27649499917929,
+          "longitude": -123.02483500003213,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "332006",
+          "latitude": 49.27326499855963,
+          "longitude": -123.02751600080265,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 111.8,
+            "canopySpreadM": 0,
+            "total": 33.12
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "332101",
+          "latitude": 49.273650999054766,
+          "longitude": -123.0294470006055,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "323610",
+          "latitude": 49.27172099945758,
+          "longitude": -123.03016799979255,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "324088",
+          "latitude": 49.27120299880612,
+          "longitude": -123.02975500025482,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 152.4,
+            "canopySpreadM": 0,
+            "total": 33.52
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 840.78,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.11,
+        "components": [
+          {
+            "treeId": "315007",
+            "heightM": 32,
+            "diameterCm": 172.7,
+            "canopySpreadM": 0,
+            "total": 33.73
+          },
+          {
+            "treeId": "332006",
+            "heightM": 32,
+            "diameterCm": 111.8,
+            "canopySpreadM": 0,
+            "total": 33.12
+          },
+          {
+            "treeId": "332101",
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          {
+            "treeId": "323610",
+            "heightM": 32,
+            "diameterCm": 124.5,
+            "canopySpreadM": 0,
+            "total": 33.24
+          },
+          {
+            "treeId": "324088",
+            "heightM": 32,
+            "diameterCm": 152.4,
+            "canopySpreadM": 0,
+            "total": 33.52
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-e46d7d19b0e10d0f",
+      "label": "generated-giant-measurements-2463:-6158",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "316523",
+        "316462",
+        "316173",
+        "315474",
+        "13293"
+      ],
+      "waypoints": [
+        {
+          "treeId": "316523",
+          "latitude": 49.27710799869358,
+          "longitude": -123.14268500025526,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 264.2,
+            "canopySpreadM": 0,
+            "total": 34.64
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "316462",
+          "latitude": 49.27802299860604,
+          "longitude": -123.14219999924809,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 119.4,
+            "canopySpreadM": 0,
+            "total": 33.19
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "316173",
+          "latitude": 49.27632099836576,
+          "longitude": -123.14068499913212,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 188,
+            "canopySpreadM": 0,
+            "total": 33.88
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "315474",
+          "latitude": 49.27345399956757,
+          "longitude": -123.15271500104446,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 109.2,
+            "canopySpreadM": 0,
+            "total": 33.09
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "13293",
+          "latitude": 49.26005299941827,
+          "longitude": -123.14945299995705,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 116.8,
+            "canopySpreadM": 0,
+            "total": 33.17
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 2764.45,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.97,
+        "components": [
+          {
+            "treeId": "316523",
+            "heightM": 32,
+            "diameterCm": 264.2,
+            "canopySpreadM": 0,
+            "total": 34.64
+          },
+          {
+            "treeId": "316462",
+            "heightM": 32,
+            "diameterCm": 119.4,
+            "canopySpreadM": 0,
+            "total": 33.19
+          },
+          {
+            "treeId": "316173",
+            "heightM": 32,
+            "diameterCm": 188,
+            "canopySpreadM": 0,
+            "total": 33.88
+          },
+          {
+            "treeId": "315474",
+            "heightM": 32,
+            "diameterCm": 109.2,
+            "canopySpreadM": 0,
+            "total": 33.09
+          },
+          {
+            "treeId": "13293",
+            "heightM": 32,
+            "diameterCm": 116.8,
+            "canopySpreadM": 0,
+            "total": 33.17
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-e99b16cd8a7b3785",
+      "label": "generated-giant-measurements-2465:-6157",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "341612",
+        "338486",
+        "337795",
+        "337826",
+        "324798"
+      ],
+      "waypoints": [
+        {
+          "treeId": "341612",
+          "latitude": 49.30131099905307,
+          "longitude": -123.13439900019227,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "338486",
+          "latitude": 49.30051399911632,
+          "longitude": -123.13278599961288,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 134.6,
+            "canopySpreadM": 0,
+            "total": 33.35
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "337795",
+          "latitude": 49.301964999878166,
+          "longitude": -123.13150800025842,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 134.6,
+            "canopySpreadM": 0,
+            "total": 33.35
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "337826",
+          "latitude": 49.30187399885575,
+          "longitude": -123.12958000059392,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 142.2,
+            "canopySpreadM": 0,
+            "total": 33.42
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "324798",
+          "latitude": 49.30921899843916,
+          "longitude": -123.13655200047197,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 134.6,
+            "canopySpreadM": 0,
+            "total": 33.35
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 1433.46,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 167.07,
+        "components": [
+          {
+            "treeId": "341612",
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          {
+            "treeId": "338486",
+            "heightM": 32,
+            "diameterCm": 134.6,
+            "canopySpreadM": 0,
+            "total": 33.35
+          },
+          {
+            "treeId": "337795",
+            "heightM": 32,
+            "diameterCm": 134.6,
+            "canopySpreadM": 0,
+            "total": 33.35
+          },
+          {
+            "treeId": "337826",
+            "heightM": 32,
+            "diameterCm": 142.2,
+            "canopySpreadM": 0,
+            "total": 33.42
+          },
+          {
+            "treeId": "324798",
+            "heightM": 32,
+            "diameterCm": 134.6,
+            "canopySpreadM": 0,
+            "total": 33.35
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-ea681541a8116eea",
+      "label": "generated-giant-measurements-2464:-6158",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "334455",
+        "334459",
+        "334497",
+        "334694",
+        "335619"
+      ],
+      "waypoints": [
+        {
+          "treeId": "334455",
+          "latitude": 49.292934998715765,
+          "longitude": -123.14708099971529,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 342.9,
+            "canopySpreadM": 0,
+            "total": 35.43
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "334459",
+          "latitude": 49.2926679986377,
+          "longitude": -123.14670900063435,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 208.3,
+            "canopySpreadM": 0,
+            "total": 34.08
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "334497",
+          "latitude": 49.292206998410826,
+          "longitude": -123.14705500059935,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 218.4,
+            "canopySpreadM": 0,
+            "total": 34.18
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "334694",
+          "latitude": 49.29368499905915,
+          "longitude": -123.14429700001371,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 208.3,
+            "canopySpreadM": 0,
+            "total": 34.08
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "335619",
+          "latitude": 49.295630998702954,
+          "longitude": -123.14074400090865,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 203.2,
+            "canopySpreadM": 0,
+            "total": 34.03
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 692.52,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 171.8,
+        "components": [
+          {
+            "treeId": "334455",
+            "heightM": 32,
+            "diameterCm": 342.9,
+            "canopySpreadM": 0,
+            "total": 35.43
+          },
+          {
+            "treeId": "334459",
+            "heightM": 32,
+            "diameterCm": 208.3,
+            "canopySpreadM": 0,
+            "total": 34.08
+          },
+          {
+            "treeId": "334497",
+            "heightM": 32,
+            "diameterCm": 218.4,
+            "canopySpreadM": 0,
+            "total": 34.18
+          },
+          {
+            "treeId": "334694",
+            "heightM": 32,
+            "diameterCm": 208.3,
+            "canopySpreadM": 0,
+            "total": 34.08
+          },
+          {
+            "treeId": "335619",
+            "heightM": 32,
+            "diameterCm": 203.2,
+            "canopySpreadM": 0,
+            "total": 34.03
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    },
+    {
+      "id": "candidate-f78a5aabcff0748e",
+      "label": "generated-giant-measurements-2460:-6152",
+      "theme": "giant-measurements",
+      "season": null,
+      "status": "NOT HUMAN REVIEWED",
+      "waypointTreeIds": [
+        "321823",
+        "321723",
+        "321895",
+        "321610",
+        "321602"
+      ],
+      "waypoints": [
+        {
+          "treeId": "321823",
+          "latitude": 49.21679699920075,
+          "longitude": -123.03507900050823,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 210.8,
+            "canopySpreadM": 0,
+            "total": 34.11
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "321723",
+          "latitude": 49.21702399948197,
+          "longitude": -123.0352209999745,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "321895",
+          "latitude": 49.217063998685745,
+          "longitude": -123.03493100098036,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "321610",
+          "latitude": 49.21727899934873,
+          "longitude": -123.03538300043991,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          "giantReasons": [
+            "height"
+          ]
+        },
+        {
+          "treeId": "321602",
+          "latitude": 49.21751299877819,
+          "longitude": -123.03494300043727,
+          "scoreComponents": {
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          },
+          "giantReasons": [
+            "height"
+          ]
+        }
+      ],
+      "proposedOrder": "deterministic nearest-neighbour order from highest measurement score; not pedestrian routing",
+      "distance": {
+        "method": "straight-line haversine waypoint distance",
+        "unit": "m",
+        "value": 130.62,
+        "notWalkingDistance": true
+      },
+      "valueScore": {
+        "total": 168.52,
+        "components": [
+          {
+            "treeId": "321823",
+            "heightM": 32,
+            "diameterCm": 210.8,
+            "canopySpreadM": 0,
+            "total": 34.11
+          },
+          {
+            "treeId": "321723",
+            "heightM": 32,
+            "diameterCm": 200.7,
+            "canopySpreadM": 0,
+            "total": 34.01
+          },
+          {
+            "treeId": "321895",
+            "heightM": 32,
+            "diameterCm": 149.9,
+            "canopySpreadM": 0,
+            "total": 33.5
+          },
+          {
+            "treeId": "321610",
+            "heightM": 32,
+            "diameterCm": 160,
+            "canopySpreadM": 0,
+            "total": 33.6
+          },
+          {
+            "treeId": "321602",
+            "heightM": 32,
+            "diameterCm": 129.5,
+            "canopySpreadM": 0,
+            "total": 33.3
+          }
+        ]
+      },
+      "unresolved": {
+        "accessibility": "unknown",
+        "pedestrianPlausibility": "unknown",
+        "access": "unknown",
+        "permission": "unknown"
+      }
+    }
+  ],
+  "unsupportedThemeCandidates": {
+    "season": [],
+    "forage": []
+  }
+}
+  </script>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    // ---------- Load data ----------
+    const dataEl = document.getElementById('candidate-data');
+    const packet = JSON.parse(dataEl.textContent);
+    const candidates = packet.candidates;
+    const sourceArtifact = packet.sourceArtifact;
+    const generatorVersion = packet.candidateGeneratorVersion;
+
+    // ---------- Map ----------
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        sources: {
+          osm: {
+            type: 'raster',
+            tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+            tileSize: 256,
+            attribution: '© OpenStreetMap contributors'
+          }
+        },
+        layers: [{ id: 'osm', type: 'raster', source: 'osm' }]
+      },
+      center: [-123.12, 49.25],
+      zoom: 11
+    });
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+    // ---------- State ----------
+    const state = {
+      activeId: null,
+      drafts: new Map(), // candidateId -> reviewed trail object
+      approved: new Set(),
+    };
+
+    // ---------- Sidebar list ----------
+    const listEl = document.getElementById('list');
+    function renderList() {
+      listEl.innerHTML = '';
+      candidates.forEach((c, idx) => {
+        const draft = state.drafts.get(c.id);
+        const isApproved = state.approved.has(c.id);
+        const el = document.createElement('div');
+        el.className = 'candidate' + (state.activeId === c.id ? ' active' : '');
+        const badge = isApproved
+          ? '<span class="badge reviewed">approved</span>'
+          : draft
+            ? '<span class="badge draft">draft</span>'
+            : '<span class="badge draft">—</span>';
+        // label format: generated-giant-measurements-<latCell>:<lngCell>
+        const cellMatch = String(c.label).match(/-(\d+):(-?\d+)$/);
+        const latCell = cellMatch ? cellMatch[1] : '?';
+        const lngCell = cellMatch ? cellMatch[2] : '?';
+        el.innerHTML = `
+          <div class="id">${c.id} ${badge}</div>
+          <div class="label">#${idx + 1} · cell lat${latCell} lng${lngCell}</div>
+          <div class="meta">
+            <span>${c.waypointTreeIds.length} trees</span>
+            <span>${c.distance.value.toFixed(0)} m</span>
+            <span>score ${c.valueScore.total.toFixed(1)}</span>
+          </div>
+        `;
+        el.addEventListener('click', () => select(c.id));
+        listEl.appendChild(el);
+      });
+      const approvedCount = state.approved.size;
+      const draftCount = state.drafts.size - approvedCount;
+      document.getElementById('status').textContent =
+        `${approvedCount} approved · ${Math.max(0, draftCount)} drafted`;
+    }
+
+    // ---------- Map layers ----------
+    map.on('load', () => {
+      map.addSource('all-trees', {
+        type: 'geojson',
+        data: allTreesGeoJSON()
+      });
+      map.addSource('active-candidate', {
+        type: 'geojson',
+        data: emptyFC()
+      });
+      map.addSource('active-route', {
+        type: 'geojson',
+        data: emptyFC()
+      });
+
+      map.addLayer({
+        id: 'all-trees-pt',
+        type: 'circle',
+        source: 'all-trees',
+        paint: {
+          'circle-radius': 3,
+          'circle-color': '#8a93a6',
+          'circle-opacity': 0.6
+        }
+      });
+      map.addLayer({
+        id: 'active-route-line',
+        type: 'line',
+        source: 'active-route',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#ffb86b',
+          'line-width': 3,
+          'line-dasharray': [1, 1]
+        }
+      });
+      map.addLayer({
+        id: 'active-tree-pt',
+        type: 'circle',
+        source: 'active-candidate',
+        paint: {
+          'circle-radius': 7,
+          'circle-color': '#ffb86b',
+          'circle-stroke-color': '#0f1115',
+          'circle-stroke-width': 2
+        }
+      });
+
+      // Click handlers
+      map.on('click', 'active-tree-pt', (e) => {
+        const f = e.features[0];
+        new maplibregl.Popup({ closeButton: true })
+          .setLngLat(f.geometry.coordinates)
+          .setHTML(`
+            <b>Tree ${f.properties.treeId}</b><br>
+            height ${f.properties.heightM} m · ⌀${f.properties.diameterCm} cm<br>
+            score ${f.properties.score}
+          `)
+          .addTo(map);
+      });
+      map.on('mouseenter', 'active-tree-pt', () => map.getCanvas().style.cursor = 'pointer');
+      map.on('mouseleave', 'active-tree-pt', () => map.getCanvas().style.cursor = '');
+
+      renderList();
+    });
+
+    function allTreesGeoJSON() {
+      const features = [];
+      for (const c of candidates) {
+        for (const w of c.waypoints) {
+          features.push({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [w.longitude, w.latitude] },
+            properties: { treeId: w.treeId, candidateId: c.id }
+          });
+        }
+      }
+      return { type: 'FeatureCollection', features };
+    }
+    function emptyFC() { return { type: 'FeatureCollection', features: [] }; }
+    function activeTreeFC(c) {
+      return {
+        type: 'FeatureCollection',
+        features: c.waypoints.map(w => ({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [w.longitude, w.latitude] },
+          properties: {
+            treeId: w.treeId,
+            heightM: w.scoreComponents.heightM,
+            diameterCm: w.scoreComponents.diameterCm,
+            score: w.scoreComponents.total
+          }
+        }))
+      };
+    }
+    function activeRouteFC(c) {
+      if (!c || c.waypoints.length < 2) return emptyFC();
+      return {
+        type: 'FeatureCollection',
+        features: [{
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: c.waypoints.map(w => [w.longitude, w.latitude])
+          },
+          properties: {}
+        }]
+      };
+    }
+
+    // ---------- Selection ----------
+    function select(id) {
+      state.activeId = id;
+      const c = candidates.find(x => x.id === id);
+      if (!c) return;
+      const lngs = c.waypoints.map(w => w.longitude);
+      const lats = c.waypoints.map(w => w.latitude);
+      const bounds = [
+        Math.min(...lngs), Math.min(...lats),
+        Math.max(...lngs), Math.max(...lats)
+      ];
+      map.fitBounds(bounds, { padding: 80, maxZoom: 15, duration: 600 });
+      map.getSource('active-candidate').setData(activeTreeFC(c));
+      map.getSource('active-route').setData(activeRouteFC(c));
+      document.getElementById('overlay-info').innerHTML =
+        `<b>${c.id}</b> · ${c.waypointTreeIds.length} trees · ${c.distance.value.toFixed(0)} m (straight line, not walking)`;
+      renderList();
+      renderDrawer(c);
+    }
+
+    // ---------- Form rendering ----------
+    const FORBIDDEN_NARRATIVE = /\b(accessible|accessibility|safe|safety|walkable|walkability|walking route|pedestrian-safe|permission|edible|bloom|harvest)\b/i;
+    const FORBIDDEN_REVIEWER = /\b(ai|agent|model)\b/i;
+
+    function renderDrawer(c) {
+      const drawer = document.getElementById('drawer');
+      const draft = state.drafts.get(c.id) || blankDraft(c);
+      const waypointRows = c.waypoints.map((w, i) =>
+        `<tr>
+          <td>${i + 1}</td>
+          <td><code>${w.treeId}</code></td>
+          <td>${w.latitude.toFixed(5)}, ${w.longitude.toFixed(5)}</td>
+          <td>${w.scoreComponents.heightM} m</td>
+          <td>${w.scoreComponents.diameterCm} cm</td>
+          <td>${w.scoreComponents.total.toFixed(2)}</td>
+        </tr>`
+      ).join('');
+
+      const exportAnchorJson = JSON.stringify(
+        c.waypoints.slice(0, 2).map(w => ({ treeId: w.treeId, latitude: Number(w.latitude), longitude: Number(w.longitude) })),
+        null, 2
+      );
+
+      drawer.innerHTML = `
+        <h2>${c.id} <span class="badge draft" style="font-size:10px; padding:2px 6px; border-radius:3px; background: rgba(138,147,166,.15); color: var(--muted);">candidate</span></h2>
+        <div class="sub">${c.label} · theme: ${c.theme} · cell grouping only, not pedestrian routing</div>
+
+        <div class="facts">
+          <div class="fact"><div class="k">Waypoints</div><div class="v">${c.waypointTreeIds.length}</div></div>
+          <div class="fact"><div class="k">Distance</div><div class="v">${c.distance.value.toFixed(0)} m</div></div>
+          <div class="fact"><div class="k">Value score</div><div class="v">${c.valueScore.total.toFixed(1)}</div></div>
+          <div class="fact"><div class="k">Distance note</div><div class="v" style="font-size:12px;">straight-line haversine · <span style="color:var(--warn)">not walking distance</span></div></div>
+        </div>
+
+        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin: 16px 0 6px;">Waypoints (proposed order)</h3>
+        <table style="width:100%; border-collapse:collapse; font-size:12px; margin-bottom:16px;">
+          <thead>
+            <tr style="text-align:left; color:var(--muted); border-bottom:1px solid var(--line);">
+              <th style="padding:4px 6px;">#</th><th>Tree</th><th>Lat, Lng</th><th>Height</th><th>DBH</th><th>Score</th>
+            </tr>
+          </thead>
+          <tbody>${waypointRows}</tbody>
+        </table>
+
+        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin: 16px 0 6px;">Approval form</h3>
+        <form id="approval-form">
+          <div class="row">
+            <div>
+              <label>Trail name (human-authored)</label>
+              <input type="text" name="name" value="${escapeAttr(draft.name || '')}" placeholder="e.g. Queen Elizabeth Park giants" />
+              <div class="hint">Short, location-based, not aspirational.</div>
+            </div>
+            <div>
+              <label>Reviewer name (must be a real human)</label>
+              <input type="text" name="reviewer" value="${escapeAttr(draft.review.reviewer || '')}" placeholder="e.g. Your name" />
+              <div class="hint" id="reviewer-hint">Cannot contain: ai, agent, model.</div>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Reviewed date</label>
+              <input type="date" name="reviewedAt" value="${escapeAttr(draft.review.reviewedAt || new Date().toISOString().slice(0, 10))}" />
+            </div>
+            <div>
+              <label>Status</label>
+              <input type="text" value="human-reviewed" disabled />
+              <div class="hint">This is the only accepted value; the gate rejects any other status.</div>
+            </div>
+          </div>
+          <div class="row full">
+            <div>
+              <label>Narrative (waypoint-oriented, no claims of access/safety/walkability)</label>
+              <textarea name="narrative" placeholder="A short description of the trees in proposed visit order, grounded in the measured facts. Do not describe the route as accessible, safe, walkable, edible, etc.">${escapeText(draft.narrative || '')}</textarea>
+              <div class="hint" id="narrative-hint">Forbidden words: accessible, safe, walkable, walking route, pedestrian-safe, permission, edible, bloom, harvest.</div>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Accessibility notes (must be literal "unknown")</label>
+              <input type="text" name="accessibilityNotes" value="${escapeAttr(draft.accessibilityNotes || 'unknown')}" />
+              <div class="hint">The gate requires the literal string <code>unknown</code>.</div>
+            </div>
+            <div>
+              <label>Pedestrian plausibility (must be literal "unknown")</label>
+              <input type="text" name="pedestrianPlausibility" value="${escapeAttr(draft.pedestrianPlausibility || 'unknown')}" />
+              <div class="hint">The gate requires the literal string <code>unknown</code>.</div>
+            </div>
+          </div>
+          <div class="row full">
+            <div>
+              <label>Caveats (free-form, optional)</label>
+              <textarea name="caveats" placeholder="Anything the human reviewer wants to record as a caveat.">${escapeText((draft.caveats || []).join('\n'))}</textarea>
+            </div>
+          </div>
+
+          <div id="form-errors"></div>
+
+          <div class="actions">
+            <button type="button" id="btn-approve" class="${state.approved.has(c.id) ? 'secondary' : ''}">${state.approved.has(c.id) ? 'Unapprove' : 'Approve & save draft'}</button>
+            <button type="button" class="secondary" id="btn-reject">Reject candidate</button>
+            <button type="button" class="secondary" id="btn-reset">Reset form</button>
+            <span class="spacer" style="flex:1;"></span>
+            <span class="status" id="form-status"></span>
+          </div>
+
+          <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin: 20px 0 6px;">Compiled trail preview (export anchors derived from first 2 waypoints)</h3>
+          <pre class="preview" id="json-preview">${escapeText('{}')}</pre>
+        </form>
+      `;
+
+      // Wire up
+      const form = document.getElementById('approval-form');
+      form.addEventListener('input', onFormChange);
+      document.getElementById('btn-approve').addEventListener('click', () => toggleApprove(c));
+      document.getElementById('btn-reject').addEventListener('click', () => {
+        state.drafts.delete(c.id);
+        state.approved.delete(c.id);
+        renderList();
+        renderDrawer(c);
+      });
+      document.getElementById('btn-reset').addEventListener('click', () => {
+        state.drafts.delete(c.id);
+        state.approved.delete(c.id);
+        renderList();
+        renderDrawer(c);
+      });
+      onFormChange();
+    }
+
+    function blankDraft(c) {
+      return {
+        id: c.id.replace('candidate-', 'trail-'),
+        cityId: sourceArtifact.city,
+        name: '',
+        waypointTreeIds: [...c.waypointTreeIds],
+        exportAnchors: c.waypoints.slice(0, 2).map(w => ({
+          treeId: w.treeId, latitude: Number(w.latitude), longitude: Number(w.longitude)
+        })),
+        narrative: '',
+        accessibilityNotes: 'unknown',
+        pedestrianPlausibility: 'unknown',
+        review: { status: 'human-reviewed', reviewer: '', reviewedAt: new Date().toISOString().slice(0, 10) },
+        candidateId: c.id,
+        candidateGeneratorVersion: generatorVersion,
+        sourceSnapshotSha256: sourceArtifact.sourceSnapshotSha256,
+        caveats: []
+      };
+    }
+
+    function readForm(c) {
+      const form = document.getElementById('approval-form');
+      const data = new FormData(form);
+      const draft = blankDraft(c);
+      draft.name = String(data.get('name') || '').trim();
+      draft.narrative = String(data.get('narrative') || '').trim();
+      draft.review.reviewer = String(data.get('reviewer') || '').trim();
+      draft.review.reviewedAt = String(data.get('reviewedAt') || '').trim();
+      draft.accessibilityNotes = String(data.get('accessibilityNotes') || '').trim();
+      draft.pedestrianPlausibility = String(data.get('pedestrianPlausibility') || '').trim();
+      const caveats = String(data.get('caveats') || '').trim();
+      draft.caveats = caveats ? caveats.split(/\r?\n/).map(s => s.trim()).filter(Boolean) : [];
+      return draft;
+    }
+
+    function validate(draft) {
+      const errors = [];
+      if (!draft.name) errors.push('Name is required.');
+      if (!draft.review.reviewer) errors.push('Reviewer name is required.');
+      if (FORBIDDEN_REVIEWER.test(draft.review.reviewer)) errors.push(`Reviewer name contains a forbidden word (ai/agent/model).`);
+      if (!draft.review.reviewedAt) errors.push('Reviewed date is required.');
+      if (!draft.narrative) errors.push('Narrative is required.');
+      if (FORBIDDEN_NARRATIVE.test(draft.narrative)) errors.push(`Narrative contains a forbidden word (accessible/safe/walkable/walking route/pedestrian-safe/permission/edible/bloom/harvest).`);
+      if (draft.accessibilityNotes !== 'unknown') errors.push(`accessibilityNotes must be the literal string "unknown" (got: "${draft.accessibilityNotes}").`);
+      if (draft.pedestrianPlausibility !== 'unknown') errors.push(`pedestrianPlausibility must be the literal string "unknown" (got: "${draft.pedestrianPlausibility}").`);
+      if (draft.waypointTreeIds.length < 2) errors.push('Need at least 2 waypoints.');
+      if (draft.waypointTreeIds.length > 20) errors.push('Maximum 20 waypoints.');
+      if (draft.exportAnchors.length < 2) errors.push('Need at least 2 export anchors.');
+      if (draft.exportAnchors.length > 5) errors.push('Maximum 5 export anchors.');
+      const seen = new Set();
+      for (const id of draft.waypointTreeIds) {
+        if (seen.has(id)) { errors.push('Duplicate waypoint ID.'); break; }
+        seen.add(id);
+      }
+      return errors;
+    }
+
+    function onFormChange() {
+      const c = candidates.find(x => x.id === state.activeId);
+      if (!c) return;
+      const draft = readForm(c);
+      const errors = validate(draft);
+      const errEl = document.getElementById('form-errors');
+      if (errors.length) {
+        errEl.innerHTML = '<div class="errors">' + errors.map(e => '• ' + e).join('<br>') + '</div>';
+      } else {
+        errEl.innerHTML = '';
+      }
+      // Live hints
+      const reviewerHint = document.getElementById('reviewer-hint');
+      if (reviewerHint) {
+        reviewerHint.classList.toggle('warn', FORBIDDEN_REVIEWER.test(draft.review.reviewer));
+        reviewerHint.textContent = FORBIDDEN_REVIEWER.test(draft.review.reviewer)
+          ? '⚠ Contains a forbidden word (ai/agent/model).'
+          : 'Cannot contain: ai, agent, model.';
+      }
+      const narrativeHint = document.getElementById('narrative-hint');
+      if (narrativeHint) {
+        narrativeHint.classList.toggle('warn', FORBIDDEN_NARRATIVE.test(draft.narrative));
+        narrativeHint.textContent = FORBIDDEN_NARRATIVE.test(draft.narrative)
+          ? '⚠ Contains a forbidden word.'
+          : 'Forbidden words: accessible, safe, walkable, walking route, pedestrian-safe, permission, edible, bloom, harvest.';
+      }
+      // Save draft (always, so the form is recoverable)
+      if (draft.name || draft.review.reviewer || draft.narrative) {
+        state.drafts.set(c.id, draft);
+      } else {
+        state.drafts.delete(c.id);
+      }
+      // Preview
+      const preview = document.getElementById('json-preview');
+      if (preview) {
+        preview.textContent = errors.length
+          ? '// fix the errors above before this can be approved'
+          : JSON.stringify(draft, null, 2);
+      }
+      renderList();
+    }
+
+    function toggleApprove(c) {
+      if (state.approved.has(c.id)) {
+        state.approved.delete(c.id);
+      } else {
+        const draft = readForm(c);
+        const errors = validate(draft);
+        if (errors.length) {
+          alert('Cannot approve: ' + errors.join(' '));
+          return;
+        }
+        state.drafts.set(c.id, draft);
+        state.approved.add(c.id);
+      }
+      renderList();
+      renderDrawer(c);
+    }
+
+    // ---------- Export ----------
+    function buildExport() {
+      const trails = [...state.approved].map(id => state.drafts.get(id)).filter(Boolean);
+      return {
+        schemaVersion: 1,
+        cityId: sourceArtifact.city,
+        sourceSnapshotSha256: sourceArtifact.sourceSnapshotSha256,
+        candidateGeneratorVersion: generatorVersion,
+        trails
+      };
+    }
+
+    document.getElementById('btn-export').addEventListener('click', () => {
+      const out = buildExport();
+      const blob = new Blob([JSON.stringify(out, null, 2) + '\n'], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'trails-review.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      if (!confirm('Clear ALL drafts and approvals? This cannot be undone.')) return;
+      state.drafts.clear();
+      state.approved.clear();
+      const c = candidates.find(x => x.id === state.activeId);
+      renderList();
+      if (c) renderDrawer(c);
+    });
+
+    // ---------- Helpers ----------
+    function escapeText(s) {
+      return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function escapeAttr(s) {
+      return escapeText(s).replace(/"/g, '&quot;');
+    }
+  })();
+  </script>
+</body>
+</html>
