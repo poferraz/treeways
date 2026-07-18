@@ -8,7 +8,7 @@ test('renders the approved trail catalogue and route detail on mobile', async ({
   });
   await page.setViewportSize({ width: 390, height: 844 });
   await waitForApp(page);
-  await page.getByRole('button', { name: 'Browse neighbourhood trails' }).click();
+  await page.getByRole('button', { name: 'Explore 3 trails' }).click();
   await expect(page.locator('.trail-card')).toHaveCount(3);
   await page.screenshot({ path: testInfo.outputPath('approved-catalogue.png'), fullPage: true });
   await page.getByRole('button', { name: /Maples in Kitsilano/ }).click();

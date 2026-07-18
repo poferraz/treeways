@@ -11,6 +11,7 @@ export function createAppShell() {
 
   const map = document.createElement('section');
   map.id = 'map';
+  map.dataset.view = 'overview';
   map.setAttribute('role', 'region');
   map.setAttribute('aria-label', 'Interactive tree map of Vancouver');
 
@@ -50,15 +51,32 @@ export function createAppShell() {
   const inventoryToggle = document.createElement('button');
   inventoryToggle.type = 'button';
   inventoryToggle.className = 'inventory-toggle';
-  inventoryToggle.textContent = 'Show all public trees';
-  inventoryToggle.setAttribute('aria-pressed', 'false');
+  inventoryToggle.setAttribute('role', 'switch');
+  inventoryToggle.setAttribute('aria-label', 'All public trees');
+  inventoryToggle.setAttribute('aria-checked', 'false');
+  const inventoryCopy = document.createElement('span');
+  inventoryCopy.className = 'inventory-toggle-copy';
+  const inventoryLabel = document.createElement('strong');
+  inventoryLabel.textContent = 'All public trees';
+  const inventoryStatus = document.createElement('small');
+  inventoryStatus.className = 'inventory-toggle-status';
+  inventoryStatus.textContent = 'Highlights load first';
+  inventoryCopy.append(inventoryLabel, inventoryStatus);
+  const inventoryTrack = document.createElement('span');
+  inventoryTrack.className = 'inventory-toggle-track';
+  inventoryTrack.setAttribute('aria-hidden', 'true');
+  inventoryToggle.append(inventoryCopy, inventoryTrack);
+
+  const mapActionsDock = document.createElement('div');
+  mapActionsDock.className = 'map-actions-dock';
+  mapActionsDock.append(inventoryToggle, routeCapsule);
 
   const offlineNotice = document.createElement('p');
   offlineNotice.className = 'offline-notice';
   offlineNotice.hidden = true;
   offlineNotice.setAttribute('role', 'status');
 
-  app.append(skipLink, map, toolbar, inventoryToggle, routeCapsule, offlineNotice, sheet.element);
+  app.append(skipLink, map, toolbar, mapActionsDock, offlineNotice, sheet.element);
   return {
     app,
     map,
