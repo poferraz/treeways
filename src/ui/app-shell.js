@@ -47,12 +47,18 @@ export function createAppShell() {
   routeCapsule.className = 'route-capsule';
   routeCapsule.hidden = true;
 
+  const inventoryToggle = document.createElement('button');
+  inventoryToggle.type = 'button';
+  inventoryToggle.className = 'inventory-toggle';
+  inventoryToggle.textContent = 'Show all public trees';
+  inventoryToggle.setAttribute('aria-pressed', 'false');
+
   const offlineNotice = document.createElement('p');
   offlineNotice.className = 'offline-notice';
   offlineNotice.hidden = true;
   offlineNotice.setAttribute('role', 'status');
 
-  app.append(skipLink, map, toolbar, routeCapsule, offlineNotice, sheet.element);
+  app.append(skipLink, map, toolbar, inventoryToggle, routeCapsule, offlineNotice, sheet.element);
   return {
     app,
     map,
@@ -61,6 +67,7 @@ export function createAppShell() {
     actionsSlot,
     inspector: inspectorContent,
     sheet,
+    inventoryToggle,
     routeCapsule,
     offlineNotice
   };

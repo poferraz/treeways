@@ -2,6 +2,7 @@ import { cityArgument, CITY_ROOT, readJson, writeJson } from './pipeline.js';
 import { getCityAdapter } from './adapters/index.js';
 import { EMPTY_EVIDENCE_REGISTRY, validateEvidenceRegistry } from '../../src/domain/evidence.js';
 import { EMPTY_TRAIL_SOURCE, compileReviewedTrails } from '../../src/domain/trails.js';
+import { CANDIDATE_GENERATOR_VERSION } from './trails.js';
 
 export async function normalizeCity(city = cityArgument()) {
   const sourceManifest = await readJson(`${CITY_ROOT(city)}/source-manifest.json`);
@@ -13,7 +14,7 @@ export async function normalizeCity(city = cityArgument()) {
   const snapshot = await adapter.readSnapshot(snapshotPath);
   if (snapshot.checksum !== sourceManifest.snapshot.sha256) throw new Error(`Pinned snapshot checksum mismatch for ${city}`);
   const normalized = adapter.normalize(snapshot.records, evidence);
-  const compiledTrails = compileReviewedTrails(reviewedTrails, { cityId: city, sourceSnapshotSha256: sourceManifest.snapshot.sha256, candidateGeneratorVersion: 'm3-a-giant-measurements-v1', trees: normalized.accepted, bounds: adapter.source.bounds });
+  const compiledTrails = compileReviewedTrails(reviewedTrails, { cityId: city, sourceSnapshotSha256: sourceManifest.snapshot.sha256, candidateGeneratorVersion: CANDIDATE_GENERATOR_VERSION, trees: normalized.accepted, bounds: adapter.source.bounds });
   const coverage = {
     city,
     sourceDataset: sourceManifest.dataset.id,

@@ -7,3 +7,11 @@ Ordinary `city:import`, `city:build`, `city:validate`, and CI operations are off
 The City’s **Community gardens and food trees** dataset is now included as a separate site-level source under the same licence. Its pinned manifest is [`data/cities/vancouver/food-sites-source-manifest.json`](../data/cities/vancouver/food-sites-source-manifest.json). `mapid` is a stable site identifier; its food-tree counts and varieties describe a location, not individual specimens. The dataset notes that many sites are not City-administered, so every imported site preserves `access.status: "unknown"` and makes no harvesting, entry, or food-safety claim. Falling Fruit remains deferred. The product uses only “reported edible species” language after reviewed evidence exists, and never infers safety or harvesting permission from a species, type, tag, count, or site listing.
 
 Milestone 2 adds an intentionally empty, deterministic evidence registry at [`data/cities/vancouver/evidence-registry.json`](../data/cities/vancouver/evidence-registry.json). It is the only permitted source for botanical enrichment. A source must state reuse, redistribution, derivative, and attribution terms; every record must have an exact scientific name and optional exact cultivar, canonical/source-record URLs, exact supporting statement, reviewed status/date, and supported claim semantics. The resolver matches scientific names and cultivars exactly and conservatively discards conflicts. No reviewed candidate passed all gates at this checkpoint, so the Vancouver artifact retains unknown edibility and null bloom, harvest, and canopy-enrichment values. The review certificate is [`v2.1.0-milestone-2.md`](release-gates/v2.1.0-milestone-2.md).
+
+Trail pilots use the OpenRouteService `foot-walking` profile during the local
+build and review workflow. The API key stays in the ignored `.env.local` file and
+is sent only in the request authorization header. Each accepted route stores the
+ORS engine version, graph date, generation time, profile, result licence
+(`CC-BY-4.0`), and the required OpenRouteService/OpenStreetMap attribution. The
+route is pinned review evidence, not a claim about live conditions, safety,
+accessibility, or right of access.

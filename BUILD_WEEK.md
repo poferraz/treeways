@@ -44,26 +44,29 @@ history but develops the Build Week submission independently at
   foundations, giant-tree classification, trail candidate generation,
   deterministic-build verification, and expanded tests
 
-### July 17 Treeways extension
+### July 17–18 Treeways extension
 
 The new repository adds the consumer-facing product layer:
 
-- ten neighbourhood-first trail previews built from real municipal records
-- exact-species, related-family, similar-appearance, fruit-tree-family, measured
-  height, and measured diameter themes
+- highlights-first startup with an explicit switch for the complete 185,307-tree inventory
+- density-first cluster candidates built from real municipal records
+- three launch pilots in Mount Pleasant, Grandview-Woodland, and Kitsilano
+- popular-name-led Cherry blossoms, Fruit-tree families, and Maples themes
 - small (up to 3 km), medium (up to 5 km), and large (up to 8 km) trail sizes
-- walking and driving handoffs
+- loop and point-to-point walking semantics based on routed overhead
 - evidence-qualified seasonal first-run guidance
 - warm field-journal visual system synthesized from references 1, 2, and 6
-- Google Maps walking and driving handoffs
+- OpenRouteService `foot-walking` route contracts and Google Maps walking handoffs
+- pinned live ORS results: a 6.1 km Mount Pleasant loop plus 3.6 km Grandview-Woodland
+  and 3.3 km Kitsilano point-to-point walks
 - trail, route, accessibility, and pipeline regression tests
 - complete local, submission, and human-review documentation
 - production Vercel deployment at <https://treeways.vercel.app>, verified in
   Chromium against the deployed artifact
 
-The route previews remain visibly suggested—not human reviewed—until Paulo
-completes `docs/trail-review-guide.md`. This allows a truthful working deployment
-without misrepresenting automated route order.
+The old ten generated previews were removed from the runtime. The three new
+pilots remain outside the public catalogue until OpenRouteService routing and
+Paulo's review through `docs/trail-review-guide.md` are complete.
 
 Commits will be added to this ledger at every completed release gate.
 

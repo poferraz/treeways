@@ -3,17 +3,19 @@
 ## Outcome
 
 Ship a public, map-first Vancouver experience where a person can discover what
-trees are typically interesting this season, find a reviewed neighbourhood
-trail, inspect evidence-backed tree details, and hand the ordered stops to
-walking or driving directions.
+trees are worth noticing nearby, optionally reveal the complete public inventory,
+find a reviewed neighbourhood walk, inspect evidence-backed tree details, and
+hand ordered personal stops to walking directions.
 
 ## Launch scope
 
 - Vancouver is the first city; the data contract remains city-extensible.
-- Launch with 8–12 human-reviewed trails.
-- Neighbourhood is the primary organization; themes are searchable tags.
+- Launch review starts with three pilots: Mount Pleasant, Grandview-Woodland,
+  and Kitsilano.
+- Overall tree density chooses the areas; neighbourhood and friendly common-name
+  themes organize and explain them.
 - Walking trail sizes: small up to 3 km, medium up to 5 km, large up to 8 km.
-- Driving variants may connect exceptional citywide trees.
+- Catalogue trails are walking only and may be loops or point-to-point.
 - Internet is expected for basemap tiles and external directions.
 - No accounts, backend, analytics, telemetry, crowdsourcing, or live-observation
   claims.
@@ -39,7 +41,8 @@ walking or driving directions.
 ### Gate 2 — deterministic candidates and human review
 
 - generate neighbourhood and theme candidates from pinned data
-- calculate measured distances without safety or accessibility claims
+- route candidates with pinned OpenRouteService walking geometry and actual
+  distance without safety or accessibility claims
 - use the review tool to reorder, remove, annotate, approve, or reject
 - require Paulo's review for every published trail
 
@@ -62,7 +65,7 @@ walking or driving directions.
 
 ### Gate 5 — directions, hardening, and verification
 
-- generate walking and driving handoffs within provider URL limits
+- generate walking handoffs within provider URL limits
 - divide long exports into ordered segments without losing stops
 - pass static, unit, browser, accessibility, visual, offline-regression,
   performance, build, bundle, and deterministic-data gates
@@ -81,4 +84,3 @@ Do not add accounts, a runtime chatbot, live bloom detection, harvesting or food
 safety claims, built-in turn-by-turn navigation, fully offline map tiles,
 multiple cities, environmental-benefit forecasting, or community observations
 before the launch gates pass.
-

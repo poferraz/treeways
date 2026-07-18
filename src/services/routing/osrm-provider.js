@@ -1,3 +1,0 @@
-import { requestJson } from '../http-client.js';
-import { RoutingProvider } from './routing-provider.js';
-export class OsrmProvider extends RoutingProvider { constructor(baseUrl = 'https://router.project-osrm.org') { super(); this.baseUrl = baseUrl; } async route(stops, signal) { if (stops.length < 2) return null; const coordinates = stops.map(stop => `${stop.longitude},${stop.latitude}`).join(';'); const data = await requestJson(`${this.baseUrl}/route/v1/foot/${coordinates}?geometries=geojson&overview=full`, { signal, validate: value => { if (!value.routes?.[0]?.geometry) throw new TypeError('Invalid route response'); return value; } }); const route = data.routes[0]; return { geometry: route.geometry, distance: route.distance, duration: route.duration }; } }

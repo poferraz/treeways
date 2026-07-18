@@ -1,7 +1,7 @@
 import { maskHasMonth } from '../domain/phenology.js';
 import { scientificName, titleCase } from './format.js';
 
-export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources, onTrails }) {
+export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources, onTrails, highlightMode = false }) {
   root.replaceChildren();
   const intro = document.createElement('section');
   intro.className = 'orientation-note';
@@ -24,12 +24,15 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
   sources.className = 'text-button';
   sources.textContent = 'How data is sourced';
   sources.addEventListener('click', onSources);
-  const trails = document.createElement('button');
-  trails.type = 'button';
-  trails.className = 'secondary-action';
-  trails.textContent = 'Browse neighbourhood trails';
-  trails.addEventListener('click', onTrails);
-  introActions.append(trails, locate, sources);
+  if (onTrails) {
+    const trails = document.createElement('button');
+    trails.type = 'button';
+    trails.className = 'secondary-action';
+    trails.textContent = 'Browse neighbourhood trails';
+    trails.addEventListener('click', onTrails);
+    introActions.append(trails);
+  }
+  introActions.append(locate, sources);
   intro.append(eyebrow, title, copy, introActions);
 
   const nearby = document.createElement('section');
@@ -39,9 +42,9 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
   const headingRow = document.createElement('div');
   headingRow.className = 'section-heading-row';
   const heading = document.createElement('h2');
-  heading.textContent = 'Trees near map centre';
+  heading.textContent = highlightMode ? 'Tree highlights near map centre' : 'Trees near map centre';
   const count = document.createElement('span');
-  count.textContent = `${total} visible`;
+  count.textContent = highlightMode ? `${total} highlights` : `${total} visible`;
   headingRow.append(heading, count);
   nearby.append(headingRow);
 
@@ -49,7 +52,7 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
     const empty = document.createElement('div');
     empty.className = 'empty-state';
     const emptyTitle = document.createElement('strong');
-    emptyTitle.textContent = 'No curated trees match these filters in this area.';
+    emptyTitle.textContent = highlightMode ? 'No tree highlights are visible in this area.' : 'No public trees match these filters in this area.';
     const emptyCopy = document.createElement('p');
     emptyCopy.textContent = 'Clear filters or move the map to search another area.';
     empty.append(emptyTitle, emptyCopy);

@@ -15,7 +15,7 @@ const SHELL = [
 
 const DATA = [
   '/cities/vancouver/manifest.json',
-  '/cities/vancouver/trees.pack'
+  '/cities/vancouver/vancouver.highlights.v2.1.0.json'
 ];
 
 self.addEventListener('install', event => {

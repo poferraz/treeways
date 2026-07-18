@@ -12,7 +12,20 @@ export function moveRouteStop(stops, index, direction) {
   return next;
 }
 
-export function renderRouteBuilder(root, route, { onBack, onMove, onRemove, onClear, onRetry }) {
+export function googleWalkingDirectionsUrl(stops) {
+  if (stops.length < 2) return '';
+  const parameters = new URLSearchParams({
+    api: '1',
+    origin: coordinate(stops[0]),
+    destination: coordinate(stops.at(-1)),
+    travelmode: 'walking'
+  });
+  const waypoints = stops.slice(1, -1).map(coordinate).join('|');
+  if (waypoints) parameters.set('waypoints', waypoints);
+  return `https://www.google.com/maps/dir/?${parameters}`;
+}
+
+export function renderRouteBuilder(root, route, { onBack, onMove, onRemove, onClear }) {
   root.replaceChildren();
   const back = document.createElement('button');
   back.type = 'button';
@@ -25,24 +38,10 @@ export function renderRouteBuilder(root, route, { onBack, onMove, onRemove, onCl
   const title = document.createElement('h1');
   title.textContent = route.stops.length < 2 ? 'Add one more tree' : 'Your tree walk';
   const summary = document.createElement('p');
-  summary.className = `route-summary route-${route.status}`;
+  summary.className = 'route-summary';
   summary.setAttribute('role', 'status');
   summary.textContent = route.stops.length ? routeSummary(route) : 'Add a tree to begin a walking route.';
   root.append(back, label, title, summary);
-
-  if (route.status === 'error') {
-    const error = document.createElement('div');
-    error.className = 'route-error';
-    const copy = document.createElement('p');
-    copy.textContent = 'Route could not be calculated. Your stops are still saved.';
-    const retry = document.createElement('button');
-    retry.type = 'button';
-    retry.className = 'primary-action';
-    retry.textContent = 'Try again';
-    retry.addEventListener('click', onRetry);
-    error.append(copy, retry);
-    root.append(error);
-  }
 
   const list = document.createElement('ol');
   list.className = 'route-stop-list';
@@ -65,13 +64,26 @@ export function renderRouteBuilder(root, route, { onBack, onMove, onRemove, onCl
   root.append(list);
 
   if (route.stops.length > 1) {
+    const directions = document.createElement('a');
+    directions.className = 'primary-action route-directions';
+    directions.href = googleWalkingDirectionsUrl(route.stops);
+    directions.target = '_blank';
+    directions.rel = 'noopener noreferrer';
+    directions.textContent = 'Open walking directions';
+    const handoff = document.createElement('p');
+    handoff.className = 'provenance-note';
+    handoff.textContent = 'Opens your ordered stops in Google Maps, where current walking directions are calculated.';
     const clear = document.createElement('button');
     clear.type = 'button';
     clear.className = 'text-button clear-route';
     clear.textContent = 'Clear route';
     clear.addEventListener('click', onClear);
-    root.append(clear);
+    root.append(directions, handoff, clear);
   }
+}
+
+function coordinate(stop) {
+  return `${Number(stop.latitude)},${Number(stop.longitude)}`;
 }
 
 function routeStop(tree) {

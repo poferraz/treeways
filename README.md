@@ -1,8 +1,8 @@
 # Treeways
 
 Treeways turns Vancouver's public tree inventory into neighbourhood discovery
-trails. Pick a short walk or a wider drive, compare related trees, and open the
-ordered stops in Google Maps.
+walks. It starts with a clean set of interesting, density-led tree highlights;
+visitors can turn on the complete public inventory when they want it.
 
 Vancouver is the first city. The product and city-pack contract are designed so
 future cities can be added without rebuilding the core experience.
@@ -11,25 +11,24 @@ future cities can be added without rebuilding the core experience.
 
 Production: <https://treeways.vercel.app>
 
-The catalogue contains ten evidence-safe route previews: Mount Pleasant Prunus,
-Grandview Flowering Families, West End Giants, Kerrisdale Fruit-Tree Families,
-Shaughnessy Big Trunks, Kitsilano Kwanzan Rows, Hastings Maple Cousins, Killarney
-Evergreen Giants, Prunus Across Vancouver, and Vancouver Measured Giants.
-
-Small routes are capped at 3 km between records, medium at 5 km, and large at
-8 km. Those spans are straight-line measurements between ordered public records,
-not claims about street distance. Google Maps calculates live walking or driving
-directions.
+Three routed launch pilots are prepared for Mount Pleasant, Grandview-Woodland,
+and Kitsilano. They remain outside the public catalogue until Paulo reviews them.
+Each walk connects three to five tree-rich areas and may be a loop or
+point-to-point route. Small, medium, and large bands use actual OpenRouteService
+walking distance, capped at 3 km, 5 km, and 8 km.
 
 ## What works
 
-- Browse 185,307 City of Vancouver public-tree records on a MapLibre map.
+- Start with 3,500 deterministic density and recorded-size highlights.
+- Turn on all 185,307 City of Vancouver public-tree records from the map control.
 - Search by common name, scientific name, or address.
 - Filter fruit-tree families, ornamental-flowering families, measured giants,
   and trees with large recorded trunk diameters.
-- Browse ten neighbourhood-first route previews with six ordered tree stops.
-- Open every route in Google Maps as a walking or driving trip.
-- Build a separate custom tree walk with OSRM routing.
+- Browse only human-reviewed, walking-only neighbourhood trails.
+- See actual routed geometry, distance, loop/point-to-point shape, tree-rich area
+  counts, and the individual public-tree records around each area.
+- Build an ordered personal stop list and open current walking directions in
+  Google Maps.
 - Use the same core flows with a keyboard or structured list, without relying on
   map gestures.
 - Revisit cached application and tree data after the first online visit.
@@ -48,9 +47,9 @@ timing records, so the interface says timing is unknown. Fruit-tree and flowerin
 tree labels describe botanical families or municipal names, not current field
 conditions.
 
-The ten launch routes are visibly marked `Preview routes` until Paulo Ferraz
-personally checks each street sequence. The offline review tool and sign-off
-procedure are documented in [docs/trail-review-guide.md](docs/trail-review-guide.md).
+Generated and ORS-routed pilots stay hidden until Paulo Ferraz approves them.
+The standalone review artifact and sign-off procedure are documented in
+[docs/trail-review-guide.md](docs/trail-review-guide.md).
 
 ## Local development
 
@@ -62,6 +61,16 @@ cd treeways
 npm ci
 npm run dev
 ```
+
+Routing the three review pilots also requires an OpenRouteService key:
+
+```sh
+cp .env.example .env.local
+# Replace the placeholder in .env.local, then:
+npm run city:route-pilots
+```
+
+The key is used only by the local build script and is never shipped to the browser.
 
 The committed Vancouver artifact is ready to use; a city-data refresh is not
 required for normal development.
@@ -77,15 +86,18 @@ required for normal development.
 | `npm run check` | Type-check JavaScript sources |
 | `npm run check:bundle` | Enforce bundle budgets |
 | `npm run city:verify` | Verify deterministic city builds from pinned inputs |
+| `npm run city:pilots` | Rebuild the three density-first candidate pilots |
+| `npm run city:route-pilots` | Route pilots with ORS and rebuild the review artifact |
 
 ## Architecture
 
 - Vanilla JavaScript modules and Vite keep the public client simple.
 - MapLibre GL renders the basemap, clustered tree records, trail lines, and stops.
-- A Web Worker decodes the 30 MB city pack and owns search/spatial indexes.
-- Trail suggestions are deterministic, bounded by size, and composed only from
-  real city-record IDs.
-- Google Maps handles live walk/drive directions; OSRM powers custom tree walks.
+- A Web Worker loads the small highlight pack first and lazily replaces it with
+  the full city pack for search, filters, or the inventory switch.
+- Density clusters are deterministic and composed only from real City record IDs.
+- OpenRouteService supplies pinned pilot walking routes; Google Maps handles the
+  external current-directions handoff for personal stop lists.
 - Vitest and Playwright cover logic, journeys, accessibility, offline behaviour,
   and visual regressions.
 
