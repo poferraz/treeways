@@ -3,6 +3,7 @@ import { scientificName, titleCase } from './format.js';
 
 export function renderTrailCatalogue(root, trails, { onBack, onSelect }) {
   root.replaceChildren();
+  root.scrollTop = 0;
   const header = document.createElement('header');
   header.className = 'trail-intro';
   header.innerHTML = '<p class="section-label">Treeways · Vancouver</p><h1>Choose a neighbourhood trail</h1><p>Ten data-guided routes for comparing tree families, exact species, fruit-tree forms, and measured giants.</p>';
@@ -22,6 +23,7 @@ export function renderTrailCatalogue(root, trails, { onBack, onSelect }) {
 
 export function renderTrailDetail(root, trail, { onBack }) {
   root.replaceChildren();
+  root.scrollTop = 0;
   const header = document.createElement('header');
   header.className = 'trail-detail-header';
   header.append(action('All trails', 'text-button back-button', onBack));

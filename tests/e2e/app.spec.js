@@ -16,8 +16,19 @@ test('opens the Treeways catalogue and a neighbourhood route', async ({ page }) 
   await expect(page.getByRole('heading', { name: 'Choose a neighbourhood trail' })).toBeVisible();
   await expect(page.locator('.trail-card')).toHaveCount(10);
   await page.locator('.trail-card').first().click();
+  await expect(page.getByRole('heading', { name: 'Mount Pleasant Prunus' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Open walking route' })).toHaveAttribute('href', /google\.com\/maps\/dir/);
   await expect(page.getByText(/route order is not human reviewed/i)).toBeVisible();
+});
+
+test('resets the trail sheet to its heading on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await waitForApp(page);
+  await page.getByRole('button', { name: 'Browse neighbourhood trails' }).click();
+  await page.locator('.trail-card').first().click();
+  const heading = page.getByRole('heading', { name: 'Mount Pleasant Prunus' });
+  await expect(heading).toBeVisible();
+  expect((await heading.boundingBox()).y).toBeGreaterThan(400);
 });
 
 test('supports keyboard search selection and returns focus after escape', async ({ page }) => {
