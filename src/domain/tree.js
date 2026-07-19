@@ -1,5 +1,6 @@
 import { MONTH_MASK, monthsToMask } from './phenology.js';
 import { classifyGiant } from './giant.js';
+import { treeMarkerCategory } from './tree-categories.js';
 
 export function normalizeTree(record) {
   const latitude = Number(record.latitude ?? record.lat);
@@ -33,5 +34,5 @@ function normalizeCanopyProvenance(canopySpreadM, provenance) {
 
 export function toFeature(tree) {
   const giant = classifyGiant(tree);
-  return { type: 'Feature', id: tree.id, properties: { id: tree.id, commonName: tree.commonName, genus: tree.genus, species: tree.species, type: tree.type, curated: tree.curated, bloomMask: tree.bloomMask, harvestMask: tree.harvestMask, bloomColour: tree.bloom?.colour ?? null, edibilityStatus: tree.edibility.status, canopySpreadM: tree.canopySpreadM, canopyProvenance: tree.canopyProvenance?.kind ?? null, isGiant: giant.isGiant, giantReasons: giant.reasons }, geometry: { type: 'Point', coordinates: [tree.longitude, tree.latitude] } };
+  return { type: 'Feature', id: tree.id, properties: { id: tree.id, commonName: tree.commonName, genus: tree.genus, species: tree.species, type: treeMarkerCategory(tree), curated: tree.curated, bloomMask: tree.bloomMask, harvestMask: tree.harvestMask, bloomColour: tree.bloom?.colour ?? null, edibilityStatus: tree.edibility.status, canopySpreadM: tree.canopySpreadM, canopyProvenance: tree.canopyProvenance?.kind ?? null, isGiant: giant.isGiant, giantReasons: giant.reasons }, geometry: { type: 'Point', coordinates: [tree.longitude, tree.latitude] } };
 }

@@ -75,10 +75,10 @@ describe('Vancouver city pipeline', () => {
       trailMembership: { 'trail-member': ['reviewed'] }
     };
     const full = composeCityArtifact(normalized, { sourceSnapshot: {}, foodSites: [] }, 'v2.1.0');
-    const highlights = composeHighlightArtifact(full, { method: 'density-areas-and-recorded-size', treeIds: ['highlight'], densityAreas: [], criteria: {} });
+    const highlights = composeHighlightArtifact(full, { method: 'geographic-category-coverage-density-and-size', treeIds: ['highlight'], densityAreas: [], criteria: {} });
     expect(highlights.trees.map(tree => tree[0])).toEqual(['highlight', 'trail-member']);
     expect(highlights.trails).toEqual(full.trails);
-    expect(highlights.highlightSelection).toMatchObject({ method: 'density-areas-and-recorded-size', treeCount: 2 });
+    expect(highlights.highlightSelection).toMatchObject({ method: 'geographic-category-coverage-density-and-size', treeCount: 2 });
     expect(highlights.trees).toHaveLength(2);
   });
 

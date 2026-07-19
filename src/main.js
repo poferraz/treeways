@@ -7,6 +7,7 @@ import { actions } from './core/actions.js';
 import { loadCityManifest } from './data/city-loader.js';
 import { DataWorkerClient } from './data/worker-client.js';
 import { distanceMeters } from './data/spatial-index.js';
+import { isFloweringFamily, isFruitFamily, selectCategoryBalancedTrees } from './domain/tree-categories.js';
 import { VANCOUVER_CENTER } from './domain/location.js';
 import { toFeature } from './domain/tree.js';
 import { MapController } from './map/map-controller.js';
@@ -164,8 +165,8 @@ async function applyFilter(kind) {
 }
 
 function matchesFilter(tree, kind, date = new Date()) {
-  if (kind === 'fruit-families') return ['MALUS', 'PYRUS', 'PRUNUS', 'FICUS'].includes(tree.genus);
-  if (kind === 'flowering-families') return ['PRUNUS', 'MALUS', 'MAGNOLIA', 'CORNUS'].includes(tree.genus);
+  if (kind === 'fruit-families') return isFruitFamily(tree);
+  if (kind === 'flowering-families') return isFloweringFamily(tree);
   if (kind === 'giants') return classifyGiant(tree).isGiant;
   if (kind === 'big-trunks') return Number(tree.diameterCm) >= 100;
   return true;
@@ -205,7 +206,8 @@ function clearSelection() {
 
 function renderNearby() {
   activeView = 'nearby';
-  const nearby = visibleTrees.map(withDistance).sort((a, b) => a.distance - b.distance).slice(0, 8);
+  const ranked = visibleTrees.map(withDistance).sort((a, b) => a.distance - b.distance);
+  const nearby = inventoryMode === 'highlights' ? selectCategoryBalancedTrees(ranked) : ranked.slice(0, 8);
   renderNearbyInspector(shell.inspector, nearby, {
     total: visibleTrees.length,
     highlightMode: inventoryMode === 'highlights',
