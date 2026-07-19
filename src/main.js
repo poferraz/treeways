@@ -88,6 +88,9 @@ async function start() {
   filters = createFilters({ onChange: applyFilter });
   shell.searchSlot.append(search);
   shell.actionsSlot.append(filters.element, createLocationButton(), createThemeButton());
+  shell.map.addEventListener('pointerdown', () => {
+    if (matchMedia('(max-width: 767px)').matches) shell.sheet.setState('map');
+  }, { passive: true });
   shell.inventoryToggle.addEventListener('click', toggleInventoryMode);
   shell.sheet.onClose(clearSelection);
   shell.routeCapsule.addEventListener('click', showRouteBuilder);
@@ -125,7 +128,7 @@ function createLocationButton() {
       renderNearby();
     } catch (error) {
       console.error('Geolocation failed:', error);
-      button.textContent = 'Location unavailable';
+      button.textContent = 'Near me';
       status.announce('Location is unavailable. Trees remain sorted from the map centre.');
     } finally {
       button.disabled = false;
@@ -180,7 +183,7 @@ async function selectTree(id, tree) {
   store.dispatch(actions.selectTree(id));
   map.select(id);
   shell.sheet.setSelectionActive(true);
-  shell.sheet.setState('peek');
+  shell.sheet.setState('full');
   renderSelectedTree();
   const seasonal = seasonalState(selectedTree);
   status.announce(`${titleCase(selectedTree.commonName)} selected. ${seasonal.label}.`);

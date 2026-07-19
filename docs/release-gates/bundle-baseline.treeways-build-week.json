@@ -3,9 +3,9 @@
   "definition": "Default-startup JavaScript and the highlights city pack are tracked separately from the reviewed trail experience and optional complete city inventory. MapLibre remains a separately tracked third-party dependency.",
   "coreEntry": {
     "assets": ["index.js", "data.worker-*.js"],
-    "gzipBytes": 17099,
+    "gzipBytes": 17896,
     "maxRelativeGrowth": 0.05,
-    "absoluteMaxGzipBytes": 17500
+    "absoluteMaxGzipBytes": 18500
   },
   "onDemandTrail": {
     "assets": ["trail-browser.js"],

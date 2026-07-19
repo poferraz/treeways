@@ -12,7 +12,7 @@ export function createSearch({ search, onSelect }) {
   input.setAttribute('role', 'combobox');
   input.setAttribute('aria-autocomplete', 'list');
   input.setAttribute('aria-expanded', 'false');
-  input.placeholder = 'Name or address';
+  input.placeholder = 'Search';
   const list = document.createElement('ul');
   list.hidden = true;
   list.id = 'search-results';

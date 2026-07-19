@@ -49,6 +49,17 @@ export function addTreeLayers(map) {
     }
   });
 
+  map.addLayer({
+    id: 'trees-hit-area',
+    type: 'circle',
+    source: 'trees',
+    filter: ['!', ['has', 'point_count']],
+    paint: {
+      'circle-radius': 18,
+      'circle-color': 'rgba(0, 0, 0, 0.01)'
+    }
+  });
+
   const typeColor = [
     'match',
     ['get', 'type'],

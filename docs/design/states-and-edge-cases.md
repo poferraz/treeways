@@ -43,7 +43,7 @@ For stale route results, keep the previous route visually subdued and label it "
 
 ## Map interaction conflicts
 
-If a user is panning, do not auto-centre or fit bounds. Pause automatic location follow until the user explicitly recentres. Keep sheet scrolling separate from map gestures by accepting drag only on its handle and header. A long press on a map should not accidentally open the sheet. On touch devices, controls retain normal browser pinch zoom and accessibility gestures.
+If a user begins interacting with the map, collapse the mobile sheet to its 54 px Explore trees tab before the pan or pinch continues. Do not auto-centre or fit bounds during a user pan. Pause automatic location follow until the user explicitly recentres. Keep sheet scrolling separate from map gestures by accepting drawer drag only on its labeled handle. A long press on the map must not open the sheet. On touch devices, controls retain normal browser pinch zoom and accessibility gestures.
 
 ## Failure hierarchy
 

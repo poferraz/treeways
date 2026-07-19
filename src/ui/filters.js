@@ -41,7 +41,8 @@ export function createFilters({ onChange }) {
     button.setAttribute('aria-pressed', String(value === 'all'));
     button.addEventListener('click', () => {
       fieldset.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      trigger.textContent = value === 'all' ? 'Filters' : `${label} filter`;
+      trigger.textContent = 'Filters';
+      trigger.setAttribute('aria-label', value === 'all' ? 'Filters' : `Filters, ${label} selected`);
       onChange(value);
     });
     fieldset.append(button);
