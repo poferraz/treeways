@@ -19,7 +19,7 @@ walking distance, capped at 3 km, 5 km, and 8 km.
 
 ## What works
 
-- Start with 3,500 deterministic density and recorded-size highlights.
+- Start with 6,509 deterministic, geographically balanced highlights spanning flowering families, fruit families, recorded size, dense areas, and every reviewed-trail member.
 - Turn on all 185,307 City of Vancouver public-tree records from the map control.
 - Search by common name, scientific name, or address.
 - Filter fruit-tree families, ornamental-flowering families, measured giants,

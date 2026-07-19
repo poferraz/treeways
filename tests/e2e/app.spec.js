@@ -15,7 +15,7 @@ test('starts with tree highlights and exposes only the three human-reviewed trai
   const inventorySwitch = page.getByRole('switch', { name: 'All public trees' });
   await expect(inventorySwitch).toBeVisible();
   await expect(inventorySwitch).toHaveAttribute('aria-checked', 'false');
-  await expect(inventorySwitch).toContainText('4,534 highlights shown');
+  await expect(inventorySwitch).toContainText('6,509 highlights shown');
   await expect(page.getByRole('heading', { name: 'Tree highlights near map centre' })).toBeVisible();
   await page.getByRole('button', { name: 'Explore 3 trails' }).click();
   await expect(page.getByRole('heading', { name: 'Reviewed neighbourhood walks' })).toBeVisible();

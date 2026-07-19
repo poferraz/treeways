@@ -5,6 +5,7 @@ import { classifyGiant } from '../src/domain/giant.js';
 import { validateSpeciesMetadata } from '../src/domain/forage.js';
 import { validateManifest, validateTreePack } from '../src/data/city-schema.js';
 import { resolveSpeciesEvidence, validateEvidenceRegistry } from '../src/domain/evidence.js';
+import { selectCategoryBalancedTrees, treeCategoryLabel } from '../src/domain/tree-categories.js';
 
 const source = {
   id: 'example-source', publisher: 'Example authority', title: 'Reviewed records', canonicalUrl: 'https://example.test/catalog', version: '2026.1', retrievedAt: '2026-07-12', geographicScope: 'Example', taxonomicGranularity: 'cultivar', cultivarsDistinguished: true,
@@ -36,7 +37,22 @@ describe('city pack contracts', () => {
     const bloom = { mask: monthsToMask([4, 5]), colour: 'pink', evidence: ['acer-rubrum'] };
     expect(validateSpeciesMetadata({ commonName: 'Apple', edibility: { status: 'unknown', evidence: [] }, bloom }, evidence)).toBeTruthy();
     const tree = normalizeTree({ id: 'a', lat: 49.2, lng: -123.1, heightM: 22, canopySpreadM: 10, canopyProvenance: { kind: 'measured', source: 'city' }, bloom });
-    expect(toFeature(tree).properties).toMatchObject({ isGiant: true, giantReasons: ['height'], canopyProvenance: 'measured', bloomMask: monthsToMask([4, 5]), bloomColour: 'pink', edibilityStatus: 'unknown' });
+    expect(toFeature(tree).properties).toMatchObject({ type: 'large', isGiant: true, giantReasons: ['height'], canopyProvenance: 'measured', bloomMask: monthsToMask([4, 5]), bloomColour: 'pink', edibilityStatus: 'unknown' });
+    expect(toFeature(normalizeTree({ id: 'cherry', lat: 49.2, lng: -123.1, genus: 'PRUNUS' })).properties.type).toBe('both');
+  });
+  it('labels and balances nearby highlights across useful tree categories', () => {
+    const candidates = [
+      normalizeTree({ id: 'other-1', lat: 49.2, lng: -123.1 }),
+      normalizeTree({ id: 'other-2', lat: 49.2, lng: -123.1 }),
+      normalizeTree({ id: 'cherry', lat: 49.2, lng: -123.1, genus: 'PRUNUS' }),
+      normalizeTree({ id: 'magnolia', lat: 49.2, lng: -123.1, genus: 'MAGNOLIA' }),
+      normalizeTree({ id: 'pear', lat: 49.2, lng: -123.1, genus: 'PYRUS' }),
+      normalizeTree({ id: 'tall', lat: 49.2, lng: -123.1, heightM: 18 })
+    ].map((tree, index) => ({ ...tree, distance: index + 1 }));
+    const selected = selectCategoryBalancedTrees(candidates, 5);
+    expect(selected.map(tree => tree.id)).toEqual(['cherry', 'magnolia', 'pear', 'tall', 'other-1']);
+    expect(treeCategoryLabel(selected[0])).toBe('Flowering + fruit family');
+    expect(treeCategoryLabel(selected[3])).toBe('Large recorded tree');
   });
   it('rejects canopy provenance without a matching measurement or with an orphan pack record', () => {
     expect(() => normalizeTree({ id: 'a', lat: 49.2, lng: -123.1, canopyProvenance: { kind: 'measured' } })).toThrow('Canopy provenance');

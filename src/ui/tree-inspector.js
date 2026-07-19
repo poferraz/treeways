@@ -1,4 +1,5 @@
 import { maskHasMonth } from '../domain/phenology.js';
+import { treeCategoryLabel } from '../domain/tree-categories.js';
 import { scientificName, titleCase } from './format.js';
 
 export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources, onTrails, highlightMode = false }) {
@@ -227,7 +228,7 @@ function createTreeResult(tree, onSelect) {
   identity.append(name, scientific);
   const meta = document.createElement('span');
   meta.className = 'result-meta';
-  meta.textContent = `${formatDistance(tree.distance)} · ${seasonalState(tree).label}`;
+  meta.textContent = `${treeCategoryLabel(tree)} · ${formatDistance(tree.distance)} · ${seasonalState(tree).label}`;
   button.append(identity, meta);
   button.addEventListener('click', () => onSelect(tree));
   item.append(button);
