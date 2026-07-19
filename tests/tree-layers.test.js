@@ -8,12 +8,14 @@ describe('tree map source updates', () => {
     const source = map.addSource.mock.calls[0][1];
     const clusterLayer = map.addLayer.mock.calls.find(([layer]) => layer.id === 'trees-clusters')[0];
     const pointLayer = map.addLayer.mock.calls.find(([layer]) => layer.id === 'trees-points')[0];
+    const hitLayer = map.addLayer.mock.calls.find(([layer]) => layer.id === 'trees-hit-area')[0];
     expect(source.clusterProperties).toHaveProperty('flower_count');
     expect(source.clusterProperties).toHaveProperty('fruit_count');
     expect(source.clusterProperties).toHaveProperty('large_count');
     expect(source.clusterProperties).toHaveProperty('other_count');
     expect(JSON.stringify(clusterLayer.paint['circle-color'])).toContain('#c95f78');
     expect(JSON.stringify(pointLayer.paint['circle-color'])).toContain('#346c8a');
+    expect(hitLayer.paint['circle-radius']).toBe(18);
   });
   it('updates an existing source immediately even while the map is loading tiles', () => {
     const source = { setData: vi.fn() };

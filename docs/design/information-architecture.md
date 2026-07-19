@@ -27,10 +27,10 @@ Map session
 
 | Control | Mobile placement | Tablet and desktop placement | Behavior |
 | --- | --- | --- | --- |
-| City and season | top left | inspector header | Opens city context and daylight/dusk choice. |
-| Search | top center | inspector header | Expands to the active search surface. |
-| Location | top right | map toolbar | Centres only after permission and a successful fix. |
-| Layers and filters | top right overflow | inspector toolbar | Opens progressive filters; never a permanent pill row. |
+| Product name | first item in compact top bar | inspector header | Maintains identity without consuming a separate mobile row. |
+| Search | compact top bar | inspector header | Expands to the active search surface. |
+| Location | compact top bar | map toolbar | Centres only after permission and a successful fix. |
+| Layers and filters | compact top bar | inspector toolbar | Opens progressive filters; never a permanent pill row. |
 | Route capsule | above mobile sheet, when route has stops | inspector footer | Shows stop count and route state; opens builder. |
 
 ## Search information architecture

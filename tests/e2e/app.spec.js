@@ -7,7 +7,43 @@ test('loads the city pack and lets visitors search and select a tree', async ({ 
   await expect(page.getByRole('heading', { name: 'Tree highlights near map centre' })).toBeVisible();
   await selectFirstSearchResult(page);
   await expect(page.getByRole('button', { name: 'Add to route' })).toBeVisible();
-  await expect(page.locator('.bottom-sheet')).toHaveAttribute('data-state', 'peek');
+  await expect(page.locator('.bottom-sheet')).toHaveAttribute('data-state', 'full');
+});
+
+test('keeps phone navigation compact and makes map and details explicit', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 700 });
+  await waitForApp(page);
+  const toolbar = page.locator('.toolbar');
+  await expect(toolbar).toBeVisible();
+  expect((await toolbar.boundingBox()).height).toBeLessThanOrEqual(50);
+  await expect(page.getByRole('combobox', { name: 'Search trees' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Filters', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Find trees near my location' })).toBeVisible();
+
+  const sheet = page.locator('.bottom-sheet');
+  await page.locator('.maplibregl-canvas').click({ position: { x: 380, y: 100 } });
+  await expect(sheet).toHaveAttribute('data-state', 'map');
+  await page.getByRole('button', { name: 'Show tree information' }).click();
+  await expect(sheet).toHaveAttribute('data-state', 'peek');
+  const handle = page.locator('.sheet-handle');
+  const handleBox = await handle.boundingBox();
+  if (!handleBox) throw new Error('Sheet handle is not visible');
+  await handle.evaluate((element, positions) => {
+    const dispatchTouch = (type, key, clientY) => {
+      const event = new Event(type, { bubbles: true, cancelable: true });
+      Object.defineProperty(event, key, { value: [{ clientY }] });
+      element.dispatchEvent(event);
+    };
+    dispatchTouch('touchstart', 'touches', positions.start);
+    dispatchTouch('touchmove', 'touches', positions.end);
+    dispatchTouch('touchend', 'changedTouches', positions.end);
+  }, { start: handleBox.y + handleBox.height / 2, end: handleBox.y - 50 });
+  await expect(sheet).toHaveAttribute('data-state', 'half');
+  await page.waitForTimeout(450);
+  await page.getByRole('button', { name: 'Show more tree information' }).click();
+  await expect(sheet).toHaveAttribute('data-state', 'full');
+  await page.getByRole('button', { name: 'Show full map' }).click();
+  await expect(sheet).toHaveAttribute('data-state', 'map');
 });
 
 test('starts with tree highlights and exposes only the three human-reviewed trails', async ({ page }) => {
