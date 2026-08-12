@@ -23,24 +23,12 @@ export default defineConfig({
     {
       name: 'firefox',
       use: {
-        ...devices['Desktop Firefox'],
-        // Force WebGL on headless firefox via SwiftShader software rendering
-        // (CI runners lack a GPU). Without these prefs firefox throws
-        // "Failed to initialize WebGL" from the maplibre map, which our
-        // app's startup treats as fatal and breaks every firefox e2e test.
-        // webgl.forbid-hardware forces the SwiftShader software fallback
-        // (default forbid-software is true so SwiftShader needs to be
-        // explicitly allowed too).
-        launchOptions: {
-          firefoxUserPrefs: {
-            'webgl.force-enabled': true,
-            'webgl.disable-fail-if-major-performance-caveat': true,
-            'webgl.forbid-hardware': true,
-            'webgl.forbid-software': false,
-            'layers.acceleration.force-enabled': true,
-            'gfx.webrender.all': true
-          }
-        }
+        ...devices['Desktop Firefox']
+        // WebGL in headless firefox is satisfied on CI by running the
+        // browser-compatibility job under xvfb-run (see .github/workflows/
+        // ci.yml). When firefox sees a real X display it uses SwiftShader
+        // automatically; under headless without a display it can't acquire
+        // a GL context and maplibre's startup aborts.
       }
     },
     { name: 'webkit', use: { ...devices['Desktop Safari'] } }
