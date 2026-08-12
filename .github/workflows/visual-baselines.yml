@@ -1,0 +1,36 @@
+name: Regenerate visual baselines
+# Re-records Playwright visual baselines on the CI runner. Snapshots embed
+# the host platform in their filename (e.g. `*-chromium-linux.png`) so the
+# committed baselines are tied to the OS they were captured on. Trigger
+# this workflow whenever you need to refresh the linux baselines that
+# CI's `responsive-visuals` and `browser-functional` jobs consume, then
+# merge the resulting PR.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Record fresh visual baselines
+        run: npx playwright test --project=chromium --update-snapshots
+      - name: Open PR with refreshed baselines
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore: refresh visual baselines for ubuntu/chromium'
+          title: 'chore: refresh visual baselines for ubuntu/chromium'
+          body: |
+            Automated refresh of Playwright visual baselines captured on
+            `ubuntu-latest` with Chromium. Review the diff, then merge
+            so CI's `responsive-visuals` and `browser-functional` jobs
+            consume matching `*-chromium-linux.png` baselines.
+          branch: chore/refresh-visual-baselines
+          add-paths: tests/e2e/visual.spec.js-snapshots/
