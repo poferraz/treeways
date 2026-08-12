@@ -20,7 +20,22 @@ export default defineConfig({
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        // Force WebGL on headless firefox (CI runners lack a GPU). Without
+        // these prefs firefox throws "Failed to initialize WebGL" from the
+        // maplibre map, which our app's startup treats as fatal.
+        launchOptions: {
+          firefoxUserPrefs: {
+            'webgl.force-enabled': true,
+            'webgl.disable-fail-if-major-performance-caveat': true,
+            'layers.acceleration.force-enabled': true
+          }
+        }
+      }
+    },
     { name: 'webkit', use: { ...devices['Desktop Safari'] } }
   ],
   webServer: {
