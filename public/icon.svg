@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Treeways">
+  <rect width="512" height="512" fill="#f8f6ef"/>
+  <g transform="translate(256 246)">
+    <path d="M0 -150 L112 80 L-112 80 Z" fill="#3a7a48"/>
+    <path d="M0 -78 L82 70 L-82 70 Z" fill="#4f9460"/>
+    <rect x="-17" y="70" width="34" height="92" rx="6" fill="#6b5a3a"/>
+  </g>
+</svg>
