@@ -28,15 +28,16 @@ export default defineConfig({
         // (CI runners lack a GPU). Without these prefs firefox throws
         // "Failed to initialize WebGL" from the maplibre map, which our
         // app's startup treats as fatal and breaks every firefox e2e test.
-        // The unsafe-swiftshader preference is gated by Firefox 121+ for
-        // Spectre reasons; enabling it allows CPU-rendered WebGL as a
-        // fallback when no GPU is present.
+        // webgl.forbid-hardware forces the SwiftShader software fallback
+        // (default forbid-software is true so SwiftShader needs to be
+        // explicitly allowed too).
         launchOptions: {
           firefoxUserPrefs: {
             'webgl.force-enabled': true,
             'webgl.disable-fail-if-major-performance-caveat': true,
+            'webgl.forbid-hardware': true,
+            'webgl.forbid-software': false,
             'layers.acceleration.force-enabled': true,
-            'webgl.enable-unsafe-swiftshader': true,
             'gfx.webrender.all': true
           }
         }
