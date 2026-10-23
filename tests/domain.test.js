@@ -30,6 +30,10 @@ describe('city pack contracts', () => {
     expect(classifyGiant({ heightM: 19.9, canopySpreadM: 20 })).toEqual({ isGiant: true, reasons: ['canopy-spread'] });
     expect(classifyGiant({ heightM: 19.9, canopySpreadM: null })).toEqual({ isGiant: false, reasons: [] });
   });
+  it('gracefully merges partial threshold configs with defaults', () => {
+    expect(classifyGiant({ heightM: 25, canopySpreadM: 10 }, { heightM: 22 })).toEqual({ isGiant: true, reasons: ['height'] });
+    expect(classifyGiant({ heightM: 15, canopySpreadM: 25 }, { canopySpreadM: 22 })).toEqual({ isGiant: true, reasons: ['canopy-spread'] });
+  });
   it('requires evidence for any claimed species enrichment and exposes giant metadata to map features', () => {
     expect(() => validateSpeciesMetadata({ commonName: 'Apple', edibility: { status: 'reported-edible', evidence: [] } })).toThrow('evidence');
     expect(() => validateSpeciesMetadata({ commonName: 'Apple', edibility: { status: 'unknown', evidence: [], edibleParts: ['fruit'] } })).toThrow('Unknown');

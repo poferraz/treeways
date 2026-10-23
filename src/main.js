@@ -374,9 +374,31 @@ function loadingMarkup() {
 
 start().catch(error => {
   // Surface the worker error message when we have it so users (and CI traces)
-  // can tell what actually went wrong instead of a generic failure.
+  // can tell what actually went wrong instead of a generic failure, safely without XSS.
+  const main = document.createElement('main');
+  main.className = 'fatal-error';
+
+  const h1 = document.createElement('h1');
+  h1.textContent = 'The tree map could not start';
+
+  const p = document.createElement('p');
   const detail = error?.message ? `: ${error.message}` : '';
-  document.body.innerHTML = `<main class="fatal-error"><h1>The tree map could not start</h1><p>${navigator.onLine ? `Tree data or the map could not be loaded${detail}.` : 'You are offline. Connect once to save the tree map for offline use.'}</p><button type="button" onclick="location.reload()">Try again</button></main>`;
+  p.textContent = navigator.onLine
+    ? `Tree data or the map could not be loaded${detail}.`
+    : 'You are offline. Connect once to save the tree map for offline use.';
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.textContent = 'Try again';
+  btn.onclick = () => location.reload();
+
+  main.append(h1, p, btn);
+  if (typeof document.body.replaceChildren === 'function') {
+    document.body.replaceChildren(main);
+  } else {
+    document.body.innerHTML = '';
+    document.body.appendChild(main);
+  }
   console.error(error);
 });
 
