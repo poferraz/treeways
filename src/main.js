@@ -1,3 +1,4 @@
+import { GPUInitializationError } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './styles/tokens.css';
 import './styles/base.css';
@@ -71,11 +72,22 @@ async function start() {
   visibleTrees = highlightTrees;
   trails = initialPack.trails ?? [];
 
-  map = new MapController(shell.map, {
-    onSelect: id => selectTree(id),
-    onMove: () => activeView === 'nearby' && renderNearby()
-  });
-  map.setTrees(allTrees.map(toFeature));
+  try {
+    map = new MapController(shell.map, {
+      onSelect: id => selectTree(id),
+      onMove: () => activeView === 'nearby' && renderNearby()
+    });
+  } catch (error) {
+    if (!(error instanceof GPUInitializationError)) throw error;
+    shell.map.hidden = true;
+    shell.sheet.element.querySelector('.sheet-map-button').remove();
+    const notice = document.createElement('p');
+    notice.className = 'map-unavailable-notice';
+    notice.textContent = 'The map needs WebGL2, which is unavailable in this browser. You can still search trees and browse trails.';
+    shell.inspector.before(notice);
+    shell.sheet.setState('full');
+  }
+  map?.setTrees(allTrees.map(toFeature));
   updateInventoryToggle();
 
   const search = createSearch({
@@ -122,7 +134,7 @@ function createLocationButton() {
     try {
       const location = await getLocation();
       store.dispatch({ type: 'SET_LOCATION', location });
-      map.showLocation(location);
+      map?.showLocation(location);
       button.textContent = 'Recenter';
       status.announce('Location found. Nearby trees are now sorted from your position.');
       renderNearby();
@@ -160,7 +172,7 @@ async function applyFilter(kind) {
   await setInventoryMode('all');
   store.dispatch(actions.setFilters({ kind }));
   visibleTrees = allTrees.filter(tree => matchesFilter(tree, kind));
-  map.setTrees(visibleTrees.map(toFeature));
+  map?.setTrees(visibleTrees.map(toFeature));
   filters.setCount(visibleTrees.length);
   if (selectedTree && !visibleTrees.some(tree => tree.id === selectedTree.id)) clearSelection();
   if (activeView === 'nearby') renderNearby();
@@ -181,7 +193,7 @@ async function selectTree(id, tree) {
   selectedTree = withDistance(selectedTree);
   activeView = 'tree';
   store.dispatch(actions.selectTree(id));
-  map.select(id);
+  map?.select(id);
   shell.sheet.setSelectionActive(true);
   shell.sheet.setState('full');
   renderSelectedTree();
@@ -250,8 +262,8 @@ function showTrail(trail) {
   shell.map.dataset.view = 'trail';
   const trailTreeIds = new Set(trail.clusterStops.flatMap(stop => stop.memberTreeIds));
   const sourceTrees = inventoryMode === 'all' ? allTrees : highlightTrees;
-  map.setTrees(sourceTrees.filter(tree => trailTreeIds.has(tree.id)).map(toFeature));
-  map.showTrail(trail.route.geometry, orderedClusterStops(trail).filter((stop, index, stops) => index === 0 || stop.id !== stops[0].id));
+  map?.setTrees(sourceTrees.filter(tree => trailTreeIds.has(tree.id)).map(toFeature));
+  map?.showTrail(trail.route.geometry, orderedClusterStops(trail).filter((stop, index, stops) => index === 0 || stop.id !== stops[0].id));
   shell.sheet.setState('half');
   trailExperience.renderTrailDetail(shell.inspector, trail, { onBack: showTrails });
   status.announce(`${trail.name} selected. ${trail.clusterStops.length} tree-rich area stops.`);
@@ -259,9 +271,9 @@ function showTrail(trail) {
 
 function restoreMapOverview() {
   shell.map.dataset.view = 'overview';
-  map.select(null);
-  map.setRoute(null);
-  map.setTrees(visibleTrees.map(toFeature));
+  map?.select(null);
+  map?.setRoute(null);
+  map?.setTrees(visibleTrees.map(toFeature));
 }
 
 async function loadTrailExperience() {
@@ -287,7 +299,7 @@ async function setInventoryMode(mode) {
   inventoryMode = mode;
   const sourceTrees = mode === 'all' ? allTrees : highlightTrees;
   visibleTrees = sourceTrees.filter(tree => matchesFilter(tree, store.getState().filters.kind));
-  map.setTrees(visibleTrees.map(toFeature));
+  map?.setTrees(visibleTrees.map(toFeature));
   updateInventoryToggle();
   filters?.setCount(visibleTrees.length);
   if (activeView === 'nearby') renderNearby();
@@ -354,7 +366,7 @@ function showRouteBuilder() {
 function updateRoute(stops) {
   store.dispatch(actions.setRouteStops(stops));
   store.dispatch(actions.setRoute({ ...store.getState().route, status: 'idle', geometry: null, distance: null, duration: null }));
-  map.setRoute(null);
+  map?.setRoute(null);
   updateRouteCapsule();
   if (activeView === 'route') showRouteBuilder();
   else if (selectedTree) renderSelectedTree();

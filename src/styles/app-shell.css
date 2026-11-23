@@ -125,6 +125,7 @@
 .sheet-map-button { color: var(--season-accent); }
 .bottom-sheet[data-state=map] .sheet-header { border-bottom-color: transparent; }
 .inspector-content { flex: 1; padding: 0 18px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; }
+.map-unavailable-notice { margin: 8px 18px; font-size: .875rem; }
 .orientation-note { position: relative; padding: 10px 0 22px; }
 .orientation-note::before {
   position: absolute;
@@ -371,6 +372,14 @@
   .home-brand { display: none; }
   .map-actions-dock { bottom: calc(170px + env(safe-area-inset-bottom)); }
   .app-shell:has(.bottom-sheet[data-state=map]) .map-actions-dock { bottom: calc(64px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 767px) {
+  /* The mobile inspector covers the bottom edge of the map. */
+  #map .maplibregl-ctrl-bottom-right {
+    top: calc(max(8px, env(safe-area-inset-top)) + 58px);
+    bottom: auto;
+  }
 }
 
 @media (min-width: 768px) {
