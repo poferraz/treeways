@@ -1,12 +1,18 @@
 # Contributing
 
-Use conventional commits. City builds are deterministic and offline by default:
+Use conventional commits. With Node.js 24 and npm, run the following checks from a fresh checkout.
 
 ```sh
-npm run city:import -- my-city
-npm run city:build -- my-city
-npm run city:validate -- my-city
-npm run city:verify
+npm ci
+npm run city:validate-published
+npm run check
+npm run test:unit
+npm run build
+npm run check:bundle
 ```
 
-`npm run city:refresh -- my-city` is the only network retrieval command. Review the source licence, provenance, snapshot scope, checksum, coverage/reject reports, generated diff, and deterministic build result before committing refreshed inputs. Do not add name-based edibility heuristics or imply safety or harvesting permission from municipal data.
+The published-trail check compares the reviewed source with both committed city packs. See the [trail review guide](docs/trail-review-guide.md) before changing the catalogue.
+
+Rebuilding Vancouver from municipal source data requires the local source manifests and pinned snapshots under `data/cities/vancouver/`. With those inputs available, `city:import`, `city:build`, `city:validate` and `city:verify` work offline. A source refresh downloads City data. Routing pilots calls OpenRouteService.
+
+Review the source licence, provenance, snapshot scope, checksums, coverage, rejected records and generated changes before publishing a refreshed pack. Claims about edibility or seasonal timing require reviewed botanical evidence. Municipal records alone cannot establish safety or harvesting permission. [Data provenance](docs/data-provenance.md)

@@ -1,80 +1,19 @@
-# Treeways design specification
+# Treeways design
 
-## Design read
+Treeways pairs a quiet map with a field guide that can be read outdoors. Daylight uses warm paper-coloured surfaces over a desaturated basemap. Dusk is a manual choice. Use the shared colour tokens for both themes, system sans-serif type for controls and serif type for tree names and headings. [Theme tokens](src/styles/tokens.css) · [Base styles](src/styles/base.css)
 
-Mobile-first public field guide for outdoor walkers, with a practical spatial interface and the warmth of a hand-made field journal. The Build Week direction synthesizes the user's preferred Refero references: Claude's warm editorial restraint, Anthropic's scientific notebook language, and General Intelligence's literary, hand-painted atmosphere. It does not copy their brands, assets, or typography.
+## Map and list
 
-**Design settings:** variance 4, motion 3, density 6. The composition is stable enough for public utility, information-dense enough for field data, and animated only where motion preserves spatial context or confirms a state change.
+On a phone, a bottom sheet holds nearby trees, trails and details. The sheet has labelled buttons as well as a draggable handle, so a walker can return to the map or open details with one hand. Wider screens use a side inspector. Keep the provider credits reachable at each screen size. [Layout styles](src/styles/app-shell.css)
 
-## Visual system
+Keep the tree list a complete way to select a tree. The skip link leads to nearby results, the search combobox supports arrow keys and Enter, and the route builder has buttons to move each stop earlier or later. Announce meaningful changes such as a selection, applied filter or offline state through the live region. [Keyboard journeys](tests/e2e/app.spec.js)
 
-Daylight is the default because the primary use case is outdoors. It uses matte, lightly tinted surfaces over a desaturated map. Dusk is a user-selectable, system-aware alternative for low-light use. Both themes use the same semantic token names and hierarchy.
+## Accessibility and outdoor reading
 
-System sans faces are used for controls, labels, and metadata. Georgia/Newsreader-style serif fallbacks carry names, headings, scientific labels, and editorial moments. This avoids a font download on the field interface while retaining a literary voice.
+- Use labelled controls, visible keyboard focus and text labels for categories and status. Put text over a solid surface where the basemap would make it hard to read.
+- Aim for WCAG AA contrast and 44-by-44-pixel touch targets. Check changes in both themes, on a narrow screen, at 200% text zoom and with keyboard navigation.
+- Respect reduced-motion preferences for the sheet and camera. Keep browsing and search usable when the browser cannot draw the map. [Accessibility checks](tests/e2e/accessibility.spec.js) · [Map fallback test](tests/e2e/map-fallback.spec.js)
 
-All controls use authored SVGs from one icon family, such as Tabler or Phosphor. No emoji functions as an icon, status, or category label.
+## Tree and trail wording
 
-The base system uses a 4 px spacing unit. Target control height is 48 px, with a hard minimum target of 44 by 44 px. Surfaces use warm paper, hairline borders, slightly asymmetric radii, and restrained pastel washes rather than glass or generic card shadows. Shadows are low-contrast and used only to separate a floating surface from the map.
-
-## Token contract
-
-All colour values are OKLCH. Production should place these in a single token file and resolve derived component styles from semantic names only. No component may use a raw seasonal colour as its default text or border colour.
-
-| Token | Daylight | Dusk | Use |
-| --- | --- | --- | --- |
-| `--surface-canvas` | `oklch(0.97 0.012 92)` | `oklch(0.19 0.016 71)` | app and inspector base |
-| `--surface-raised` | `oklch(0.99 0.008 94)` | `oklch(0.25 0.018 72)` | search, sheet, menu |
-| `--surface-scrim` | `oklch(0.27 0.02 73 / 0.36)` | `oklch(0.08 0.012 68 / 0.54)` | media and map-legibility scrim |
-| `--text-primary` | `oklch(0.25 0.025 67)` | `oklch(0.93 0.012 88)` | primary text |
-| `--text-secondary` | `oklch(0.48 0.025 69)` | `oklch(0.74 0.02 83)` | metadata |
-| `--border-subtle` | `oklch(0.82 0.018 82)` | `oklch(0.39 0.018 75)` | boundaries and dividers |
-| `--focus-ring` | `oklch(0.54 0.13 226)` | `oklch(0.72 0.11 225)` | 2 px focus ring |
-| `--phenology-bloom` | `oklch(0.68 0.13 8)` | `oklch(0.75 0.1 8)` | flowering period |
-| `--phenology-canopy` | `oklch(0.56 0.12 145)` | `oklch(0.7 0.1 145)` | leaf and shade period |
-| `--phenology-harvest` | `oklch(0.69 0.14 70)` | `oklch(0.77 0.11 72)` | fruit and nut period |
-| `--phenology-dormant` | `oklch(0.59 0.07 238)` | `oklch(0.72 0.07 235)` | dormant period |
-
-### Seasonal accent mapping
-
-`--season-accent` changes only environmental accents such as the city-season label, selected map halo tint, and non-semantic decorative edge. It never changes filter identity or phenology-band meanings.
-
-| Manifest season | Daylight `--season-accent` | Signal |
-| --- | --- | --- |
-| Spring | `oklch(0.7 0.11 8)` | blossom emergence |
-| Summer | `oklch(0.59 0.12 145)` | canopy and shade |
-| Autumn | `oklch(0.7 0.13 70)` | harvest and leaf change |
-| Winter | `oklch(0.61 0.07 238)` | dormant structure |
-
-## Contrast and map treatment
-
-Body text must meet WCAG 2.2 AA, with an AAA target for common outdoor-reading text. Do not place text directly on a complex map without a solid or sufficiently opaque surface. The default map style is desaturated, low-label-density, and low-saturation; a high-contrast map option raises road, water, and tree-symbol separation without changing app colours. Markers use shape, label, and colour together. Selected state uses a ring and label, not glow alone.
-
-## Layer scale
-
-1. Map canvas
-2. Map symbols and route line
-3. Persistent controls
-4. Temporary search results or filter surface
-5. Inspector or bottom sheet
-6. Dialog only when confirmation is genuinely blocking
-
-## Implementation guardrails
-
-- Use CSS custom properties and `data-theme` for daylight and dusk. Respect system preference until a user choice exists.
-- Do not use global `touch-action: none`, fixed body locking, automatic camera motion during manual pan, or inline UI styles.
-- Use transform and opacity only for animated transitions. Avoid blur except at the sheet edge and temporary search surface.
-- All maps must have a synchronized structured list alternative and an accessible text summary of selected results.
-- Loading placeholders reserve final content dimensions. Images reserve aspect ratio before fetching.
-
-The detailed behavior is specified in [information architecture](docs/design/information-architecture.md), [wireframes](docs/design/responsive-wireframes.md), [interactions](docs/design/interaction-spec.md), [motion](docs/design/motion-spec.md), [accessibility](docs/design/accessibility-spec.md), [content](docs/design/content-guidelines.md), and [states](docs/design/states-and-edge-cases.md).
-
-## Design acceptance checklist
-
-- [x] Mobile, tablet, and desktop layouts define the map, controls, and inspector or sheet relationship.
-- [x] Daylight and dusk themes, plus spring, summer, autumn, and winter semantic roles, are defined with OKLCH tokens.
-- [x] Search, selection, filters, tree detail, route building, onboarding, loading, empty, offline, stale, and failure behavior are specified.
-- [x] Motion specifies timings, curves, critically damped sheet physics, interruption, and reduced-motion behavior.
-- [x] Controls have accessible names, focus treatment, keyboard behavior, structured alternatives, and screen-reader announcements.
-- [x] Media verification and attribution rules replace generic stock imagery as botanical evidence.
-- [x] The system avoids permanent decorative glass, generic card grids, emoji controls, gradient text, and bouncing motion.
-- [x] Implementation-critical decisions are recorded in `PRODUCT.md` and must be preserved by the next phase.
+Lead with the common name, followed by the scientific name. Label measurements with units and identify the origin for nearby distances. A fruit-tree family is a botanical category. A missing measurement or unverified seasonal date should read as unknown. Published trail distances come from their recorded walking routes. Keep source licences, attribution and the limits of human review available alongside these claims. [Data provenance](docs/data-provenance.md) · [Trail review guide](docs/trail-review-guide.md)
