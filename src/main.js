@@ -131,19 +131,20 @@ function createLocationButton() {
     button.disabled = true;
     button.textContent = 'Locating';
     status.announce('Requesting your location to sort nearby trees.');
-    try {
-      const location = await getLocation();
-      store.dispatch({ type: 'SET_LOCATION', location });
-      map?.showLocation(location);
+    const location = await getLocation().catch(() => null);
+    button.disabled = false;
+    store.dispatch({ type: 'SET_LOCATION', location });
+    map?.setLocation(location);
+    if (location) {
       button.textContent = 'Recenter';
       status.announce('Location found. Nearby trees are now sorted from your position.');
-      renderNearby();
-    } catch (error) {
-      console.error('Geolocation failed:', error);
+      if (activeView === 'nearby') renderNearby();
+      else clearSelection();
+    } else {
       button.textContent = 'Near me';
       status.announce('Location is unavailable. Trees remain sorted from the map centre.');
-    } finally {
-      button.disabled = false;
+      if (activeView === 'nearby') renderNearby();
+      if (activeView === 'tree') renderSelectedTree();
     }
   });
   return button;
@@ -190,7 +191,6 @@ function matchesFilter(tree, kind, date = new Date()) {
 async function selectTree(id, tree) {
   selectedTree = tree ?? await worker.getTree(id);
   if (!selectedTree) return;
-  selectedTree = withDistance(selectedTree);
   activeView = 'tree';
   store.dispatch(actions.selectTree(id));
   map?.select(id);
@@ -203,7 +203,8 @@ async function selectTree(id, tree) {
 
 function renderSelectedTree() {
   const routeStopIndex = store.getState().route.stops.findIndex(stop => stop.id === selectedTree?.id) + 1;
-  renderTreeInspector(shell.inspector, selectedTree, {
+  renderTreeInspector(shell.inspector, withDistance(selectedTree), {
+    distanceOrigin: distanceOriginLabel(),
     routeStopIndex,
     onRoute: tree => updateRoute(addRouteStop(store.getState().route.stops, tree))
   });
@@ -224,6 +225,7 @@ function renderNearby() {
   const ranked = visibleTrees.map(withDistance).sort((a, b) => a.distance - b.distance);
   const nearby = inventoryMode === 'highlights' ? selectCategoryBalancedTrees(ranked) : ranked.slice(0, 8);
   renderNearbyInspector(shell.inspector, nearby, {
+    distanceOrigin: distanceOriginLabel(),
     total: visibleTrees.length,
     highlightMode: inventoryMode === 'highlights',
     onSelect: tree => selectTree(tree.id, tree),
@@ -343,6 +345,10 @@ function updateInventoryToggle({ loading = false } = {}) {
 
 function formatCount(value) {
   return new Intl.NumberFormat('en-CA').format(value);
+}
+
+function distanceOriginLabel() {
+  return store.getState().location ? 'your location' : 'map centre';
 }
 
 function withDistance(tree) {

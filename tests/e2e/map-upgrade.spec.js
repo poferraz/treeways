@@ -1,27 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { waitForApp } from './helpers.js';
-
-// Keep the real renderer, map worker, city pack and trail geometry. Only the
-// remote basemap is replaced so this test can also run without a tile service.
-async function useTestBasemap(page) {
-  await page.route('https://basemaps.cartocdn.com/gl/positron-gl-style/style.json', route =>
-    route.fulfill({ json: {
-      version: 8,
-      glyphs: 'https://basemaps.cartocdn.com/test-fonts/{fontstack}/{range}.pbf',
-      sources: { basemap: {
-        type: 'geojson', data: { type: 'FeatureCollection', features: [] },
-        attribution: '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · <a href="https://carto.com/attributions">CARTO</a>'
-      } },
-      layers: [
-        { id: 'background', type: 'background', paint: { 'background-color': '#fff' } },
-        { id: 'basemap', type: 'fill', source: 'basemap' }
-      ]
-    } })
-  );
-  await page.route('https://basemaps.cartocdn.com/test-fonts/**', route =>
-    route.fulfill({ contentType: 'application/x-protobuf', body: Buffer.alloc(0) })
-  );
-}
+import { useTestBasemap, waitForApp } from './helpers.js';
 
 test.describe('interactive map', () => {
   // Allow the tile-service fixture to intercept every style request.

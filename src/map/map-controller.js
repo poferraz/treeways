@@ -58,8 +58,10 @@ export class MapController {
     return { latitude: center.lat, longitude: center.lng };
   }
 
-  showLocation(location) {
+  setLocation(location) {
     this.locationMarker?.remove();
+    this.locationMarker = null;
+    if (!location) return;
     const marker = document.createElement('div');
     marker.className = 'user-location-marker';
     marker.setAttribute('aria-label', 'Your location');

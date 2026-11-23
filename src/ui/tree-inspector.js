@@ -2,7 +2,7 @@ import { maskHasMonth } from '../domain/phenology.js';
 import { treeCategoryLabel } from '../domain/tree-categories.js';
 import { scientificName, titleCase } from './format.js';
 
-export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources, onTrails, highlightMode = false }) {
+export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, onSources, onTrails, highlightMode = false, distanceOrigin }) {
   root.replaceChildren();
   const intro = document.createElement('section');
   intro.className = 'home-intro';
@@ -49,7 +49,7 @@ export function renderNearbyInspector(root, trees, { total, onSelect, onLocate, 
   const headingRow = document.createElement('div');
   headingRow.className = 'section-heading-row';
   const heading = document.createElement('h2');
-  heading.textContent = highlightMode ? 'Tree highlights near map centre' : 'Trees near map centre';
+  heading.textContent = `${highlightMode ? 'Tree highlights' : 'Trees'} near ${distanceOrigin}`;
   const count = document.createElement('span');
   count.textContent = highlightMode ? `${formatCount(total)} highlights` : `${formatCount(total)} visible`;
   headingRow.append(heading, count);
@@ -112,7 +112,7 @@ function formatCount(value) {
   return new Intl.NumberFormat('en-CA').format(value);
 }
 
-export function renderTreeInspector(root, tree, { onRoute, routeStopIndex }) {
+export function renderTreeInspector(root, tree, { onRoute, routeStopIndex, distanceOrigin }) {
   root.replaceChildren();
   if (!tree) return;
   const header = document.createElement('header');
@@ -137,7 +137,7 @@ export function renderTreeInspector(root, tree, { onRoute, routeStopIndex }) {
   const address = document.createElement('strong');
   address.textContent = tree.address ? titleCase(tree.address) : 'Address not recorded';
   const context = document.createElement('span');
-  context.textContent = tree.distance == null ? 'Vancouver, British Columbia' : `${formatDistance(tree.distance)} from map centre`;
+  context.textContent = tree.distance == null ? 'Vancouver, British Columbia' : `${formatDistance(tree.distance)} from ${distanceOrigin}`;
   location.append(address, context);
 
   const actions = document.createElement('div');
