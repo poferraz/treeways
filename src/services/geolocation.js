@@ -1,1 +1,12 @@
-export function getLocation() { return new Promise((resolve, reject) => navigator.geolocation?.getCurrentPosition(position => resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy }), reject, { enableHighAccuracy: false, timeout: 10_000 }) ?? reject(new Error('Location is unavailable'))); }
+export function getLocation() {
+  return new Promise((resolve, reject) => {
+    const geolocation = navigator.geolocation;
+    if (!geolocation) {
+      reject(new Error('Location is unavailable'));
+      return;
+    }
+    geolocation.getCurrentPosition(({ coords }) => {
+      resolve({ latitude: coords.latitude, longitude: coords.longitude, accuracy: coords.accuracy });
+    }, reject, { enableHighAccuracy: false, timeout: 10_000 });
+  });
+}

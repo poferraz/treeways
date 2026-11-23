@@ -1,59 +1,26 @@
 # Treeways
 
-Treeways turns Vancouver's public tree inventory into neighbourhood discovery
-walks. It starts with a clean set of interesting, density-led tree highlights;
-visitors can turn on the complete public inventory when they want it.
+Treeways is a field guide for exploring Vancouver on foot. Browse trees by name or address, choose a neighbourhood trail, or build a list of stops and open it in Google Maps. [Explore Treeways](https://treeways.vercel.app/)
 
-Vancouver is the first city. The product and city-pack contract are designed so
-future cities can be added without rebuilding the core experience.
+## What you can explore
 
-## Try the product
+The map starts with 6,509 highlights from the City of Vancouver’s July 2026 inventory. Turn on **All public trees** to browse all 185,307 published records. After an online visit, the app can reopen saved tree and trail data offline. The background map and external walking directions need a connection.
 
-Production: <https://treeways.vercel.app>
+| Reviewed trail | Walking distance |
+| --- | --- |
+| Maples in Kitsilano | 3.3 km |
+| Fruit-tree families in Grandview-Woodland | 3.6 km |
+| Cherry blossoms in Mount Pleasant | 6.1 km |
 
-Three routed launch trails for Mount Pleasant, Grandview-Woodland, and Kitsilano
-were reviewed by Paulo on July 18, 2026 and are available in the catalogue.
-Each walk connects three to five tree-rich areas and may be a loop or
-point-to-point route. Small, medium, and large bands use actual OpenRouteService
-walking distance, capped at 3 km, 5 km, and 8 km.
+These distances come from saved OpenRouteService walking routes. Check current access and street conditions before a walk. The inventory has no verified bloom or harvest dates for these trees. A fruit-family label gives no assurance of edibility or permission to harvest.
 
-## What works
+## My role
 
-- Start with 6,509 deterministic, geographically balanced highlights spanning flowering families, fruit families, recorded size, dense areas, and every reviewed-trail member.
-- Turn on all 185,307 City of Vancouver public-tree records from the map control.
-- Search by common name, scientific name, or address.
-- Filter fruit-tree families, ornamental-flowering families, measured giants,
-  and trees with large recorded trunk diameters.
-- Browse only human-reviewed, walking-only neighbourhood trails.
-- See actual routed geometry, distance, loop/point-to-point shape, tree-rich area
-  counts, and the individual public-tree records around each area.
-- Build an ordered personal stop list and open current walking directions in
-  Google Maps.
-- Use the same core flows with a keyboard or structured list, without relying on
-  map gestures.
-- Revisit cached application and tree data after the first online visit.
+I reviewed and approved the three launch trails on July 18, 2026. During OpenAI Build Week, Codex with GPT-5.6 helped me implement and test the trail catalogue. Earlier versions showed generated trail previews. I chose to publish routes only after editorial review. Safety and accessibility remain unverified. [Trail review guide](docs/trail-review-guide.md) · [Build Week record](BUILD_WEEK.md)
 
-## Evidence and limitations
+## Run locally
 
-Tree records come from the City of Vancouver Open Data public-trees dataset
-under the Open Government Licence – Vancouver. Exact provenance and the city
-pack licence are in [docs/data-provenance.md](docs/data-provenance.md) and
-[public/cities/vancouver/LICENSE-DATA.md](public/cities/vancouver/LICENSE-DATA.md).
-
-Treeways does not claim that a route is safe, accessible, open, or pedestrian
-reviewed. It does not claim that fruit is edible, available, or permitted to be
-harvested. The July 12 city snapshot contains no supported bloom or harvest
-timing records, so the interface says timing is unknown. Fruit-tree and flowering
-tree labels describe botanical families or municipal names, not current field
-conditions.
-
-Generated and ORS-routed pilots stay hidden until Paulo Ferraz approves them.
-The standalone review artifact and sign-off procedure are documented in
-[docs/trail-review-guide.md](docs/trail-review-guide.md).
-
-## Local development
-
-Use Node.js 24 and npm for local development and CI.
+Use Node.js 24 and npm. The Vancouver data ships with the repository. You can run the app and its tests without a routing key.
 
 ```sh
 git clone https://github.com/poferraz/treeways.git
@@ -62,61 +29,8 @@ npm ci
 npm run dev
 ```
 
-Routing the three review pilots also requires an OpenRouteService key:
+Open the local URL printed by Vite. Run `npm run test:unit` for the unit tests, `npm run city:validate-published` to check the reviewed trails against the published data, or `npm run build` for a production build. [Contributor checks](CONTRIBUTING.md)
 
-```sh
-cp .env.example .env.local
-# Replace the placeholder in .env.local, then:
-npm run city:route-pilots
-```
+## Credits and licences
 
-The key is used only by the local build script and is never shipped to the browser.
-
-The committed Vancouver artifact is ready to use; a city-data refresh is not
-required for normal development.
-
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start Vite locally |
-| `npm run build` | Build production assets and version the service worker |
-| `npm run test:unit` | Run domain, data, trail, and pipeline tests |
-| `npm run test:e2e` | Run core Chromium browser journeys |
-| `npm run test:a11y` | Run Axe accessibility checks |
-| `npm run test:offline` | Verify cached-data and offline messaging |
-| `npm run check` | Type-check JavaScript sources |
-| `npm run check:bundle` | Enforce bundle budgets |
-| `npm run city:verify` | Verify deterministic city builds from pinned inputs |
-| `npm run city:pilots` | Rebuild the three density-first candidate pilots |
-| `npm run city:route-pilots` | Route pilots with ORS and rebuild the review artifact |
-| `npm run city:import-reviewed -- PATH` | Canonically import a human-review export |
-| `npm run city:publish-reviewed` | Compile approved trails into both city packs |
-| `npm run city:validate-published` | Verify approved source and both published packs agree |
-
-## Architecture
-
-- Vanilla JavaScript modules and Vite keep the public client simple.
-- MapLibre GL renders the basemap, clustered tree records, trail lines, and stops.
-- A Web Worker loads the small highlight pack first and lazily replaces it with
-  the full city pack for search, filters, or the inventory switch.
-- Density clusters are deterministic and composed only from real City record IDs.
-- OpenRouteService supplies pinned pilot walking routes; Google Maps handles the
-  external current-directions handoff for personal stop lists.
-- Vitest and Playwright cover logic, journeys, accessibility, offline behaviour,
-  and visual regressions.
-
-## OpenAI Build Week
-
-Treeways is entered in **Apps for Your Life**. The original Urban Canopy Engine
-predates the event; the last pre-event commit is tagged
-`pre-build-week-2026-07-13`. [BUILD_WEEK.md](BUILD_WEEK.md) records the baseline,
-new work, ownership, model use, and required submission evidence.
-
-During Build Week, Codex with GPT-5.6 helped isolate the repository, audit the
-existing system, design and implement the trail experience, strengthen tests,
-document evidence boundaries, and prepare deployment. Paulo made the product,
-safety, design, authorship, and release decisions. Other models used earlier in
-the project were GLM 5.2, Kimi 2.7, and Mistral 3.
-
-## Licence
-
-Code is [MIT licensed](LICENSE). City data has its own licence and attribution.
+Treeways uses MapLibre to display CARTO maps with OpenStreetMap data. Saved walking routes are © openrouteservice.org by HeiGIT, licensed under CC BY 4.0. The underlying map data is © OpenStreetMap contributors. The City of Vancouver provides the tree inventory under the Open Government Licence – Vancouver. The application code is MIT licensed. [Data provenance](docs/data-provenance.md) · [City data licence](public/cities/vancouver/LICENSE-DATA.md) · [Code licence](LICENSE) · [Privacy](docs/privacy.md)
