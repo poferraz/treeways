@@ -53,7 +53,7 @@ The standalone review artifact and sign-off procedure are documented in
 
 ## Local development
 
-Requirements: Node.js 20+ and npm.
+Use Node.js 24 and npm for local development and CI.
 
 ```sh
 git clone https://github.com/poferraz/treeways.git
