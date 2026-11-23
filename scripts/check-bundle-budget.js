@@ -14,7 +14,8 @@ const coreBytes = (await Promise.all(coreAssets.map(bytes))).reduce((total, valu
 const trailAssets = baseline.onDemandTrail.assets.map(resolveAsset);
 const trailBytes = (await Promise.all(trailAssets.map(bytes))).reduce((total, value) => total + value, 0);
 const cssBytes = await bytes(resolveAsset(baseline.css.asset));
-const thirdPartyBytes = await bytes(resolveAsset(baseline.defaultThirdParty.asset));
+const mapAssets = baseline.defaultThirdParty.assets.map(resolveAsset);
+const thirdPartyBytes = (await Promise.all(mapAssets.map(bytes))).reduce((total, value) => total + value, 0);
 const cityBytes = gzipSync(await readFile(`public/cities/vancouver/${baseline.cityData.artifact}`)).byteLength;
 const fullCityBytes = gzipSync(await readFile(`public/cities/vancouver/${baseline.fullCityData.artifact}`)).byteLength;
 const fail = (label, value, limit) => { if (value > limit) throw new Error(`${label} is ${value} gzip bytes; limit is ${limit}`); };

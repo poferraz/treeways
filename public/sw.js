@@ -1,17 +1,7 @@
 const SW_VERSION = '{{SW_VERSION}}';
 const SHELL_CACHE = `urban-canopy-shell-v2-${SW_VERSION}`;
 const DATA_CACHE = 'urban-canopy-data-v2';
-const DATA_WORKER_ASSET = '{{DATA_WORKER_ASSET}}';
-
-const SHELL = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest',
-  '/assets/index.js',
-  '/assets/index.css',
-  DATA_WORKER_ASSET,
-  '/assets/maplibre.js'
-];
+const SHELL = ['{{SHELL_ASSETS}}'];
 
 const DATA = [
   '/cities/vancouver/manifest.json',
@@ -22,7 +12,10 @@ self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
     Promise.all([
-      caches.open(SHELL_CACHE).then(cache => cache.addAll(SHELL)),
+      // Stable bundle URLs may still have the previous release in the HTTP cache.
+      caches.open(SHELL_CACHE).then(cache =>
+        cache.addAll(SHELL.map(url => new Request(url, { cache: 'reload' })))
+      ),
       caches.open(DATA_CACHE).then(cache => cache.addAll(DATA))
     ])
   );
@@ -82,13 +75,15 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Same-origin shell assets: cache-first, refresh from network.
+  // Precached public build files were stored by URL. Module requests can add
+  // an Origin header that would otherwise miss that entry under Vary: Origin.
+  const cacheKey = SHELL.includes(url.pathname) ? url.href : event.request;
   event.respondWith(
     caches.open(SHELL_CACHE).then(cache =>
-      cache.match(event.request).then(hit =>
+      cache.match(cacheKey).then(hit =>
         hit ?? fetch(event.request).then(response => {
           const clone = response.clone();
-          cache.put(event.request, clone);
+          cache.put(cacheKey, clone);
           return response;
         })
       )

@@ -1,18 +1,20 @@
-import maplibregl from 'maplibre-gl';
+import { LngLatBounds, Map as MapLibreMap, Marker, setWorkerUrl } from 'maplibre-gl';
+import mapWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { VANCOUVER_CENTER } from '../domain/location.js';
 import { DEFAULT_STYLE } from './map-style.js';
 import { addTreeLayers, setTreeDataWhenReady } from './tree-layers.js';
 import { addRouteLayers, setRouteData } from './route-layers.js';
 
+setWorkerUrl(mapWorkerUrl);
+
 export class MapController {
   constructor(container, { onSelect, onMove } = {}) {
-    this.map = new maplibregl.Map({
+    this.map = new MapLibreMap({
       container,
       style: DEFAULT_STYLE,
       center: [VANCOUVER_CENTER.longitude, VANCOUVER_CENTER.latitude],
       zoom: 12,
-      antialias: false,
-      preserveDrawingBuffer: false
+      canvasContextAttributes: { antialias: false, preserveDrawingBuffer: false }
     });
     this.selectedId = null;
     this.locationMarker = null;
@@ -61,7 +63,7 @@ export class MapController {
     const marker = document.createElement('div');
     marker.className = 'user-location-marker';
     marker.setAttribute('aria-label', 'Your location');
-    this.locationMarker = new maplibregl.Marker({ element: marker })
+    this.locationMarker = new Marker({ element: marker })
       .setLngLat([location.longitude, location.latitude])
       .addTo(this.map);
     this.map.easeTo({ center: [location.longitude, location.latitude], duration: reducedMotion() ? 0 : 500 });
@@ -78,7 +80,7 @@ export class MapController {
       if (coordinates.length < 2) return;
       const bounds = coordinates.slice(1).reduce(
         (value, coordinate) => value.extend(coordinate),
-        new maplibregl.LngLatBounds(coordinates[0], coordinates[0])
+        new LngLatBounds(coordinates[0], coordinates[0])
       );
       this.map.fitBounds(bounds, { padding: 72, maxZoom: 15, duration: reducedMotion() ? 0 : 650 });
     };

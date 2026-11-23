@@ -3,57 +3,39 @@ import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const distDir = 'dist';
-const assetsDir = join(distDir, 'assets');
+const builtFiles = readdirSync(join(distDir, 'assets'));
 
-function findWorkerAsset() {
-  const files = readdirSync(assetsDir);
-  const worker = files.find(name => /^data\.worker-[A-Za-z0-9_-]+\.js$/.test(name));
-  if (!worker) {
-    console.error('Could not find data.worker-*.js in dist/assets');
-    process.exit(1);
-  }
-  return `/assets/${worker}`;
+function findWorkerAsset(prefix) {
+  const files = builtFiles.filter(name => name.startsWith(prefix) && name.endsWith('.js'));
+  if (files.length !== 1) throw new Error(`Expected one built worker matching ${prefix}*.js, found ${files.length}`);
+  return `assets/${files[0]}`;
 }
 
-const dataWorkerAsset = findWorkerAsset();
-
-// Assets that make up the app shell. Their combined content hash becomes the
-// service-worker version, so each build gets a uniquely-named shell cache while
-// the data cache stays stable across releases.
+// Keep the precache and its version tied to the same production files.
 const shellAssets = [
   'index.html',
   'manifest.webmanifest',
   'assets/index.js',
   'assets/index.css',
   'assets/maplibre.js',
-  dataWorkerAsset.replace('/assets/', 'assets/')
+  findWorkerAsset('data.worker-'),
+  findWorkerAsset('maplibre-gl-worker-')
 ];
 
 const hash = createHash('sha256');
 for (const asset of shellAssets) {
-  const path = join(distDir, asset);
-  try {
-    hash.update(readFileSync(path));
-  } catch (error) {
-    console.error(`Missing shell asset: ${path}`);
-    console.error(error.message);
-    process.exit(1);
-  }
+  hash.update(asset).update('\0').update(readFileSync(join(distDir, asset)));
 }
 const version = hash.digest('hex').slice(0, 16);
 
 const swPath = join(distDir, 'sw.js');
-let sw = readFileSync(swPath, 'utf8');
-if (!sw.includes('{{SW_VERSION}}') || !sw.includes('{{DATA_WORKER_ASSET}}')) {
-  console.error('dist/sw.js is missing required placeholders');
-  process.exit(1);
+const template = readFileSync(swPath, 'utf8');
+const shellPlaceholder = "['{{SHELL_ASSETS}}']";
+if (!template.includes('{{SW_VERSION}}') || !template.includes(shellPlaceholder)) {
+  throw new Error('dist/sw.js is missing required placeholders');
 }
-sw = sw.replace(/{{SW_VERSION}}/g, version);
-sw = sw.replace(/{{DATA_WORKER_ASSET}}/g, dataWorkerAsset);
-if (sw.includes('{{')) {
-  console.error('Unresolved placeholders remain in dist/sw.js');
-  process.exit(1);
-}
+const shellUrls = ['/', ...shellAssets.map(asset => `/${asset}`)];
+const sw = template.replace('{{SW_VERSION}}', version).replace(shellPlaceholder, JSON.stringify(shellUrls));
+if (sw.includes('{{')) throw new Error('Unresolved placeholders remain in dist/sw.js');
 writeFileSync(swPath, sw);
 console.log(`Injected service-worker version: ${version}`);
-console.log(`Data worker asset: ${dataWorkerAsset}`);

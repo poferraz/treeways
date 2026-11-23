@@ -11,6 +11,8 @@ const viewports = [
 for (const { name, viewport } of viewports) {
   test(`selected tree layout remains stable at ${name}`, async ({ page, browserName }) => {
     test.skip(browserName !== 'chromium', 'Pixel baselines are captured by the dedicated Chromium visual gate.');
+    // The baseline's seasonal calendar marks August as the current month.
+    await page.clock.setFixedTime(new Date('2026-08-12T12:00:00Z'));
     await page.setViewportSize(viewport);
     await waitForApp(page);
     await selectFirstSearchResult(page);
